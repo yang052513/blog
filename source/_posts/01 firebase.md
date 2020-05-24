@@ -16,3 +16,5 @@ db.collection("user").doc(user.uid).function(() => {
     
 })
 ```
+
+现在应该是看到的这个
