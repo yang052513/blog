@@ -188,9 +188,9 @@ body::before {
   bottom: 0;
 }
 .char {
-  font-family: ;
+  font-family: 'Songti SC', 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto, serif;
   font-size: var(--banner-char-size);
-  font-weight: '';
+  font-weight: 900;
   background-color: rgba(255,255,255,0.5);
   line-height: 1;
   transition-property: all;
@@ -611,8 +611,8 @@ body::before {
   padding-left: 0.6rem;
 }
 .link-item .link-blog {
-  font-family: ;
-  font-weight: '';
+  font-family: 'Songti SC', 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto, serif;
+  font-weight: 900;
   margin: 0.42rem 0;
 }
 .link-item .link-desc {
@@ -1173,8 +1173,8 @@ body::before {
   margin: 0;
   padding: 10px;
   font-size: 1.5rem;
-  font-weight: '';
-  font-family: ;
+  font-weight: 900;
+  font-family: 'Songti SC', 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto, serif;
 }
 .post-header .post-title .icon {
   width: 1.6rem;
@@ -1781,8 +1781,8 @@ td {
 }
 .site-name {
   color: #303133;
-  font-family: ;
-  font-weight: '';
+  font-family: 'Songti SC', 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto, serif;
+  font-weight: 900;
 }
 .site-subtitle {
   display: block;
@@ -1880,6 +1880,22 @@ td {
 #github-issues {
   margin: 1rem;
 }
+#say {
+  display: block;
+  text-align: center;
+  font-family: 'Songti SC', 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto, serif;
+  font-weight: bold;
+  padding: 0.5rem;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+}
+#say #say-content {
+  color: var(--hty-color);
+  display: block;
+}
+#say #say-from {
+  display: block;
+}
 .album-list {
   display: flex;
   justify-content: center;
@@ -1971,8 +1987,8 @@ td {
   box-sizing: border-box;
   width: 90%;
   max-width: 800px;
-  font-family: ;
-  font-weight: '';
+  font-family: 'Songti SC', 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto, serif;
+  font-weight: 900;
   text-align: center;
 }
 #decryptButton {
@@ -2029,7 +2045,7 @@ td {
 }
 .girl-item .girl-from {
   font-size: 12px;
-  font-family: ;
+  font-family: 'Songti SC', 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto, serif;
   font-weight: bold;
   color: #303133;
 }
