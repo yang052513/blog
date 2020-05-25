@@ -2,8 +2,13 @@
 title: Firebase数据库的那些坑
 date: 2020-05-23 18:49:19
 tags: [firebase, database, web, firestore, cloudstorage]
-description: Firebase常用的一些语句。以后来抄也比较方便 (笑)
+comments: true
+categories: "笔记"
+
+# description: Firebase常用的一些语句。以后来抄也比较方便 (笑)
 ---
+
+> 在BCIT firebase用的还是很多。firebase如果是做个人小的项目还是比较不错基于他的实时数据库。官方的文档比较片面，所以总结了一下平常用到的一些方法。以后抄也比较方便(笑)
 
 # Firestore
 
@@ -26,6 +31,7 @@ firebase.auth().onAuthStateChanged(user => {
 })
 ```
 
+<!-- more -->
 ## 更新文档的信息 Update
 
 如果要更改单个文档内容可以用`update`
