@@ -26,6 +26,8 @@ function handleInput(event) {
 
 ```
 
+<!-- more -->
+
 # event.currentTarget
 
 如果我们绑定的是一个元素，比如`<i>`或者`<button>`然后想返回触发事件元素的`id`或者`className`。
