@@ -2,7 +2,7 @@
 title: JavaScript 笔记
 date: 2020-06-08 22:15:48
 tags: ['笔记', 'JavaScript']
-comments: true
+comments: false
 categories: '笔记'
 ---
 

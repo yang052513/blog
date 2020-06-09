@@ -2,7 +2,7 @@
 title: Git Notes
 date: 2020-05-25 20:10:15
 tags: ['笔记', 'git']
-comments: true
+comments: false
 categories: '笔记'
 ---
 

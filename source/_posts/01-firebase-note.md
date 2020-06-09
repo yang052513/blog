@@ -2,7 +2,7 @@
 title: Firebase Datbase
 date: 2020-05-23 18:49:19
 tags: [firebase, database, web, firestore, cloudstorage]
-comments: true
+comments: false
 categories: '笔记'
 # description: Firebase常用的一些例句和用法
 ---

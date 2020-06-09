@@ -2,7 +2,7 @@
 title: event.target与event.currentTarget
 date: 2020-05-28 20:10:15
 tags: ['笔记', 'javascript']
-comments: true
+comments: false
 categories: '笔记'
 ---
 

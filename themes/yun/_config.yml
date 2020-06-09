@@ -6,7 +6,7 @@ mode: light # now only light
 # Notice: color value must in double quotes: "#000000"
 colors:
   # primary: "#0078E7"
-  primary: '#6200ee'
+  primary: '#0078E7'
   # bg: "#EEEEEE"
   selection_bg: '#8e71c1'
   # tag_start_color:

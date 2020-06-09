@@ -2,7 +2,7 @@
 title: 利用React Transition Group实现平滑的动画
 date: 2020-06-02 20:19:38
 tags: ['笔记', 'react', 'react-router']
-comments: true
+comments: false
 categories: '笔记'
 ---
 
