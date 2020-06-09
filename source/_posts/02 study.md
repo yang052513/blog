@@ -1,30 +1,32 @@
 ---
-title: Git学习的一些记录
+title: Git Notes
 date: 2020-05-25 20:10:15
-tags: ["笔记", "git"]
+tags: ['笔记', 'git']
 comments: true
-categories: "笔记"
+categories: '笔记'
 ---
 
-> 平时总结的一些git comman以及一些误区
+> 平时总结的一些 git command 以及常用的命令
+
+<!-- more -->
 
 # Command
 
 ## 配置
 
-### 设置用户名到Github Commit
+### 设置用户名到 Github Commit
 
-没有设置git user name之前，所有的commit的都会显示为提交commit用户的admin名称。要想显示提交记录者的github信息，需要在用git前添加以下两条信息
+没有设置 git user name 之前，所有的 commit 的都会显示为提交 commit 用户的 admin 名称。要想显示提交记录者的 github 信息，需要在用 git 前添加以下两条信息
 
 `git config --global user.name`
 `git config --global user.email`
 
-> `global`将会用于所有git。输入后会弹出github登录窗口。MacOS会在terminal里输入用户名和密码
+> `global`将会用于所有 git。输入后会弹出 github 登录窗口。MacOS 会在 terminal 里输入用户名和密码
 
-<!-- more -->
+## 分支
 
-## 分支 
 ### 常用的一些指令
+
 ```
 git branch 显示repo中所有的branch
 git branch friend_feature 创建一个名为friend_feature的分支
@@ -38,7 +40,7 @@ git branch -m social_feature 更改当前分支名为social_feature
 
 ### 流程
 
-Gitflow Workflow一般为常用的开发方式。即每个功能有自己的分支，分支完成后先merge到dev分支上。如果dev分支没有任何问题就可以merge到master上。因为master分支是要确保为最稳定可用的代码
+Gitflow Workflow 一般为常用的开发方式。即每个功能有自己的分支，分支完成后先 merge 到 dev 分支上。如果 dev 分支没有任何问题就可以 merge 到 master 上。因为 master 分支是要确保为最稳定可用的代码
 
 ```
 递交内容到feature_home分支

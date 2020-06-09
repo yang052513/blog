@@ -1,12 +1,14 @@
 ---
 title: event.target与event.currentTarget
-date: 2020-05-25 20:10:15
+date: 2020-05-28 20:10:15
 tags: ['笔记', 'javascript']
 comments: true
 categories: '笔记'
 ---
 
-> 获取当前点击的元素的 id 或者 class name
+> JavaScript event.target 和 event.currentTarget 的区别。最近在写一个 react 的项目中，想要通过点击一个元素来触发事件并获得该元素的 key。
+
+<!-- more -->
 
 # event.target
 
@@ -25,8 +27,6 @@ function handleInput(event) {
 }
 
 ```
-
-<!-- more -->
 
 # event.currentTarget
 
