@@ -6,7 +6,7 @@ comments: false
 categories: '笔记'
 ---
 
-> 继 less 之后用的第二个 CSS preprocessor。主要记录了变量，嵌套，继承，函数以及计算相关的内容。
+> 继 less 之后用的第二个 CSS preprocessor。目前还不是特别习惯`sass`的写法，但`sass`相比还是更简洁清晰一点。主要记录了变量，嵌套，继承，函数以及计算相关的内容。
 
 <!-- more -->
 
