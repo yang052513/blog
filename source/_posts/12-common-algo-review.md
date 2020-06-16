@@ -218,4 +218,64 @@ const insertionSort = array => {
 
 ### Binary Search and Binary Tree 二分查找与二叉树
 
+#### Binary Search
+
 目前我们涉及到的算法都是从数组的第一个位置开始然后进行查找。二分查找则从一个数组的中间开始，从左往右一次查找，直到找到该元素或循环结束
+
+**Python**
+
+```python
+def binary_search(array, key):
+    l = 0
+    r = len(array) - 1
+    while l <= r:
+        m = (l + r) // 2
+        if key == array[m]:
+            return m
+        elif key < array[m]:
+            r = m - 1
+        else:
+            l = m + 1
+    return -1
+```
+
+**Typescript**
+
+```ts
+const binarySearch = (array, key) => {
+  let l: number = 0
+  let r: number = array.length - 1
+
+  while (l <= r) {
+    let m = Math.floor((1 + r) / 2)
+    if (key === array[m]) {
+      return m
+    } else if (key < array[m]) {
+      r = m - 1
+    } else {
+      l = m + 1
+    }
+  }
+  return -1
+}
+```
+
+#### Binary Search Tree
+
+将数组(有序)分为两部分，数组的中间元素为树的根节点，左边和右边的元素再进行相同的划分，小于根节点的元素放在左边，大于的再右边。
+
+#### Binary Search Tree Traversal 二叉树遍历
+
+根据二叉搜索树我们可以进行数组的插入，查询和删除节点。接下来我们引入二叉树遍历即怎样直到节点是否已经被访问过了。
+
+##### Pre-order Traversal 前序遍历
+
+##### In-order Traversal 中序遍历
+
+##### Post-order Traversal 后序遍历
+
+## Divide and Conquer 分治法
+
+### Master Theorem
+
+### Merge Sort
