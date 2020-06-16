@@ -306,8 +306,102 @@ b: `[1, 4, 5, 7]`
 ```python
 def partition(array):
     l = 0
-       r = len(array) - 1
-    pivot = a[]
+    r = len(array) - 1
+    pivot = a[l]
+    s = l
+    for i in range(l+1, r+1):
+        if a[i] < p:
+            s += 1
+            a[s], a[i] = a[i], a[s]
+            a[l], a[s] = a[s], a[l]
+    return s
+```
 
+### 最近点对 Cloest Pair Problem
 
+## Transform and Conquer 变治法
+
+### Pre-sorting 预排序
+
+#### Check Elements Uniqueness 判断元素是否独特性
+
+给出一个数组，判断是否该数组存在重复元素。
+
+我们先用暴力求解来看下
+
+```python
+def is_unique_bf(array):
+    n = len(array)
+    for i in range(n - 1):
+        # 存储当前索引元素变量
+        index_value = array[i]
+        # 循环数组 查找是否有匹配相等的
+        for j in range(i+1, n):
+            if(array[j] == index_value):
+                return False
+    return True
+```
+
+由上可以可以得出复杂度为 n 的平方。
+
+假设我们先将数组进行排序得到一个有序数组，然后在进行判断是否存在重复元素。因为一个有序数组，我们只要查看一个元素是否跟它的下一个元素是否相等即可。比如`[2, 3, 3, 5]`。
+
+用代码来实现
+
+```python
+def is_unique_presort(array):
+    n = len(array)
+    # 假设我们先进行排序
+    array.sort()
+    for i in range(n-1):
+        if array[i] == array[i+1]:
+            return False
+    return True
+```
+
+由于算法由两部分构成（排序和主循环），所以该其复杂度也应该为两部分：排序的复杂度加检查的复杂度。即为 nlogn + n。得到复杂度 nlogn
+
+#### Find the Mode 寻找众数
+
+众数是出现在一组数据中最频繁的数。这个算法在项目中应该算很常见，比如我最近在做的项目要涉及到计算出最常用的三个标签，或者使用频率最高的技能。
+
+我们先来看下用暴力求解如何实现这个算法
+
+```python
+def find_mode(array):
+  n = len(array)
+  # 统计每个数字的频率
+  counter = {}
+
+  for i in range(n):
+    counter[array[i]] = counter.get(array[i], 0) + 1
+
+  occurence = 0
+  for key, value in counter.items():
+    if value > occurence:
+      occurence = value
+      mode = key
+  return mode
+
+```
+
+最坏的情况下我们的数组每个元素都只出现一次 `[1, 2, 3, 4, 5, 6]`。复杂度为 n2
+
+如果我们先将数组进行排序，那么相同的元素在有序数组里一定是相邻的。
+
+```python
+def compute_mode_presort(array):
+    array.sort()  # sort array
+    i = 0; freq = 0
+    while i < len(array):
+        temp_freq = 1; temp_mode = array[i]
+        while i + temp_freq < len(array) and array[i+temp_freq] == temp_mode:
+            temp_freq += 1
+        if temp_freq > freq:
+            freq = temp_freq; mode = temp_mode
+        i += temp_freq
+    return mode
+
+array = [2, 6, 3, 1, 2, 1, 4, 2, 5, 3, 7, 8, 6, 4, 3]
+print("The mode of the array is %d." % compute_mode_presort(array))
 ```
