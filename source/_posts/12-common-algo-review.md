@@ -6,7 +6,7 @@ categories: 笔记
 comments: false
 ---
 
-> 总结算法课中学习到的一些算法，代码主要以 python 和 typescript 来展示
+> 总结下暑假算法课中学习到的知识点，代码主要以 python 和 typescript 来展示。
 
 ## Brute Force 暴力求解
 
@@ -43,7 +43,7 @@ for i = 0 to A.length - 1
 
 如此我们可以写出冒泡排序的代码
 
-##### Python
+**Python**
 
 ```python
 def bubble_sort(array):
@@ -55,7 +55,7 @@ def bubble_sort(array):
     return array
 ```
 
-##### Typescrtipt
+**Typescrtipt**
 
 ```ts
 const bubbleSort = list => {
@@ -78,7 +78,60 @@ const bubbleSort = list => {
 选择排序的方法是我们首先设定第一个字符的元素为最小值，然后我们进行数组的循环。如果我们在 iteration 中发现有元素比当前设定的元素小，我们将该元素设置为新的最小值。重复步骤结束 iteration 并把此循环中最小值起始的值替换完成排序。伪代码如下:
 
 ```cmd
+for i = 0 to Array.length -1:
+    min = i
+    for j = i+1 to Array.length:
+        if(j < min):
+            min = j
+    swap(i, j)i
+```
 
+因为暴力求解每个元素进行比较，所以我们用一个简单的数组举例...
+
+假设我们用选择排序算法来排序`[3, 0, 2]`数组。
+
+首先把最小值`min`设置为`array[0]`也就是`3`, 然后`i+1`开始进行判断，`0`小于`3`。好我们现在把`min`设置为`0`然后继续前进。
+
+`2`大于`0`，我们跳过。于是第一个循环完成了。我们进行`i`和更新后的最小值`min`调换得到
+
+`[0, 3, 2]`。
+
+OK, 同理我们从`i = 1`开始，`min`现在设置为`array[1]`也就是`3`。比较`3`和`2`条件成立进行 swap。
+
+最后我们得到`[0, 2, 3]`
+
+选择排序代码如下
+
+**Python**
+
+```python
+def selection_sort(array):
+    n = len(array)
+    for i in range(n):
+        min = i
+        for j in range(i+1, n):
+            if(array[j] < array[min]):
+                min = j
+        array[i], array[min] = array[min], array[i]
+    return array
+```
+
+**Typescript**
+
+```ts
+const selectionSort = array => {
+  let n = array.length
+  for (let i = 0; i < n; i++) {
+    let min = i
+    for (j = i + 1; j < n; j++) {
+      if (array[j] < array[min]) {
+        min = j
+      }
+    }
+    ;[array[i], array[min]] = [array[min], array[i]]
+  }
+  return array
+}
 ```
 
 ### String Match 字符串匹配
