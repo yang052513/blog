@@ -405,3 +405,7 @@ def compute_mode_presort(array):
 array = [2, 6, 3, 1, 2, 1, 4, 2, 5, 3, 7, 8, 6, 4, 3]
 print("The mode of the array is %d." % compute_mode_presort(array))
 ```
+
+算法复杂度可以得出：O(nlog n) + O(log n) = O(nlog n)
+
+### Heap and Heap Sort 堆与堆排序
