@@ -161,3 +161,61 @@ return -1
 暴力算法来解决这个问题就是将所有可能的组合先全部列出来，然后判断并筛选超重的集合，最后比较所有集合来找到价值最高的集合。
 
 算法效率来讲，假设我们有 n 个物品，那复杂度即为 2 的 n 次方
+
+## Decrease and Conquer 减治法
+
+这个 section 我们引入减治法。跟暴力求解不同，减治法通过逐步缩小问题规模来解决一个问题。简而言之，回到我们之前猜数字的游戏。如果用暴力求解，我们要一个数字一个数字猜测。减治法可以先把数字对半分，比如猜从 0-10 的数字，我们可以先拆成 0-5 和 6-10。如果我们给出 5 系统显示太高，那我们可以继续对半拆除从 0-4 进行同样的步骤。直到最后我们找到数字也就是一直拆分问题。
+
+### Insertation Sort 插入排序
+
+假设我们一个数组`[0, 1, 5, 3, 2]`。第一部分`[0, 1]`是有序数列，后半部分为无序数列。也就是说我们每次只要把无序数列的第一个元素插入到正确的位置后，整体问题的规模就减少 1。如果我们重复`n-1`此后，数组也重新排成有序了。
+
+> 重复 n-1 是因为只有一个元素的数组必定是有序的。
+
+可以把插入排序想象成扑克牌卡片排序。
+
+**Python**
+
+```python
+def insertion_sort(array):
+    n = len(array)
+    for i in range(1, n):
+        index = array[i]
+        # the index in the left of i
+        j = i - 1
+
+        # 如果左边还有数字 并且 当前元素小于它左边的元素：
+        while j >= 0 and index < array[j]:
+            # 调换当前元素和左边的元素
+            array[j + 1] = array[j]
+            # 继续向左移动
+            j = j - 1
+        # 循环结束 插入到对应的位置
+        array[j + 1] = index
+    return array
+```
+
+**Typescript**
+
+```ts
+const insertionSort = array => {
+  let n: number = array.length
+  //起始为1 因为第一个是有序的
+  for (let i = 1; i < n; i++) {
+    let index = array[i]
+    let j = i - 1
+    while (j >= 0 && index < array[j]) {
+      array[j + 1] = array[j]
+      j--
+    }
+    array[j + 1] = index
+  }
+  return array
+}
+```
+
+由上可以看出我们有 2 个循环，所以插入排序的复杂度为 n 的平方
+
+### Binary Search and Binary Tree 二分查找与二叉树
+
+目前我们涉及到的算法都是从数组的第一个位置开始然后进行查找。二分查找则从一个数组的中间开始，从左往右一次查找，直到找到该元素或循环结束
