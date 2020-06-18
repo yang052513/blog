@@ -208,9 +208,23 @@ addOperation(3) //13
 
 ## 接口 Interface
 
-## 类 Class
+```ts
+interface Address {
+  road: string
+  unit: string
+  zip: string
+  country: string
+}
 
-## 访问控制修饰符 Access Modifiers
+interface Profile {
+  name: string
+  age: number
+  address: Address
+}
+const userInfo = (profile: Profile): string => {
+  return `User name is ${profile.name} and age is ${profile.age}`
+}
+```
 
 ## React 与 TSX
 
