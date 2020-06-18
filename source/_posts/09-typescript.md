@@ -41,40 +41,109 @@ comments: false
 
 在给变量定义类型后，我们重新声明变量的值必须匹配它的类型。比如 `let example:string`。我们之后只能定义 example 为 string。这样也可以让我们的代码更严谨。这部分我们主要介绍 boolean, number, string, null, undefined, array, any 类型。
 
-**boolean**
+### Boolean
+
 boolean 即 true 或 false
 `let isRare:boolean = false`
 
-**number**
+### Number
+
 number 类型可以是 int 或者是 double
-`let myAge:number = 23`
-`let monitorPrice:number = 399.99`
 
-**string**
-`const title:string = 'Typescript 2020'`
+```ts
+let myAge: number = 23
+let monitorPrice: number = 399.99
+```
 
-**null & undefined**
+### String
+
+```ts
+const title: string = 'Typescript 2020'
+```
+
+### Null Undefined
+
 null 和 undefined 都属于附属类型（sub-types)。即我们可以给之前的任何变量声明 null 和 undefined。
 
-`let username: null = null`
-`let userprofile : undefined = undefined`
+```ts
+let username: null = null
+let userprofile: undefined = undefined
+```
 
 但我们很多情况下是预期得到的变量类型是 string 或者 number，但又可能返回 null 和 undefined。就可以用以下方式
 
-`const username: string = null`
-`const isUser: boolean = undefined`
+```ts
+const username: string = null
+const isUser: boolean = undefined
+```
 
-**array**
+### Array
+
 定义数组的类型也很简单。在类型后加入`[]`
 
-`let cartList: string[] = ['apple', 'orange', 'milk']`
-`let randomNumList: number[] = [13, 22, 3, 344]`
+```ts
+let cartList: string[] = ['apple', 'orange', 'milk']
+let randomNumList: number[] = [13, 22, 3, 344]
+```
 
 或者用 Generics 的写法来定义
-`let cartList: Array<string> = ['apple', 'orange', 'milk']`
-`let randomNumList: Array<number> = [13, 22, 3, 344]`
+
+```ts
+let cartList: Array<string> = ['apple', 'orange', 'milk']
+let randomNumList: Array<number> = [13, 22, 3, 344]
+```
+
+### Tuples
 
 假设我们想在数组中混合变量类型，那我们可以用 tuple 来实现
+
+```ts
+let myMixList: [string, number, boolean] = ['name', 23, false]
+```
+
+需要注意的是 tuple 数组内的元素是固定的。也就说一旦我们声明完变量类型，我们不可以添加其他元素到 tuple 数组。
+
+```ts
+let myMixList: [string, number, boolean] = ['name', 'number', false] //error
+let myMixList: [string, number, boolean] = ['name', 23, 23] //error
+let myMixList: [string, number, boolean] = [false, 23, false] //error
+
+myMixList[0] = 23 //erro: 不能更改变量类型
+myMixList[1].toLowerCase() //error: 数组索引值1处为数字 不能用string method
+```
+
+### Any
+
+有些情况下我们不确定我们变量的类型。比如我们想 fecth 第三方 API 获取数据的时候，有的数据可能会返回 null 或者 undefined，或者其他类型我们不确定。这时候我们可以用 any。
+
+```ts
+let unknowType: any = 'Can be a string'
+unknowType = 23
+unknowType = false
+```
+
+### Void
+
+我们一般用于返回函数时定义的类型。
+
+```ts
+const modalMsg = (): void => {
+  console.log('This function does not return anything')
+}
+
+const plusOperation = (numOne, numTwo): void => {
+  return numOne + numTwop //error:我们定义了void类型，即函数不返回任务值。
+}
+```
+
+### Object
+
+`object`即排除所有 primitive 的类型(number, string, boolean, null, undefined)
+
+```ts
+const userProfile: object = { name: 'Yang', age: 23 }
+const errorProfile: object = 30 //error
+```
 
 ## 函数 Functions
 
@@ -120,7 +189,7 @@ export const Card: React.FC<Props> = ({ name, isRare, toggle, attribute }) => {
 }
 ```
 
-### useState Hooks
+#### useState Hooks
 
 ```ts
 //声明的state可以是number也可以是null
