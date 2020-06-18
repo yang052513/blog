@@ -73,7 +73,7 @@ let userprofile: undefined = undefined
 但我们很多情况下是预期得到的变量类型是 string 或者 number，但又可能返回 null 和 undefined。就可以用以下方式
 
 ```ts
-const username: string = null
+const username: string | null = null
 const isUser: boolean = undefined
 ```
 
@@ -122,6 +122,13 @@ unknowType = 23
 unknowType = false
 ```
 
+有的时候我们知道返回变量的类型但定义要用 any，这种情况可以用 type assertion
+
+```ts
+let unknowValue: any = 'Use as to get length'
+let n: numbner = (unknowValue as string).length
+```
+
 ### Void
 
 我们一般用于返回函数时定义的类型。
@@ -146,6 +153,58 @@ const errorProfile: object = 30 //error
 ```
 
 ## 函数 Functions
+
+### Parameter 和返回的类型
+
+我们可以给函数的值和返回的数值定义类型。下面的代码中我们定义`addOperation`的 parameters 类型为 number, 函数返回的类型为 number。
+
+```ts
+const addOperation = (numOne: number, numTwo: number): number => {
+  return numOne + numTwp
+}
+
+addOperation(1, 3) //返回4
+addOperation(1, '3') //error '3'不是number类型
+addOperation(1, false) //error false不是number类型
+```
+
+我们也可以给函数返回类型定义为 void。
+
+```ts
+const modalMsg = (msg: string): void => {
+  console.log(`Error: ${msg}`)
+}
+```
+
+### 不确定的函数值
+
+假设我们不确定 parameter 的数值，即 numOne 可以是 null 或者是 number 类型，我们只需要在`:`前面加`?`就可以。
+
+```ts
+const addOperation = (numOne?: number, numTwo: number): number => {
+  if (numOne) {
+    return numOne + numTwo
+  } else {
+    return numTwo
+  }
+}
+
+addOperation(null, 5) //5
+addOperation(3, 5) //8
+```
+
+### Default Parameter
+
+我们可以定义 default parameter 到函数中
+
+```ts
+const addOperation = (numOne: number, numTwo: number = 10): number => {
+  return numOne + numTwo
+}
+
+addOperation(3, 10) //13
+addOperation(3) //13
+```
 
 ## 接口 Interface
 
