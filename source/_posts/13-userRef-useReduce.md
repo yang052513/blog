@@ -133,3 +133,97 @@ export const Dashboard: React.FC = () => {
   )
 }
 ```
+
+## useReducer(): 状态管理
+
+首先来看一下 useReducer()的参数
+
+```jsx
+const [state, dispatch] = useReducer(reducer, initialState)
+```
+
+其中第一个`state`即函数的状态值， `dispath`则是用来发送 action。`reduce`即我们我们之后 Reducer 的函数。`initialState`为状态的初始值。
+
+比如我们有 3 个按钮，分别对应着数字的加，减，归零。利用 useReducer()来实现即
+
+```jsx
+export const Counter: React.FC = () => {
+  const counterReducer = (state, action) => {
+    switch (action.type) {
+      case 'increment':
+        return {
+          ...state,
+          count: state.count + 1,
+        }
+      case 'decrement':
+        return {
+          ...state,
+          count: state.count - 1,
+        }
+      case 'reset':
+        return {
+          ...state,
+          count: 0,
+        }
+      default:
+        return state
+    }
+  }
+
+  const [state, dispatch] = useReducer(counterReducer, { count: 0 })
+  return (
+    <div className="counter-container">
+      <button onClick={() => dispatch({ type: 'increment' })}>Increment</button>
+      <button onClick={() => dispatch({ type: 'decrement' })}>Decrement</button>
+      <button onClick={() => dispatch({ type: 'reset' })}>Reset</button>
+
+      <p>{state.count}</p>
+    </div>
+  )
+}
+```
+
+<iframe src="https://stackblitz.com/edit/react-2ytrpj?embed=1&file=index.js&hideExplorer=1&hideNavigation=1"></iframe>
+
+我们当然也可以利用 useState()来实现同样的效果，但是我们需要给 increment, decrement, reset 每个按钮都单独创建一个 useState()。然后每个按钮我们再利用 setIncrement()来实现状态的更新。
+
+很明显，利用 useReducer()可以让我们的代码更容易读，也增加了代码的维护性。一个开发团队，你永远都不知道下一个跟你合作的或者接手你的代码的人的技术性。因此提高代码的阅读性和维护性是至关重要的。
+
+## Custom Hooks 自定义 Hooks
+
+除了利用 react 官方提供的 hooks API 之外，我们还可以把我们自己的函数封装成 hooks 重复利用。
+
+比如上面的 counter 我们可以封装为 useCounter()。
+
+```jsx
+import React, {useState} from 'react'
+
+export default const useCounter = (defaultValue) => {
+    const [count, setCount] = useState(defaultValue)
+
+    const increment = () {
+        setCount(prevCnt => prevCnt + 1)
+    }
+
+    //就像我们声明useState两个参数一样，第一个为变量，第二个为函数。
+    return [count, increment]
+}
+```
+
+在我们的 App 组件中运用我们的 useCounter hooks
+
+```jsx
+import React, {useState} from 'react'
+import useCounter from './useCounter'
+
+export default const App = () => {
+    const [count, increment] = useCounter(10)
+
+    return (
+        <div className="app-container">
+            <p>{count}</p>
+            <button onClick={increment}>Increment</button>
+        </div>
+    )
+}
+```
