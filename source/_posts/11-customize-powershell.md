@@ -1,5 +1,5 @@
 ---
-title: 自定义Windows10下的termin外观
+title: 自定义Windows10下的terminal外观
 date: 2020-06-15 00:55:13
 tags: ['windows', 'powershell', 'terminal']
 categories: Articels
