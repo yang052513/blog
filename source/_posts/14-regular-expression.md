@@ -22,6 +22,47 @@ comments: false
 
 pattern 即我们想要搜索字符串的 pattern，比如我们想查找一个字符串中所有的`play`。pattern 的两侧我们分别用`/`包裹起来，我们所有的规则都在这两个`/`之内。`modifier`即表达式的修饰符。
 
+## Anchors 插入符
+
+### Beginning ^
+
+匹配开头包含的字符。
+
+```js
+const text = 'Regular expression string\nThis is a new line'
+console.log(text.match(/^This/gim))
+// 返回 ["T"]
+```
+
+### End \$
+
+匹配字符串结尾处的字符，或行的末尾如果启用`m`修饰符
+
+```js
+const text = 'Regular expression string\nThis is a new line'
+console.log(text.match(/line$/gi))
+```
+
+### Word Boundary
+
+这个插入符会查找一个字符与非字符之间的位置。
+
+比如我们下面代码中的例子，text 字符串中有`@`, `,` 和两个`whitespace`非字符。那么`/e\b/gi`就会匹配所有与 e 相邻非字符的字符。
+
+```js
+const text = 'This@one,is kind tricky'
+
+console.log(text.match(/e\b/gi))
+
+//返回 ["s", "s"]
+```
+
+### Not Word Boundary
+
+跟上面的 word boundary 截然相反。
+
+### Not Word Boundary
+
 ## Modifiers 修饰符
 
 下面将介绍`g`, `i`, `m`, `s`, `u`, `y`以及它们分别的作用。
@@ -132,3 +173,80 @@ console.log(text.match(/\W/gi))
 console.log(text.match(/[^A-Za-z0-9_ ,]/gi))
 // 返回 ["最", "後", "の", "字", "符"]
 ```
+
+### Digit \d
+
+返回所有数字(0-9)。等同于`[0-9]`
+
+### Not Digit \D
+
+返回所有非数字。等同于`[^0-9]`
+
+### Whitespace \s
+
+返回所有空格字符(space, tabs, line breaks)
+
+### Not Whitespace \S
+
+返回所有非空格字符(space, tabs, line breaks)
+
+## Escaped Characters 转义字符
+
+### Reserved Characters 保留字符
+
+以下字符为保留字符
+
+```bash
++
+*
+?
+^
+$
+\
+.
+[]
+{}
+()
+|
+/
+```
+
+## Groups 组合
+
+### Capturing Group (abc)
+
+组合括号内的字符并创建为一个新的组合
+
+```js
+const text = 'some random value for rand function'
+
+console.log(text.match(/(rand)/gi))
+
+// 返回 ["rand", "rand"]
+```
+
+## Lookaround 查找
+
+### Positive Lookahead (?=abc)
+
+匹配一个不包括括号内的组合。比如下面的例子我们首先匹配所有字母字符数字，这时候我们匹配到`1, 2, 3, 4`。然后我们`?=(px)`匹配所有包括 px 的数字。即 2 和 4
+
+```js
+const text = '1pt 2px 3em 4px'
+console.log(text.match(/\d(?=px)/gi))
+```
+
+### Negative Lookahead (?!abc)
+
+下面我们先匹配所有数字，然后匹配数字中所有不是 px 的字符。
+
+```js
+const text = '1pt 2px 3em 4px'
+console.log(text.match(/\d(?!px)/gi))
+
+// 返回 ["1", "3"]
+```
+
+### Positive Lookbehind
+
+### Negative Lookbehind
