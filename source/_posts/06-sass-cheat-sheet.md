@@ -4,6 +4,7 @@ date: 2020-06-08 22:33:44
 tags: ['Sass', 'css', 'note']
 comments: false
 categories: '笔记'
+cover: 'https://cdn-media-1.freecodecamp.org/images/1*HFYKWq92BcXJIdata7d-JQ.png'
 ---
 
 > 继 less 之后用的第二个 CSS preprocessor。目前还不是特别习惯`sass`的写法，但`sass`相比还是更简洁清晰一点。主要记录了变量，嵌套，继承，函数以及计算相关的内容。

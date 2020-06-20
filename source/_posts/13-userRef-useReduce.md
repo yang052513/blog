@@ -3,7 +3,7 @@ title: React常用Hooks笔记
 date: 2020-06-18 21:37:47
 tags: ['react', 'framework', 'front-end', 'react-hooks', 'notes']
 categories: 笔记
-comments: false
+cover: 'https://www.educative.io/api/page/6018530514305024/image/download/5753173610332160'
 ---
 
 > React Hooks 是 react 16.8 之后的新特性。相比于之前的在 class 组件中管理 state，我们现在可以在函数组件(function component)中管理状态和生命周期

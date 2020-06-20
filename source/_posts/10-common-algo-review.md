@@ -3,7 +3,7 @@ title: Algorithim 概览
 date: 2020-06-15 00:55:19
 tags: ['algorithim', 'bcit', 'notes']
 categories: 笔记
-comments: false
+cover: 'https://3.bp.blogspot.com/-bsAe5iHfUvw/XMm2l8YCMtI/AAAAAAAAA28/9-Uj-v3GHhIE06c1_HdSEOeXML1byHInACLcBGAs/s1600/what-is-an-algorithm.png'
 ---
 
 > 总结下暑假算法课中学习到的知识点，代码主要以 python 和 typescript 来展示。

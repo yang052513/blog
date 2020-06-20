@@ -4,6 +4,7 @@ date: 2020-05-23 18:49:19
 tags: [firebase, database, web, firestore, cloudstorage]
 comments: false
 categories: '笔记'
+cover: 'https://firebase.google.com/images/social.png'
 # description: Firebase常用的一些例句和用法
 ---
 
@@ -69,7 +70,7 @@ db.collection("user").doc(user.uid).collection("Expense").add(docData)
 ```js
 db.collection('user')
   .doc(user.uid)
-  .onSnapShot((snap) => {
+  .onSnapShot(snap => {
     if (snap.data().count > 5) {
       alert('超过5啦！')
     }
@@ -83,8 +84,8 @@ db.collection('user')
 ```js
 db.collection('chatRoom')
   .orderBy('Date', 'desc')
-  .onSnapShot((snap) => {
-    snap.docChanges().forEach((change) => {
+  .onSnapShot(snap => {
+    snap.docChanges().forEach(change => {
       if (change.type == 'added') {
         console.log('对新添加的文档操作')
       } else if (change.type == 'modified') {
@@ -102,8 +103,8 @@ db.collection('user')
   .collection('Expenses')
   .orderBy('Date', 'desc')
   .get()
-  .then((query) => {
-    query.forEach((doc) => {
+  .then(query => {
+    query.forEach(doc => {
       console.log(doc.data().Category)
     })
   })
@@ -118,14 +119,14 @@ db.collection('user')
   .doc(user.uid)
   .collection('Expense')
   .get()
-  .then((querySnapShot) => {
-    querySnapShot.forEach((doc) => {
+  .then(querySnapShot => {
+    querySnapShot.forEach(doc => {
       doc.ref
         .delete()
         .then(() => {
           console.log('删除成功')
         })
-        .catch((error) => {
+        .catch(error => {
           console.log('错误', error)
         })
     })

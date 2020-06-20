@@ -4,6 +4,7 @@ date: 2020-06-19 11:31:47
 tags: ['regular expression', 'javascript', 'learning everyday']
 categories: 每日一学
 comments: false
+cover: 'https://blog.alexdevero.com/wp-content/uploads/2014/12/regex-e1517472406481.jpg'
 ---
 
 > A regular expression is a sequence of characters that define a search pattern.

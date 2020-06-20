@@ -3,7 +3,7 @@ title: 自定义Windows10下的terminal外观
 date: 2020-06-15 00:55:13
 tags: ['windows', 'powershell', 'terminal']
 categories: Articels
-comments: false
+cover: 'https://i1.wp.com/regroove.ca/wp-content/uploads/2018/08/powershell.png?fit=2560%2C1440&ssl=1'
 ---
 
 > 之前用 MacOS 时用的 iterm2 非常好用，无论外观自定义还是 git 当前分支的提醒，都比系统自带的 terminal 好看很多。换到 windows 之后，这个原生的界面...不能看！好在微软自己推出了一个 terminal 可以自定义 powershell 和 cmd 的外观，更改完后...真香！

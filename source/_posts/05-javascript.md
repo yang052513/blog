@@ -4,6 +4,7 @@ date: 2020-06-08 22:15:48
 tags: ['笔记', 'JavaScript']
 comments: false
 categories: '笔记'
+cover: 'https://i2.wp.com/storage.googleapis.com/blog-images-backup/1*hcws3Wa6u9IqaEZ_4X04uw.jpeg?ssl=1'
 ---
 
 > JavaScript 数组，对象，类，函数的常用用法以及备忘录
@@ -67,7 +68,7 @@ console.log(setName(1, 'Yang'))
 #### Map
 
 ```js
-const prices = products.map((item) => item.price)
+const prices = products.map(item => item.price)
 console.log(prices) //[array of items price]
 ```
 
@@ -79,8 +80,8 @@ function getData(baseUrl) {
   return function (route) {
     return function (callback) {
       fetch(`${baseUrl}${route}`)
-        .then((response) => response.json)
-        .then((data) => callback(data))
+        .then(response => response.json)
+        .then(data => callback(data))
     }
   }
 }
@@ -94,8 +95,8 @@ const getSocialMediaPosts = getSocialMediaData('/posts')
 const getSocialMediaComments = getSocialMediaData('/comments')
 
 //List all the post title
-getSocialMediaPosts((posts) => {
-  posts.forEach((post) => console.log(post.title))
+getSocialMediaPosts(posts => {
+  posts.forEach(post => console.log(post.title))
 })
 ```
 
@@ -154,7 +155,7 @@ const userMap = new Map([[key1, user1]])
 userMap.set('2', 'Nathan')
 
 //循环userMap并打印每个数据
-const display = (values) => document.writeln(values + '<br>')
+const display = values => document.writeln(values + '<br>')
 userMap.forEach(display)
 
 //取得用户key为1的value
@@ -189,8 +190,8 @@ const array = [
 ]
 
 //测试是否至少有一个元素的rating小于5
-const ratingTest = (item) => item.rating < 5
-const episodeTest = (item) => item.episode > 12
+const ratingTest = item => item.rating < 5
+const episodeTest = item => item.episode > 12
 console.log(`至少有一部动画评分小于5分: ${array.some(ratingTest)}`)
 console.log(`每部动画集数大于12: ${array.every(episodeTest)}`)
 ```
@@ -207,7 +208,7 @@ const animations = [
 ]
 
 //重构一个新的array newAnimations
-const newAnimations = animations.map((animes) =>
+const newAnimations = animations.map(animes =>
   //对animations里的每一个对象执行一下
   //如果rating大于8 在原object的基础上merge isHighRank
   //其他保持不变
@@ -215,7 +216,7 @@ const newAnimations = animations.map((animes) =>
 )
 
 //循环newAnimations里的每一个对象
-newAnimations.forEach((animes) => {
+newAnimations.forEach(animes => {
   animes.isHighRank
     ? console.log(`${animes.name} is recommended by other users`)
     : null
@@ -238,7 +239,7 @@ const animations = [
 
 //如果没有匹配结果 返回空数组
 const animationA = animations.filter(
-  (animes) => animes.name.toLowerCase().startsWith('a') && animes.rating > 7
+  animes => animes.name.toLowerCase().startsWith('a') && animes.rating > 7
 )
 console.log(animationA)
 ```
@@ -253,7 +254,7 @@ const animations = [
 ]
 
 const animationSearch = animations.find(
-  (anime) => anime.name.toLowerCase().includes('haikyuu') && anime.rating > 9
+  anime => anime.name.toLowerCase().includes('haikyuu') && anime.rating > 9
 )
 
 console.log(animationSearch)

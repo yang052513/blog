@@ -3,7 +3,7 @@ title: Typescript 让你的Javascript更严谨
 date: 2020-06-12 12:42:27
 tags: ['react', 'tsx', 'typescript', 'front-end', 'notes']
 categories: 笔记
-comments: false
+cover: 'https://miro.medium.com/max/816/1*mn6bOs7s6Qbao15PMNRyOA.png'
 ---
 
 > 学习 Angular 的时候要用 typescritp 来写。于是学习 typescript 成了我的 angular 的前置课程。本文主要是记录 typescript 的一些特性和语法，以及介绍一些在 react 中写 typescript(tsx)的基础。

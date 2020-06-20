@@ -4,11 +4,11 @@
 
 # Site
 title: Yang's Blog
-subtitle: 'I am very vegetable and poor'
+subtitle: 'Be passionated about what you are doing'
 description: ''
 keywords:
 author: Yang Li
-language: en
+language: zh-CN
 timezone: ''
 
 # URL
@@ -93,7 +93,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: yun
+theme: butterfly
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html

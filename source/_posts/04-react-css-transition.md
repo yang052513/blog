@@ -4,6 +4,7 @@ date: 2020-06-02 20:19:38
 tags: ['笔记', 'react', 'react-router']
 comments: false
 categories: '笔记'
+cover: 'https://miro.medium.com/max/681/1*heU2x0fIJHE9Fsy1Fn1Hjw.png'
 ---
 
 > 通过利用 React Router 我们可以实现页面的跳转和切换。但默认 react router 的效果很生硬，我们可以通过利用 React Transition Group 来实现路由切换的平滑动画

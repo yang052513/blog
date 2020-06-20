@@ -3,7 +3,7 @@ title: 如何创建你的第一个React组件库并发布到npm
 date: 2020-06-14 23:51:11
 tags: ['react', 'typescript', 'notes', 'npm', 'node']
 categories: Articles
-comments: false
+cover: 'https://www.itprotoday.com/sites/itprotoday.com/files/styles/article_featured_retina/public/github-npm.png?itok=NVoj-tk8'
 ---
 
 > 在学习 React 开发项目的过程中，很多时候希望能够重复利用之前项目的组件。比如一些常用的 css 和 js 交互特效，又或者是一个反馈面板根据 props 显示状态回馈，可能也只是一个简单样式化的按钮。于是就产生出了自己创建组件然后传到 npm 上来再次利用。本文用 typescript 为例来介绍如何创建你的第一个 npm 库

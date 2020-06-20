@@ -4,6 +4,7 @@ date: 2020-05-28 20:10:15
 tags: ['笔记', 'javascript']
 comments: false
 categories: '笔记'
+cover: 'https://i2.wp.com/storage.googleapis.com/blog-images-backup/1*hcws3Wa6u9IqaEZ_4X04uw.jpeg?ssl=1'
 ---
 
 > JavaScript event.target 和 event.currentTarget 的区别。最近在写一个 react 的项目中，想要通过点击一个元素来触发事件并获得该元素的 key。

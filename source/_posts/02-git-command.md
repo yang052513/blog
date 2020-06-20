@@ -4,6 +4,7 @@ date: 2020-05-25 20:10:15
 tags: ['笔记', 'git']
 comments: false
 categories: '笔记'
+cover: 'https://www.cloudsavvyit.com/thumbcache/0/0/5b8ff1fbf94a3ecddbaa8db6b389c09a/p/uploads/2019/10/e713ed70-1.png'
 ---
 
 > 平时总结的一些 git command 以及常用的命令
