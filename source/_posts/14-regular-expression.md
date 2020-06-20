@@ -247,6 +247,52 @@ console.log(text.match(/\d(?!px)/gi))
 // 返回 ["1", "3"]
 ```
 
-### Positive Lookbehind
+## Quantifiers & Alternation
 
-### Negative Lookbehind
+### Plus +
+
+返回一个或多个之前的的规则
+
+```js
+const text = 'b be bee beer beers'
+console.log(text.match(/b\w+/gi))
+```
+
+### Star \*
+
+返回 0 个或多个之前的规则
+
+```js
+const text = 'b be bee beer beers'
+console.log(text.match(/b\w*/gi))
+```
+
+### Quantifier {}
+
+返回定义的数量。
+
+```js
+const text = 'b be bee beer beers'
+console.log(text.match(/b\w{1}/gi))
+
+//返回 ["be", "be", "be", "be"]
+```
+
+### Optional ?
+
+```js
+const text = 'color colour color colour'
+//u设定为optional
+console.log(text.match(/colou?r/gi))
+
+//返回 ["color", "colour", "color", "colour"]
+```
+
+### Alternation |
+
+```js
+const text = 'bad bud bod bed bid'
+console.log(text.match(/b(a|u|o)/gi))
+
+//返回["ba", "bu", "bo"]
+```
