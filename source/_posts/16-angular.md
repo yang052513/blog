@@ -247,3 +247,146 @@ export class AppComponent {
   <h2>Please login</h2>
 </ng-template>
 ```
+
+## ngSwitch Directive
+
+For mulitiple conditional statements
+
+```Typescript
+export class AppComponent {
+  public category="Anime"
+}
+```
+
+```HTML
+<div [ngSwitch]="category">
+  <p *ngSwitchCase="'anime'">Anime</p>
+  <p *ngSwitchCase="'music'">Music</p>
+  <p *ngSwitchCase="'manga'">Manga</p>
+  <p *ngSwitchCase="'game'">Game</p>
+  <p *ngSwitchDefault>N/A</p>
+</div>
+```
+
+## ngFor Directive
+
+For looping and rendering
+
+```Typescript
+export class AppComponent {
+  public animes = ['Fate Stay Night', 'Clannad', 'Haikyuu', 'Attack on Titan'];
+}
+
+```
+
+```HTML
+<ul>
+  <li
+    *ngFor="
+      let item of animes;
+      index as i;
+      first as f;
+      last as l;
+      even as e;
+      odd as o
+    "
+  >
+    Index: {{ i }} Elements: {{ item }} isFirst: {{ f }} isLast: {{ l }} isEven:
+    {{ e }} isOdd: {{ o }}
+  </li>
+</ul>
+
+```
+
+# Component Interaction: @Input() @Output()
+
+## @Input()
+
+Passing props from parent to child components. The code below pass the `title` props from `AppComponent` to `CardComponent`
+
+**app.component.ts**
+
+```Typescript
+export class AppComponent {
+  //The props we want to pass to card components
+  public title = 'Attack on Titan'
+}
+```
+
+**app.components.html**
+
+```HTML
+<h2>All my cards</h2>
+<!-- Inside [] is the name we want to call in our child component -->
+<app-card [title]="title"></app-card>
+```
+
+**card.components.ts**
+
+```Typescript
+import { Component, OnInit, Input } from '@angular/core';
+
+// ......
+
+export class CardComponent implements OnInit {
+    //We use @Input() decorator to declare the passed props
+    @Input() public title: string;
+    // ......
+}
+```
+
+**card.components.html**
+
+```HTML
+<!-- Then we can just use as normal interpolation -->
+<p>{{title}}</p>
+```
+
+## @Output()
+
+Passing props from child component to parent component, we need to use event and @Output() decorator
+
+**card.component.ts**
+
+```Typescript
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+
+// ......
+
+export class TestComponent implements OnInit {
+  @Output() public childEvent = new EventEmitter();
+
+  // ......
+
+  handleEvent() {
+    //the message we want to pass
+    this.childEvent.emit('Fate Stay Night');
+  }
+}
+
+```
+
+**card.component.html**
+
+```HTML
+<button (click)="handleEvent()">Pass Back</button>
+```
+
+**app.component.ts**
+
+```Typescript
+export class AppComponent {
+  public title = ""
+}
+```
+
+**app.component.html**
+
+```HTML
+<app-card (childEvent)="title = $event"></app-card>
+
+{{ title }}
+
+```
+
+# Pipes
