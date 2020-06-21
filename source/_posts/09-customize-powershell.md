@@ -2,7 +2,7 @@
 title: 自定义Windows10下的terminal外观
 date: 2020-06-15 00:55:13
 tags: ['windows', 'powershell', 'terminal']
-categories: Articels
+categories: Articles
 cover: 'https://i1.wp.com/regroove.ca/wp-content/uploads/2018/08/powershell.png?fit=2560%2C1440&ssl=1'
 ---
 

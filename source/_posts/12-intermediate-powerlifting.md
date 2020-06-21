@@ -2,7 +2,7 @@
 title: 健力课表长期短期规划浅谈以及个人经验
 date: 2020-06-18 17:55:19
 tags: ['powerlifting', 'routine', 'Big three', 'rogue']
-categories: 文章
+categories: Articles
 cover: 'https://physiqz.com/wp-content/uploads/2018/04/Powerlifting-Gear-and-Equipment-Guide.jpg'
 ---
 

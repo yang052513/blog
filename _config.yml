@@ -45,9 +45,9 @@ post_asset_folder: true
 relative_link: false
 future: true
 highlight:
-  enable: false
+  enable: true
   line_number: true
-  auto_detect: false
+  auto_detect: true
   tab_replace: ''
   wrap: true
   hljs: false
@@ -104,8 +104,8 @@ deploy:
   message: Update Hexo Static Content # 你可以自定义此次部署更新的说明
 
 # https://github.com/ele828/hexo-prism-plugin
-prism_plugin:
-  mode: preprocess # realtime/preprocess
-  theme: duotone-dark
-  line_number: false # default false
-  # custom_css: "path/to/your/custom.css" # optional
+# prism_plugin:
+#   mode: preprocess
+#   theme: duotone-dark
+#   line_number: false
+# custom_css: "path/to/your/custom.css" # optional
