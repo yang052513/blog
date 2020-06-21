@@ -137,3 +137,113 @@ export class AppComponent {
   }
 }
 ```
+
+## Template Reference Variables
+
+Assume we have an input field and we want to get the user's input after click the button
+
+```html
+<div className="input-reference-demo">
+  <input #userName type="text" placeholder="what is your name?" />
+  <button (click)="handleSubmit(userName.value)">Submit</button>
+</div>
+```
+
+```ts
+export class AppComponent {
+  constructor() {}
+
+  handleSubmit(name) {
+    console.log(name)
+  }
+}
+```
+
+## Two-way Binding
+
+In the above example, we have to click to button in order to get the value of the input. What if we want to the variable in Class component are updating with the interpolation in HTML view at same time? We could use Angular ngModal Forms.
+
+**app.modules.ts**
+
+```typescript
+import { FormsModule } from '@angular/forms'
+
+@NgModule({
+  //......
+  imports: [
+    //......
+    FormsModule
+  ],
+  //......
+})
+```
+
+```HTML
+<div className="two-way-binding-demo">
+    <input [(ngModel)]="userName" type="text" placeholder="user name" />
+    <p>{{ userName }}</p>
+</div>
+```
+
+```Typescript
+export class AppComponent {
+  public userName = ""
+}
+```
+
+# Directive
+
+## ngIf Directive
+
+### ngIf with only if statements
+
+```Typescript
+export class AppComponent {
+  public isDisplay = false
+}
+```
+
+```HTML
+<div class="ngIf-directive-demo">
+  <h2 *ngIf="isDisplay">You Can see me now!</h2>
+</div>
+```
+
+### ngIf with else statement
+
+```Typescript
+export class AppComponent {
+  public isLoggedIn = false
+}
+```
+
+```HTML
+<div class="ngIf-else-demo">
+  <h2 *ngIf="isLoggedIn; else notLoginBlock">Hello User!</h2>
+
+  <ng-template #notLoginBlock>
+      <h2>Please Log In</h2>
+  </ng-template>
+</div>
+```
+
+### ngIf with then and else statement
+
+```Typescript
+export class AppComponent {
+  public isLoggedIn = false
+}
+```
+
+```HTML
+<p *ngIf="isLoggedIn; then loggedInBlock; else publicBlock" class="ng-if-then-else-demo">
+</p>
+
+<ng-template #loggedInBlock>
+  <h2>Welcome back User!</h2>
+</ng-template>
+
+<ng-template #publicBlock>
+  <h2>Please login</h2>
+</ng-template>
+```
