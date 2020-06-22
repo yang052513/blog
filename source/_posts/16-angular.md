@@ -390,3 +390,54 @@ export class AppComponent {
 ```
 
 # Pipes
+
+Angular pipes allows us to write data transformation that we declare in HTML. Some common pipes listed below
+
+```Typescript
+export class AppComponent {
+  public name = 'Attack on Titan';
+  public date = new Date();
+  public anime = {
+    name: 'Fate stay night',
+    category: 'action',
+  };
+}
+```
+
+```HTML
+<!-- attack on titan -->
+<p>{{ name | lowercase }}</p>
+
+<!-- ATTACK ON TITAN -->
+<p>{{ name | uppercase }}</p>
+
+<!-- Attack On Titan -->
+<p>{{ name | titlecase }}</p>
+
+<!-- At -->
+<p>{{ name | slice: 0:2 }}</p>
+
+<!-- { "name": "Fate stay night", "category": "action" } -->
+<p>{{ anime | json }}</p>
+
+<!-- 25% -->
+<p>{{ 0.25 | percent }}</p>
+
+<!-- $0.25 -->
+<p>{{ 0.25 | currency }}</p>
+
+<!-- £0.25 -->
+<p>{{ 0.25 | currency: "GBP" }}</p>
+
+<!-- Sun Jun 21 2020 22:52:43 GMT-0700 (北美太平洋夏令时间) -->
+<p>{{ date }}</p>
+
+<!-- 6/21/20, 10:52 PM -->
+<p>{{ date | date: "short" }}</p>
+
+<!-- 6/21/20 -->
+<p>{{ date | date: "shortDate" }}</p>
+
+<!-- 10:52 PM -->
+<p>{{ date | date: "shortTime" }}</p>
+```
