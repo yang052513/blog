@@ -6,7 +6,7 @@ categories: Notes
 cover: 'https://www.freecodecamp.org/news/content/images/2020/04/Copy-of-Copy-of-Travel-Photography.png'
 ---
 
-After learning react, I thought why not give angular a try and compare some features between these two. At the early learning stage, I always believe that more is better, and later I could just specialize one framework that suits my need
+> When I was learn typescript, I found that Angualr is a Typescript-based framework. Learn two things at one time, isnt that good? I preferred to use code format for notes because I think it's more straight forward. However, some difficult topics I will explain more in the comments
 
 # Setup Angular Project 配置
 
@@ -440,4 +440,138 @@ export class AppComponent {
 
 <!-- 10:52 PM -->
 <p>{{ date | date: "shortTime" }}</p>
+```
+
+# Services
+
+Components should used for displaying data as views, and we need `services` to fetch and store datas, in which all the componets could communicate with the data we retrieved. The following are the three steps to use the service
+
+## Using Services to store data
+
+1. Define a service that store the data we want
+2. Register the service with injector in our moudle
+3. Declare as dependency in `ngOnInit` in our sub components
+
+### Define a new service
+
+```bash
+ng generate service servicename
+```
+
+```Typescript
+import {Injectable} from '@angular/core'
+
+@Injectable()
+
+export class AnimeService {
+  constructor() {
+  }
+
+  getAnime() {
+    return [
+      {"id": "1", "name": "Fate Stay Night", "rank": 9.4},
+      {"id": "2", "name": "Haikyuu", "rank": 19.0},
+      {"id": "3", "name": "Clannad", "rank": 9.5},
+      {"id": "4", "name": "Attack on Titan", "rank": 8.5},
+      {"id": "5", "name": "Tamako Love Story", "rank": 8.8},
+    ]
+  }
+}
+```
+
+### Register service with Injector
+
+In our app module
+
+```Typescript
+import {AnimeService} from './anime.service';
+// .......
+
+@NgModule({
+  // ......
+  providers: [AnimeService]
+})
+```
+
+### Declare as dependency
+
+In our anime list components, we could then use the service that we register
+
+```Typescript
+export class AnimeListComponent implements OnInit {
+  public anime = []
+  constructor(private _animeService: AnimeService) {}
+  ngOnInit() {
+    this.anime = this._animeService.getAnime()
+  }
+}
+
+```
+
+```HTML
+<ul>
+  <li *ngFor="let item of anime">
+    {{ item.id }} {{ item.name }} {{ item.rank }}
+  </li>
+</ul>
+
+```
+
+```markdown
+- 1 Fate Stay Night 9.4
+- 2 Haikyuu 19
+- 3 Clannad 9.5
+- 4 Attack on Titan 8.5
+- 5 Tamako Love Story 8.8
+```
+
+## Using service and Http modules to fetch data
+
+### 1. Import Http module
+
+**app.module.ts**
+
+```Typescript
+import {HttpClientModule} from '@angular/common/http';
+
+@NgModule({
+  imports: [
+    HttpClientModule
+  ]
+})
+```
+
+### 2. Receive the response
+
+**anime.service.ts**
+
+```Typescript
+import {Injectable} from '@angular/core'
+import {HttpClient} from '@angular/common/http';
+import {Observable } from 'rxjs';
+
+export class AnimeService {
+  private url: string = 'https://v1.hitokoto.cn/?c=a&c=b&c=c&c=d&c=k'
+
+  constructor(private http: HttpClient) {}
+
+  getAnime(): Observable<[]> {
+    return this.http.get<[]>(this.url);
+  }
+}
+```
+
+### 3. Subscribe to the observable from AnimeList component
+
+```Typescript
+import { AnimeService } from '../anime.service';
+
+export class AnimeListComponent implements OnInit {
+  public anime = []
+  constructor(private animeService: AnimeService) {}
+  ngOnInit() {
+    this.animeService.getAnime()
+      .subscribe(data => this.anime = data)
+  }
+}
 ```
