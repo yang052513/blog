@@ -6,7 +6,7 @@ categories: Notes
 cover: 'https://www.freecodecamp.org/news/content/images/2020/04/Copy-of-Copy-of-Travel-Photography.png'
 ---
 
-> When I was learn typescript, I found that Angualr is a Typescript-based framework. Learn two things at one time, isnt that good? I preferred to use code format for notes because I think it's more straight forward. However, some difficult topics I will explain more in the comments
+> When I was learn typescript, I found that Angular is a Typescript-based framework. Learn two things at one time, sounds perfect to me. However, I realized the architecture of Angular framework is little complex compared to react. Thus, I decided to write some demos while I was learning. There arent too many explanation for each topics because I think the code itself is pretty straight forwrad if you know some basics of other framework.
 
 # Setup Angular Project 配置
 
@@ -298,7 +298,7 @@ export class AppComponent {
 
 ```
 
-# Component Interaction: @Input() @Output()
+# @Input() @Output()
 
 ## @Input()
 
@@ -572,6 +572,152 @@ export class AnimeListComponent implements OnInit {
   ngOnInit() {
     this.animeService.getAnime()
       .subscribe(data => this.anime = data)
+  }
+}
+```
+
+# Router
+
+## Routing and Navigation
+
+### 1. Install the routing module to the project
+
+For creating a new project with adding router options
+
+```bash
+ng new projectname --routing
+```
+
+For existing project: add the following tag in `index.html` head
+**index.html**
+
+```HTML
+<base href="/">
+```
+
+### 2. Configure the router
+
+Creating a new file in app folder and copy the code below: `app-routing.module.ts`
+
+**app-routing-module.ts**
+
+```Typescript
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
+
+const routes: Routes = [
+  {path: 'cardlist', component: CardListComponent},
+  {path: 'about', component: AboutComponent}
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+
+export class AppRoutingModule { }
+
+// exporting all the routing components
+export const routingComponents = [CardListComponent, AboutComponent]
+```
+
+### 3. Add the routing module to **app.modules.ts**
+
+**app.module.ts**
+
+```Typescript
+// we import all the routing comonents so no need to specify here
+import {AppRoutingModule, routingComponents} from './app-routing.module';
+
+// .......
+
+@NgModule({
+  imports: [
+    AppRoutingModule,
+    routingComponents
+  ]
+})
+```
+
+### 4. Add the link in HTML
+
+**app.component.html**
+
+```HTML
+<a routerLink="/cardlist" routerLinkActive="active">All Cards</a>
+<a routerlink="/about" routerLinkActive="active">About Us</a>
+<router-outlet></router-outlet>
+```
+
+## Router Parameters: Dynamic Routing
+
+For example, we have a `CardComponent` which display all the cards in the view. When we click each of the card, we want to navigate to the specific `CardDetailComponent` for that card. Other examples will be product view and each product has a detail page.
+
+**anime-card.component.html**
+Display all the anime card (only name for demo)
+
+```HTML
+<div>
+  <ul>
+    <li (click)="onSelect(anime)" *ngFor="let anime of animes">{{anime.name}}</li>
+  </ul>
+</div>
+```
+
+**anime-card.component.ts**
+
+```Typescript
+import {Router} from '@angular/router'
+
+export class AnimeCardComponent implements OnInit {
+  animes = [
+    {"id": 1, "name": "Fate Stay Night"},
+    {"id": 2, "name": "Clannad"},
+    {"id": 3, "name": "Haikyuu"},
+    {"id": 4, "name": "Tamako Love Story"},
+  ]
+
+  constructor(private router: Router) {
+
+  }
+
+  onSelect(anime) {
+    this.router.navigate(['/animecard', anime.id])
+  }
+}
+```
+
+**app.routing.module.ts**
+
+```Typescript
+import {AnimeCardDetail} from './anime-card-detail/anime-card-detail.component.ts';
+
+const routes: Routes = [
+  // ......
+  {path: 'animecard/:id', component: AnimeCardDetailComponent},
+]
+
+// ......
+export const routingComponents = [
+  // ......
+  AnimeCardDetailComponent
+]
+```
+
+**anime-card-detail.components.ts**
+
+```Typescript
+import {ActivatedRoute} from '@angular/router'
+
+export class AnimeCardDetailComponent implements OnInit {
+  public animeId
+  constructor(private router: ActivatedRoute) {
+
+  }
+
+  ngOnInit() {
+    //from the current snapshot get the id props
+    this.animeId = parseInt(this.route.snapshot.paramMap.get('id'))
   }
 }
 ```
