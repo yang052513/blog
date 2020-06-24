@@ -91,3 +91,25 @@ print(response.headers)
 
 print(response.headers['Content-Type']) # text/html; charset=UTF-8
 ```
+
+# BeautifulSoup Library
+
+## Reformat HTML elements
+
+We could using `request` library to get the HTML elements first and then use `BeautifulSoup` format the structures
+
+```Python
+import requests
+from bs4 import BeautifulSoup
+
+url = 'https://github.com/yang052513'
+
+response = requests.get(url).text
+html = Beautiful(response, 'html.parser')
+
+# copy to a new html file
+with open('demo.html', 'w', encoding='utf-8') as file:
+    file.write(str(html.prettify()))
+
+print(source_code.prettify())
+```
