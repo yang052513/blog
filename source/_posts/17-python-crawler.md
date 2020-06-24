@@ -105,11 +105,41 @@ from bs4 import BeautifulSoup
 url = 'https://github.com/yang052513'
 
 response = requests.get(url).text
-html = Beautiful(response, 'html.parser')
+html = BeautifulSoup(response, 'html.parser')
 
 # copy to a new html file
 with open('demo.html', 'w', encoding='utf-8') as file:
     file.write(str(html.prettify()))
 
-print(source_code.prettify())
+```
+
+## Element Tag Search and Find
+
+```Python
+# find the first p element and return as <p>some content</p>
+html.p
+
+# convert the first p element content to string as 'some content'
+html.p.string
+
+# return the first p element parent name, e.g. <div>
+html.p.parent.name
+
+# return the first p element parent content
+html.p.parent.string
+
+# return the first p element class name
+html.p['class']
+
+# find all the a tag element
+html.find_all('a')
+
+# find all the a tag element with id "selector_id"
+html.find_all(id="selector_id")
+
+# find all the img tag with class name "thumb_img"
+html.find_all("img", {"class": "thumb_img"})
+
+# get all the text from the html
+html.get_text()
 ```
