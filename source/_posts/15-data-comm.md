@@ -100,3 +100,59 @@ Output frame rate 等同于 input connection rate，即 1 M frames/second
    Each frame carries 4 characters and 1 extra synchronizing bit. The number of bits in each TDM frame is (4x8)+1 = 33 bits
 5. The data rate of the link
    The link sends 250 frames per second, and each frame contains 33 bits. The data rate of the link is 250 x 33 = 8250 bps
+
+# Chapter 8: Switching
+
+## Introduction
+
+> A switched network consists of a series of interlinked nodes called switches. Switches are devices capable of creating temporary connections between two or more devices linked to the switch
+
+### Three Methods of Switching
+
+1. Circuit Switching
+2. Packet Switching
+   - Virtual-circuit approach
+   - Datagram approach
+3. Message Switching
+
+## Circuit-switched Networks
+
+> A circuit-switched network consists of a set of switches connected by physical links, in which each link is divided into n channels
+
+### Phases
+
+1. Connection Setup
+   - Before the entities can communicate, a dedicated circuit needs to be established
+   - end-to-end addressing is required for creating a connection between the two end systems
+2. Data Transfer
+   - After establish the dedicated, two entities can transfer data
+3. Connection Teardown
+   - When one of the entities needs to disconnect, a signal is sent to each switch to release the resources
+
+### Efficiency
+
+Not as efficient as packet or message switched networks because resources are allocated for the **entire duration** of the connection
+
+However, the delay is **minimal** as the resource are allocated for the duration of the connection
+
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-06-27%20130744.png?alt=media&token=f1150738-ff43-4c5a-8abb-785c968a71d4" />
+
+## Packet Switching
+
+> In data communications, we need to send messages from one end system to another. If the message is going to pass through a **packet-switched** network, the message needs to be divided into packets of fixed or variable size.
+
+However, resource are allocated on-demand on a first-come, first served basis.
+
+### 1. Datagram Networks
+
+In a datagram network, each packet is treated independently of all others.
+
+Datagram switching is normally done at the network layer
+
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-06-27%20143510.png?alt=media&token=4384e092-b327-43a5-b532-888b53c8d00b" />
+
+### 2. Virtual-Circuit Networks
+
+A virtual-circuit network is a cross between a circuit-switched network and a datagram network.
+
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-06-27%20143357.png?alt=media&token=24092371-ef1a-4f13-a128-26d40c665936" />
