@@ -156,3 +156,11 @@ Datagram switching is normally done at the network layer
 A virtual-circuit network is a cross between a circuit-switched network and a datagram network.
 
 <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-06-27%20143357.png?alt=media&token=24092371-ef1a-4f13-a128-26d40c665936" />
+
+# Chapter 9: Introduction to Data-Link Layer
+
+## Introduction
+
+## Link-Layer Addressing
+
+> The Internet is a combination of networks glued together by connecting devices. If a packet is to travel from a host to another, it needs to pass through these networks
