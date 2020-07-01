@@ -2,7 +2,7 @@
 title: 正则表达式基础
 date: 2020-06-19 11:31:47
 tags: ['regular expression', 'javascript', 'learning everyday']
-categories: Learning Everyday
+categories: Notes
 cover: 'https://blog.alexdevero.com/wp-content/uploads/2014/12/regex-e1517472406481.jpg'
 ---
 
