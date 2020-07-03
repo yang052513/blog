@@ -578,7 +578,7 @@ aside:
     description:
   card_announcement:
     enable: true
-    content: Welcome to Yang's Blog
+    content: 力量举杂谈以及学习过程中的总结。
   card_recent_post:
     enable: true
     limit: 5 # if set 0 will show all
