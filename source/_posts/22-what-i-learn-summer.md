@@ -1,5 +1,5 @@
 ---
-title: What did I do during the summer (or quarantine?
+title: What did I do during the summer (or quarantine?)
 date: 2020-07-02 22:22:58
 tags: ['reflection']
 categories: Notes
