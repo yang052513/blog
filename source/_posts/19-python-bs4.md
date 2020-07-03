@@ -1,7 +1,7 @@
 ---
 title: Python Crawler - BeautifulSoup
 date: 2020-07-01 00:06:00
-tags: ['python', 'web crawler', 'notes']
+tags: ['python', 'web crawler', 'notes', 'python-crawler-series']
 categories: Notes
 cover: 'https://camo.githubusercontent.com/7f296c12bff3c6f017c3304b37d03f4b41172174/68747470733a2f2f7374617469632e64617461736369656e6365646f6a6f2e636f6d2f77702d636f6e74656e742f75706c6f6164732f507974686f6e42656175746966756c536f75702d30342e706e67'
 ---

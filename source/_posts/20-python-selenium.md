@@ -1,7 +1,7 @@
 ---
 title: Python Crawler - Selenium
 date: 2020-07-01 00:06:11
-tags: ['python', 'web crawler', 'notes']
+tags: ['python', 'web crawler', 'notes', 'python-crawler-series']
 categories: Notes
 cover: 'https://miro.medium.com/proxy/1*HJpcblBvD8MpqAEZZXWVgg.png'
 ---
