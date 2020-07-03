@@ -1,8 +1,8 @@
 ---
-title: What did I do during the summer (or quarantine?)
+title: 这个暑假我干了什么？
 date: 2020-07-02 22:22:58
 tags: ['reflection']
-categories: Notes
+categories: 反思
 cover: 'https://wallpaperaccess.com/full/510846.jpg'
 ---
 

@@ -1,8 +1,8 @@
 ---
-title: Python Crawler - Request Library
+title: Python爬虫之Request库
 date: 2020-06-23 16:37:13
 tags: ['python', 'web crawler', 'notes']
-categories: Notes
+categories: Python爬虫
 cover: 'https://programmer.help/images/blog/a3fce23eb3fdd08341287253f42bb04f.jpg'
 ---
 

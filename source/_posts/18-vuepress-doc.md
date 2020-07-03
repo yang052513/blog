@@ -1,7 +1,7 @@
 ---
-title: How to Use Vuepress to Write Documentation
+title: 如何用Vuepress写一个技术文档
 date: 2020-06-30 23:57:53
-tags: ['vuepress', 'documentation', 'notes']
+tags: ['vuepress', 'documentation', 'articles']
 categories: Notes
 cover: 'https://d2jq2hx2dbkw6t.cloudfront.net/662/vue-press-feed-generator.jpg'
 ---

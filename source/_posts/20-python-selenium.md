@@ -1,8 +1,8 @@
 ---
-title: Python Crawler - Selenium
+title: Python爬虫之Selenium模拟浏览器操作
 date: 2020-07-01 00:06:11
 tags: ['python', 'web crawler', 'notes', 'python-crawler-series']
-categories: Notes
+categories: Python爬虫
 cover: 'https://miro.medium.com/proxy/1*HJpcblBvD8MpqAEZZXWVgg.png'
 ---
 

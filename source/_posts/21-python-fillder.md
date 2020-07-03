@@ -1,8 +1,8 @@
 ---
-title: Python Crawler - Fiddler
+title: 如何用Fiddler下载抖音小姐姐视频??
 date: 2020-07-01 23:57:13
 tags: ['python', 'article', 'web crawler', 'fiddler', 'python-crawler-series']
-categories: Article
+categories: Python爬虫
 cover: 'https://pic3.zhimg.com/v2-f7dd822655d8a76787389148658e4c41_1440w.jpg'
 ---
 

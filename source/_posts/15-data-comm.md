@@ -1,10 +1,12 @@
 ---
-title: Intro to Data Communication and Networks
+title: 数据通信课程笔记
 date: 2020-06-20 12:25:43
 tags: ['data communication', 'BCIT', 'notes']
 categories: 'Notes'
 cover: 'https://wallpaperplay.com/walls/full/b/1/e/42765.jpg'
 ---
+
+> 暑假报了一门数据通信课程，本就是一门比较难理解的课程，我们的老师，Chi 让这门难上加难。简直不敢相信还有人粗体斜体下划线一齐上用在 ppt 上....但自己报的课，无论如何也要过...
 
 # Chapter 6: Multiplexing
 

@@ -1,12 +1,12 @@
 ---
-title: Learning Angular
+title: Angular框架学习笔记
 date: 2020-06-20 16:55:44
 tags: ['front-end', 'frameword', 'angular', 'notes', 'javascript']
 categories: Notes
 cover: 'https://www.freecodecamp.org/news/content/images/2020/04/Copy-of-Copy-of-Travel-Photography.png'
 ---
 
-> When I was learn typescript, I found that Angular is a Typescript-based framework. Learn two things at one time, sounds perfect to me. However, I realized the architecture of Angular framework is little complex compared to react. Thus, I decided to write some demos while I was learning. There arent too many explanation for each topics because I think the code itself is pretty straight forwrad if you know some basics of other framework.
+> 在学习 typescript 的过程中发现 Angular 原来是用 typescript 来写。咦，那顺路把 Angular 也学了吧。毕竟多一个框架的学习就能让我多一个吹牛的机会等面试的时候。
 
 # Setup Angular Project 配置
 
