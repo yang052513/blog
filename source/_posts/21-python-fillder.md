@@ -1,14 +1,15 @@
 ---
 title: Python Crawler - Fiddler
 date: 2020-07-01 23:57:13
-tags: ['python', 'web crawler', 'fiddler', 'python-crawler-series']
+tags: ['python', 'article', 'web crawler', 'fiddler', 'python-crawler-series']
 categories: Article
 cover: 'https://pic3.zhimg.com/v2-f7dd822655d8a76787389148658e4c41_1440w.jpg'
 ---
 
-> a man-in-the-middle attack (MITM), also known as a hijack attack is an attack where the attacker secretly relays and possibly alters the communications between two parties who believe that they are directly communicating with each other.
+暑假一门数据通信的课要求用中间人攻击的原理来做一个 project. 什么是中间人攻击呢? 举个日常的例子就是，小时候上课传纸条。你写了一张纸条给你的女票同学道歉因为 XXX 原因。这时候你要先传到中间人然后中间人再传给你女票。没错，这个中间人就是我。
 
-暑假一门数据通信的课要求用中间人攻击的原理来做一个 project. 举个日常的例子就是，小时候上课传纸条。你写了一张纸条给你的女票同学道歉因为 XXX 原因。这时候你要先传到中间人然后中间人再传给你女票。没错，这个中间人就是我。
+<img src="https://i04picsos.sogoucdn.com/acbcdc834c93d292" />
+<br />
 
 我拿到纸条后就想搞事情啊，于是我给你把纸条内容改成了“还不给老子道歉？"，然后传给了前面的你的女票。然后你什么都不知道。
 
@@ -16,11 +17,21 @@ cover: 'https://pic3.zhimg.com/v2-f7dd822655d8a76787389148658e4c41_1440w.jpg'
 
 嘿嘿，我又要搞事情了。
 
+<img src="https://lh3.googleusercontent.com/proxy/gqAzArGd9-0Dy9LwboYPTShy0bKNWA-jk7mk4pVfCQionuF6EvV0W1nkXf0UhCMXk2FmyO9xjN6m1fW00YSKYqM5I16GoGohSIBIKyFgjLlCl0n4b-QmYQ" />
+<br />
+
 我这时候把纸条改成了"我错了 放学厕所门口等我". 然后我把纸条传给了你。
 
 我在你们不知情的的情况下创建了一个通信连接，让你们误以为你们的信息都是来自对方的。这就类似于中间人攻击了。
 
+再扔给你一个官方的定义
+
+> a man-in-the-middle attack (MITM), also known as a hijack attack is an attack where the attacker secretly relays and possibly alters the communications between two parties who believe that they are directly communicating with each other.
+
 但是你让搞一个虚拟机然后自己攻击自己，我是拒绝的。这跟自己 FUC\*K 自己有什么区别吗..加上最近在学 Python，仔细一想，用 Fiddler 来抓包不就是用 Fiddler 来实现中间人吗？？顺便还能把抖音的小姐姐爬下来。嗯，完美。说干就干。不，说做就做。
+
+<img src="https://tp1.tupiankucdn.com/ws/large/005GOaLIly1fze39zjk7kj3073073jre.jpg" />
+<br />
 
 具体的思路就是先把 Fiddler 和手机设备在同一 WIFI 下，然后配置网络代理。之后用 Fiddler 保存手机所有 response 的包到本地，有了视频列表的数据包用 python 下载就比较简单了。所以重点在于分析 request traffic，要找到视频是储存在哪里。下载的脚本可以到[我的 repo](https://github.com/yang052513/tiktok-dl-fiddler)查看。
 
@@ -74,6 +85,9 @@ cover: 'https://pic3.zhimg.com/v2-f7dd822655d8a76787389148658e4c41_1440w.jpg'
 <br />
 
 这样 Fiddler 和手机的配置就完成了。这个时候你可以打开一个 app, 然后你会发现 Fiddler 中会返回很多 request。
+
+<img src="https://tp1.tupiankucdn.com/ws/large/005GOaLIgy1fyc35ofomnj3073073q2u.jpg" />
+<br />
 
 ## <span id="04">使用 Fiddler 抓包</span>
 
@@ -143,6 +157,12 @@ if (oSession.fullUrl.Contains('api3-core-c-lq.amemv.com/aweme/v1/aweme/post')) {
 拿到响应后，下载就比较容易了。但要先把保存的的响应文件保存为`utf-8`编码格式。不然 Python 不能读取。
 
 因为每个视频都保存在`donwload_addr`数组中，我们只要遍历所有视频然后用`requests`库下载保存为 mp4 文件就可以了。源码可以在[这里](https://github.com/yang052513/tiktok-dl-fiddler)查看。需要注意的地方可能就是文件名保存，很多抖音视频文件名会有`<`或其他无效字符，不能保存。所以要先过滤把非法字符替换掉。然后要确保 Fiddler 没有关闭，因为我们是用 Fillder 来假装发起请求。
+
+运行脚本后，我们发现小姐姐都爬下来了。嘿嘿
+
+<img src="https://lh3.googleusercontent.com/proxy/Wecyu57S1y5tGULepLj6ojXDQBwfBTAiYKyK88buEME37NBZM0qwUIJtjx6k4qDD7QURR2UQajiFJWTH9O5biWZp7nUGN7Z_YLaxehj1" />
+
+<br />
 
 <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-02%20220150.png?alt=media&token=f963df29-de3f-4720-b909-5348eac1e9f4"/>
 
