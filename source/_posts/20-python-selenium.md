@@ -6,27 +6,27 @@ categories: Python爬虫
 cover: 'https://miro.medium.com/proxy/1*HJpcblBvD8MpqAEZZXWVgg.png'
 ---
 
-> Life is short, use python
-
 # Selenium
 
-> We can use requests and Beautiful to get most static site resource. However, many websites nowadays are using javascript and Ajax to dynamically loading the contents, which we need to introduce our selenium modules.
+> 在之前静态网站的爬取中，request 库和 bs4 已经可以满足大多数需求。但有的时候我们想要爬取的站点时用 js 来动态加载的，比如有的要把页面拉到最下方才可以加载。那这时候我们可以利用 selenium 来模拟浏览器行为进行页面的爬取。不过 Selenium 的速度还是不行，毕竟要启动浏览器，加载头部图片等等。之后会学习别的技术来替代。按照官方的定义，selenium 是用来自动化测试，即我们也可以用来执行一些列任务。
 
-## Setup
+## 设置
 
-### Install Selenium Library Using Pip
+### 安装 Selenium
 
 ```shell
 pip install selenium
 ```
 
-### Download the Browser Driver
+### 下载浏览器驱动
 
-We need to download the browser driver in order to execute and manipulate actions in the browser. Selenium support many modern browser includes: Firefox, Chrome, IE, Edge, Opera. You can just type `Chrome Driver Web Driver` in google to download the respected driver.
+Selenium 比较麻烦的地方就是配置驱动。我们安装`selenium`库后，还必须要驱动下载并设置为环境变量才可以在脚本中正确启动。Selenium 支持的浏览器驱动也比较全，包括的有 Firefox, Chrome, IE, Edge, Opera。需要注意的是驱动的版本要匹配你浏览器的版本，不然也会出问题。
 
-Then we could just place the driver inside our python script folder because we have set `path` for python, so no need to set path for the driver by doing that.
+下载完驱动后，我是把驱动直接放在 python 安装目录下，因为 python 已经设置了环境变量，所以就不需要单独设置浏览器驱动的环境变量路径了。
 
-## Get page source
+## 常用方法
+
+### 操作浏览器
 
 ```python
 from selenium import webdriver
@@ -36,58 +36,50 @@ url = 'https://www.coquitlamcollege.com/programs-courses/university-transfer-pro
 browser = webdriver.Chrome()
 browser.get(url)
 
-html = BeautifulSoup(browser.page_source, 'html.parser')
-
-# then same as using bs4 before
-```
-
-### Manipulate the browser
-
-```python
-# Forward
+# 前进浏览器记录
 browser.forward()
 
-# Backward
+# 后退浏览器记录
 browser.back()
 
-# Refresh browser
+# 刷新浏览器
 browser.refresh()
 ```
 
-### Scroll to the bottom of the page
+### 滑动页面
+
+我们可以用`execute_script`方法来执行脚本命令。下面代码我们声明一个`js`变量，内容即滑动到 body 的底部。
 
 ```python
 js = "var q=document.documentElement.scrollTop=document.body.scrollHeight"
 browser.execute_script(js)
 ```
 
-### Find by element
+### 查找元素
+
+我们同样可以用 Selenium 来查找元素，一般配合`get_attribute()`方法使用来获取元素的值。
 
 ```python
-# Find the first matched element
+# 匹配第一个找到的原色
 find_element_by_id
 find_element_by_name
 find_element_by_xpath
-find_element_by_link_text
-find_element_by_partial_link_text
 find_element_by_tag_name
 find_element_by_class_name
 find_element_by_css_selector
 
-# Find multiple elements, return as lists
+# 返回多个结果
 find_elements_by_name
 find_elements_by_xpath
-find_elements_by_link_text
-find_elements_by_partial_link_text
 find_elements_by_tag_name
 find_elements_by_class_name
 find_elements_by_css_selector
 
 ```
 
-### Fill input and submit
+### input 的输入和递交
 
-There are many keys and actions we could use, the example below just shows how to use selenium to type content in the input box and return the search page.
+我们可以用`send_keys()`方法来执行键盘指令。
 
 ```python
 from selenium import webdriver
@@ -100,13 +92,13 @@ url = 'https://www.roguecanada.ca/'
 browser.get(url)
 browser.implicitly_wait(5)
 
-# Find the input field
+# 找到输入框元素
 input_box = browser.find_element_by_id('site-search-input')
 input_box.clear()
 
-# Type the search content
+# 输入框输入内容
 input_box.send_keys('kg plates')
 
-# Manipulate enter
+# 回车
 input_box.send_keys(Keys.ENTER)
 ```
