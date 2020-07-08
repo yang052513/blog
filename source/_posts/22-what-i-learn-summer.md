@@ -1,8 +1,8 @@
 ---
-title: 这个暑假我干了什么？
+title: 在疫情中度过的暑假
 date: 2020-07-02 22:22:58
 tags: ['reflection']
-categories: 反思
+categories: 笔记
 cover: 'https://wallpaperaccess.com/full/510846.jpg'
 ---
 
