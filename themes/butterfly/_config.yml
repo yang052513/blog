@@ -355,7 +355,7 @@ gitter:
 
 since: 2020
 
-footer_custom_text:
+footer_custom_text: ( •̀ ω •́ )✧
 
 footer_copyright: true
 
@@ -562,7 +562,6 @@ subtitle:
   sub:
     - Be passionated about what you are doing
     - Do what you love, love what you do
-    - 我很好奇！
 
 # Loading Animation (加載動畫)
 preloader: false
@@ -610,7 +609,7 @@ busuanzi:
 # Formal: Month/Day/Year Time or Year/Month/Day Time
 runtimeshow:
   enable: true
-  publish_date:
+  publish_date: 05/24/2020
 
 # Bottom right button (右下角按鈕)
 # --------------------------------------
