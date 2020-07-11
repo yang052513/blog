@@ -579,7 +579,7 @@ aside:
     description:
   card_announcement:
     enable: true
-    content: 我就随便写写 主要是我喜欢黑历史。
+    content: 万物皆可萌。
   card_recent_post:
     enable: true
     limit: 5 # if set 0 will show all
