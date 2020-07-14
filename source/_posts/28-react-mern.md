@@ -6,19 +6,22 @@ categories: Notes
 cover: 'https://miro.medium.com/proxy/1*FVtCyRdJ6KOr4YswTtwMeA.jpeg'
 ---
 
-> MERN stack setup 笔记。
+> MERN stack 配置 boilerplate
 
-## React 配置
+## 项目创建
 
-在`course-flex`项目文件夹中创建`client`文件夹并安装`create-react-app`
+创建一个新的项目文件夹并创建`server.js`文件，也是服务器启动的入口。
+
+然后在项目根目录下创建`client`文件夹并创建 react-app
 
 ```shell
-mkdir course-flex
-cd course-flex
-npx create-react-app client
+cd client
+npx create-react-app
 ```
 
-## Node 配置
+## 后端 server.js
+
+连接 MongoDB Atlas，创建后端路由，数据库模板。
 
 ### 安装相关依赖
 
@@ -26,18 +29,20 @@ npx create-react-app client
 
 ```shell
 npm init -y
-npm install mongoose express axios morgan concurrently dotenv cors
+npm install mongoose express axios morgan concurrently dotenv cors -S
 ```
 
-### server.js 配置
+### .env
 
-首先在项目文件夹内创建`.env`, 复制 MongoDB Atlas Connect 内的连接如下。替换`<password>`和`<dbname>`为相关的数据库密码和名称。
+首先在项目根目录内创建`.env`, 复制 MongoDB Atlas Connect 内的连接如下。替换`<password>`和`<dbname>`为相关的数据库密码和名称。
 
 ```env
 ATLAS_URI=mongodb+srv://yang_admin:<password>@cluster0-uo1ne.gcp.mongodb.net/<dbname>?retryWrites=true&w=majority
 ```
 
-然后在项目文件夹中创建`server.js`.
+### server.js
+
+在项目根目录内创建`server.js`.
 
 `server.js`
 
@@ -47,19 +52,26 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const morgan = require('morgan')
 const path = require('path')
+const mongo = require('mongodb').MongoClient
 
 require('dotenv').config()
 
 const app = express()
 const PORT = process.env.PORT || 8080
 
-const MONGODB_URI = process.env.ATLAS_URI
+const routes = require('./routes/api')
 
 app.use(cors())
 app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 app.use(morgan('tiny'))
+app.use('/', routes)
 
-mongoose.connect(MONGODB_URI, {
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'))
+}
+
+mongoose.connect(process.env.MONGODB_URI || process.env.ATLAS_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -68,14 +80,72 @@ mongoose.connection.on('connected', () => {
   console.log(`MongoDB连接成功~`)
 })
 
-app.get('/api', (req, res) => {
-  const data = {
-    name: 'Yang Li',
-  }
-  res.json(data)
+app.listen(PORT, console.log(`服务器在${PORT}启动`))
+```
+
+### models
+
+在根目录下创建`models`文件夹
+
+**courseInfo.js**
+
+```js
+const mongoose = require('mongoose')
+
+// Schema
+const Schema = mongoose.Schema
+const CourseInfoSchema = new Schema({
+  title: String,
+  instructor: String,
+  date: {
+    type: String,
+    default: Date.now(),
+  },
 })
 
-app.listen(PORT, console.log(`服务器在${PORT}启动`))
+// Model
+const CourseInfo = mongoose.model('CourseInfo', CourseInfoSchema)
+
+module.exports = CourseInfo
+```
+
+### routes
+
+**api.js**
+
+```js
+const express = require('express')
+const router = express.Router()
+const CourseInfo = require('../models/courseInfo')
+
+// Routes
+router.get('/api', (req, res) => {
+  CourseInfo.find({})
+    .then(data => {
+      console.log(data)
+      res.json(data)
+    })
+    .catch(error => {
+      console.log(daerrorta)
+    })
+})
+
+router.post('/save', (req, res) => {
+  const data = req.body
+  const newCourseInfo = new CourseInfo(data)
+
+  newCourseInfo.save(error => {
+    if (error) {
+      res.status(500).json({ msg: 'Internal server errors' })
+      return
+    }
+    return res.json({
+      msg: 'Data saved~',
+    })
+  })
+})
+
+module.exports = router
 ```
 
 ## Concurrently React & Node
@@ -112,3 +182,108 @@ app.listen(PORT, console.log(`服务器在${PORT}启动`))
 ```
 
 在命令行中输入`npm run dev`即可启动 node server 和 react app
+
+## 前端 React
+
+在项目文件夹中创建`client`文件夹并安装`create-react-app`
+
+```shell
+mkdir course-flex
+cd course-flex
+npx create-react-app client
+```
+
+### 保存并读取数据库
+
+```jsx
+import React, {useState, useEffect} from 'react'
+import axios from 'axios'
+
+export default const App = () => {
+  const [course, setCourse] = useState([])
+  const [courInfo, setCourseInfo] = useState({
+    "title": '',
+    "instructor": ''
+  })
+
+  useEffect(() => {
+    getCourse()
+  }, [])
+
+  const getCourse = () => {
+    axios.get('/api)
+      .then(response => {
+        setCourse(response.data)
+      })
+      .catch(() => {
+        console.log('error')
+      })
+  }
+
+  const submitCourse = () => {
+    const courseData = {
+      title: courseInfo.title,
+      instructor: courseInfo.instructor
+    }
+
+    axios({
+      url: '/api/sav',
+      method: 'POST',
+      data: courseData
+    })
+    .then(() => {
+      console.log('data sent success')
+      getCourse()
+    })
+    .catch(() => {
+      console.log('error')
+    })
+  }
+}
+```
+
+## 部署 Heroku
+
+配置根目录下的`package.json`
+
+```json
+{
+  "name": "courseflex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",
+    "start": "node server.js",
+    "client": "cd client && yarn start",
+    "dev": "concurrently \"nodemon server.js\" \"npm run client\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "concurrently": "^5.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.5.9",
+    "mongoose": "^5.9.20",
+    "morgan": "^1.10.0"
+  }
+}
+```
+
+```shell
+cd course-flex
+heroku create courseflex
+heroku addons:create mongolab:sandbox
+git add .
+git commit -m"heroku deploy"
+git push heroku master
+```
+
+之后在 heroku 设置中配置 mongoDB 环境变量即可。
