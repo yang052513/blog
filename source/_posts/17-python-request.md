@@ -6,27 +6,31 @@ categories: Python爬虫
 cover: 'https://programmer.help/images/blog/a3fce23eb3fdd08341287253f42bb04f.jpg'
 ---
 
-> Life is short, use python
+> Python 爬虫系列之如何使用`requests`库。教程参考 Real Python。
 
-# requests Library
+## 安装和导入 reuqest 库
+
+```shell
+pip install request
+```
+
+```python
+import requests
+```
 
 ## GET Request
 
-We know in HTTP there are GET, POST, HEAD, PUT... and other methods which respect to the request message we want. `request` library also has the releated method for us to make request. The most commonly used is `GET` method. The `GET` method allows us to retrieve data from the specific url.
+HTTP 的请求方式有很多种，常见比如有 GET, POST, PUT 等等。不同的请求方式也想对应其所执行的动作。比如 GET 请求，我们一般可以用来请求 API 返回的数据。比如下面的代码我们对`wallpaperplay.com`发起 GET 请求。如果请求成功我们会得到`200`的代码即代表成功。
 
 ```Python
 import requests
 url = 'https://wallpaperplay.com/search?term=anime'
-print(requests.get(url))
+print(requests.get(url)) # <Response [200]>
 ```
 
-The code above will print `<Response [200]>` in the console which means requests success.
+### Status Code
 
-## Status Code
-
-In the previous section, our program returned `<Response [200]>`. `200` is a status code means status `OK` which our request was successful, you might seen `404 Not Found page` sometime. For a complete reference of HTTP status code, you can check out the [wiki link here](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
-
-To catch error when we make requests
+其他的`Status Code`比较常见的有`404`, 即代表请求错误。更详细的 HTTP status code 可以参考[维基百科](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
 
 ```Python
 import requests
@@ -41,17 +45,15 @@ else:
     print('Request failed')
 ```
 
-## Content
+### Content
 
-When we make request to a server, we usually want to have something returned back. In our cases, we want to return the content of the HTML elements.
+当我们对一个服务器发起请求时，我们通常是希望能够返回一些我们需要的数据。
 
-For example, [this webiste](https://wallpaperplay.com/search?term=anime) dispalys a series of anime wallpapers.
+比如[这个壁纸网站](https://wallpaperplay.com/search?term=anime)展示了很多二次元的高清壁纸，我们的目标就是想要获得该网站的所有内容, 那我们可以用`.content`或者`.text`方法来获取所有响应内容。`.content`返回内容格式需要我们首先转化为`utf-8`编码格式。
 
 <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-06-23%20170046.png?alt=media&token=fbb9f5bc-48f9-46fe-8a6f-6881e46ed47b" alt="cs" />
 
-`response.text` will convert the response content to string. We will get the following output。
-
-> `response.content` will return the response content in raw bytes
+<br />
 
 ```python
 import reuqests
@@ -59,6 +61,8 @@ url = 'https://wallpaperplay.com/search?term=anime'
 response = requests.get(url)
 print(response.text)
 ```
+
+打印的结果为
 
 ```HTML
 <!DOCTYPE html>
@@ -78,16 +82,22 @@ print(response.text)
     <!-- ...... More ......-->
 ```
 
-## Headers .headers
+### Headers
 
-The header response will give us the infomation of the server header which we could access
+请求头可以返回响应内容的类型，我们在爬虫的时候更多的是伪造请求头/
 
-```Python
-import requests
-url = 'https://wallpaperplay.com/search?term=anime'
-response = requests.get(url)
+`request.get()`第二个参数就可以接受一个`dict`类型的请求头。
 
-print(response.headers)
+```python
+headers = {
+    'User-Agent': 'Aweme 10.3.0 rv:103020 (iPhone; iOS 12.2; en_CA) Cronet',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Host': 'api3-core-c-lq.amemv.com',
+    'Connection': 'keep-alive',
+}
 
-print(response.headers['Content-Type']) # text/html; charset=UTF-8
+url = 'someurlyourequest'
+
+response = requests.get(url, headers=headers).content
+
 ```

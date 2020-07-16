@@ -79,6 +79,8 @@ const User = () => {
       const response = await axios(`api/user/${uid}`)
       setUserInfo(response.data)
     }
-  })
+
+    fetchUserInfo()
+  }, [])
 }
 ```
