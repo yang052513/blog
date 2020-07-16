@@ -43,7 +43,7 @@ export const App:React.FC = () => {
 
 ## useEffect(): 管理生命周期
 
-我们之前在 class 组件中可以利用`componentDidMount`以及其他函数来管理生命周期。现在，我们可以利用 useEffect 来管理组件的渲染或者处理第三方 API 的请求数据。
+我们之前在 class 组件中可以利用`componentDidMount`以及其他函数来管理 state 的生命周期。现在，我们可以利用 useEffect 来管理组件的渲染或者处理第三方 API 的请求数据。useEffect()中有两个参数，第一个为 arrow 函数即我们要执行的操作。第二个参数为依赖，当依赖发生变化时就会执行 useEffect。
 
 ```jsx
 useEffect(() => {
@@ -51,7 +51,7 @@ useEffect(() => {
 }, [dependencies])
 ```
 
-useEffect()中有两个参数，第一个为 arrow 函数即我们要执行的操作。第二个参数为依赖，当依赖发生变化时就会执行 useEffect。
+### 执行 effect 一次
 
 如果我们只想执行 useEffect 一次，类似于之前 componentDidMount。我们给第二个参数留空的数组即可。
 
@@ -63,6 +63,60 @@ useEffect(() => {
     .then(data => {
       console.log(data)
     })
+}, [])
+```
+
+### 根据依赖来决定执行次数
+
+我们在第二个参数`[]`内写入依赖。比如我们想要这个 effect 每次`url`改变时执行。
+
+```jsx
+const [url, setUrl] = useState('')
+useEffect(() => {
+  fetch(`https://whatevertheapiis/${url}`)
+    .then(response => response.json)
+    .then(data => {
+      console.log(data)
+    })
+}, [url])
+```
+
+### 利用 callback 来 clean up
+
+有的时候你只希望`useEffect`在渲染的时候执行一次，但是会提示缺少依赖的警告。那我们可以把想要执行的函数作为第一个函数即可
+
+```jsx
+const fetchUsers = () => {
+  firebase
+    .firestore()
+    .collection('user')
+    .get()
+    .then(querySnapshot => {
+      querySnapshot.forEach(docs => {
+        setUserLists(currUsers => [...currUsers, docs.data()])
+      })
+    })
+}
+
+useEffect(fetchUsers, [])
+```
+
+或者直接在`useEffect()`中声明函数, 跟上面用`callback`同理
+
+```jsx
+useEffect(() => {
+  const fetchUsers = () => {
+    return firebase
+      .firestore()
+      .collection('user')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(docs => {
+          setUserLists(currUsers => [...currUsers, docs.data()])
+        })
+      })
+  }
+  fetchUsers()
 }, [])
 ```
 
