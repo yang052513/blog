@@ -12,10 +12,6 @@ cover: 'https://www.educative.io/api/page/6018530514305024/image/download/575317
 
 ## useState(): 管理状态 hooks
 
-在之前的函数组件中，我们只能由上至下传递 props 而且 props 是只读不可更改，只有 class 组件才可以有状态管理。
-
-现在，函数组件也可以利用 useState()管理组件状态。
-
 useState()有两个 parameters，期中第一个是变量，即指向状态的 value。第二个是管理该状态的函数，通常以 set 开头加状态名。
 
 比如我们声明一个用户登录的状态。
@@ -38,7 +34,90 @@ export const App:React.FC = () => {
         </div>
     )
 }
+```
 
+### Custom Hooks Counter 例子
+
+除了利用 react 官方提供的 hooks API 之外，我们还可以把我们自己的函数封装成 hooks 重复利用。
+
+比如上面的 counter 我们可以封装为 useCounter()。
+
+```jsx
+import React, {useState} from 'react'
+
+export default const useCounter = (defaultValue) => {
+    const [count, setCount] = useState(defaultValue)
+
+    const increment = () {
+        setCount(prevCnt => prevCnt + 1)
+    }
+
+    //就像我们声明useState两个参数一样，第一个为变量，第二个为函数。
+    return [count, increment]
+}
+```
+
+在我们的 App 组件中运用我们的 useCounter hooks
+
+```jsx
+import React, {useState} from 'react'
+import useCounter from './useCounter'
+
+export default const App = () => {
+    const [count, handleCount] = useCounter(10)
+
+    return (
+        <div className="app-container">
+            <p>{count}</p>
+            <button onClick={handleCount}>Increment</button>
+        </div>
+    )
+}
+```
+
+### Form Hooks 例子
+
+首先创建一个`useForm()` Hooks
+
+```jsx
+import { useState } from 'react'
+
+export const useForm = initialValues => {
+  const [values, setValues] = useState(initialValues)
+
+  return [
+    values,
+    event => {
+      setValues({
+        ...values,
+        [event.target.name]: event.target.value,
+      })
+    },
+  ]
+}
+```
+
+在其他组件中利用`useForm()` Hooks
+
+```jsx
+import React, { useState } from 'react'
+import { useForm } from './useForm'
+
+export const App = () => {
+  const [values, handleForm] = useForm({
+    username: '',
+    email: '',
+    password: '',
+  })
+
+  return (
+    <div>
+      <input name="username" value={values.username} onChange={handleForm} />
+      <input name="password" value={values.password} onChange={handleForm} />
+      <input name="email" value={values.email} onChange={handleForm} />
+    </div>
+  )
+}
 ```
 
 ## useEffect(): 管理生命周期
@@ -118,6 +197,50 @@ useEffect(() => {
   }
   fetchUsers()
 }, [])
+```
+
+### 自定义 Fetch Hooks
+
+我们在处理多个组件都需要调用 API 时，除了上面在组件内用`useEffect()`只渲染一次的方法外，我们还可以自定义`userEffect()` hook 来重复利用相同的方法。那我们改变一下上面的`fetchUser`写法为`useFetchUser()`。
+
+**useFetch.js**
+
+```jsx
+import { useState, useEffect } from 'react'
+import firebase from 'firebase'
+
+export const useFetch = (collection: string) => {
+  const [loading, setLoading] = useState < boolean > true
+  const [docs, setDocs] = useState < any > []
+
+  useEffect(() => {
+    const fetchCollection = async () => {
+      const querySnapshot = await firebase
+        .firestore()
+        .collection(collection)
+        .get()
+      querySnapshot.forEach(doc => {
+        setDocs((prevData: any) => [...prevData, doc.data()])
+        setLoading(false)
+      })
+    }
+    fetchCollection()
+  }, [])
+  return { docs, loading }
+}
+```
+
+**App.js**
+
+```js
+import React, { useState, useEffect } from 'react'
+import { useFetch } from './useFetch'
+
+export const App = () => {
+  const { docs, loading } = useFetch('user')
+
+  return <div>{loading ? 'Loading Animaion...' : <p>{docs.username}</p>}</div>
+}
 ```
 
 ## useContext(): 跨组件传递状态
@@ -242,42 +365,3 @@ export const Counter: React.FC = () => {
 我们当然也可以利用 useState()来实现同样的效果，但是我们需要给 increment, decrement, reset 每个按钮都单独创建一个 useState()。然后每个按钮我们再利用 setIncrement()来实现状态的更新。
 
 很明显，利用 useReducer()可以让我们的代码更容易读，也增加了代码的维护性。一个开发团队，你永远都不知道下一个跟你合作的或者接手你的代码的人的技术性。因此提高代码的阅读性和维护性是至关重要的。
-
-## Custom Hooks 自定义 Hooks
-
-除了利用 react 官方提供的 hooks API 之外，我们还可以把我们自己的函数封装成 hooks 重复利用。
-
-比如上面的 counter 我们可以封装为 useCounter()。
-
-```jsx
-import React, {useState} from 'react'
-
-export default const useCounter = (defaultValue) => {
-    const [count, setCount] = useState(defaultValue)
-
-    const increment = () {
-        setCount(prevCnt => prevCnt + 1)
-    }
-
-    //就像我们声明useState两个参数一样，第一个为变量，第二个为函数。
-    return [count, increment]
-}
-```
-
-在我们的 App 组件中运用我们的 useCounter hooks
-
-```jsx
-import React, {useState} from 'react'
-import useCounter from './useCounter'
-
-export default const App = () => {
-    const [count, increment] = useCounter(10)
-
-    return (
-        <div className="app-container">
-            <p>{count}</p>
-            <button onClick={increment}>Increment</button>
-        </div>
-    )
-}
-```
