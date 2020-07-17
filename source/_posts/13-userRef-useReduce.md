@@ -365,3 +365,82 @@ export const Counter: React.FC = () => {
 我们当然也可以利用 useState()来实现同样的效果，但是我们需要给 increment, decrement, reset 每个按钮都单独创建一个 useState()。然后每个按钮我们再利用 setIncrement()来实现状态的更新。
 
 很明显，利用 useReducer()可以让我们的代码更容易读，也增加了代码的维护性。一个开发团队，你永远都不知道下一个跟你合作的或者接手你的代码的人的技术性。因此提高代码的阅读性和维护性是至关重要的。
+
+## useRef()
+
+### DOM 渲染
+
+通过 useRef()我们可以记录组件渲染的次数但不重新渲染组件。比如下面的例子，假设我们想要每次 input 发生变化时，我们希望页面下方显示渲染了几次。当然我们可以用`useEffect`和`useState`来实现，但要注意的是，这种方法会每次都重新渲染组件，而我们只想获得一个数值记录渲染的次数。
+
+下面的代码每当 input 发生变化时，我们把`renderCnt`的数值加 1. 但不重新渲染我们的组件。
+
+```jsx
+import React, {useState, useEffect, useRef} from 'react'
+
+export const App = () => {
+  const [name, setName] = useState('')
+  const renderCnt = useRef(0)
+
+  useEffect(() => {
+    renderCnt.current = renderCnt.current + 1
+  })
+
+  return (
+    <div>
+      <input value={name} onChange={e => setName(e.target.value)}>
+      <p>My name is {name}</p>
+      <p>The app component rendered {renderCnt.current} times</p>
+    </div>
+  )
+}
+```
+
+### HTML DOM Node
+
+我们可以用 ref 来获取 HTML DOM node, 比如下面的例子，input 元素的 ref 等于我们定义的`inputRef`。当用户点击按钮触发`focusInput`函数时，ref 元素就会被 focus。
+
+```jsx
+import React, {useState, useEffect, useRef} from 'react'
+
+export const App = () => {
+  const [name, setName] = useState('')
+  const inputRef = useRef()
+
+  const focusInput = () => {
+    inputRef.current.focus()
+  }
+
+  return (
+    <div>
+      <input ref={inputRef} value={name} onChange={e => setName(e.target.value)}>
+      <p>My name is {name}</p>
+      <button onClick={focusInput}></button>
+    </div>
+  )
+}
+```
+
+### 保存之前的 state
+
+通过`.current`来保存之前的 state.
+
+```jsx
+import React, {useState, useEffect, useRef} from 'react'
+
+export const App = () => {
+  const [cnt, setCnt] = useState(0)
+  const prevCnt = useRef(0)
+
+  useEffect(() => {
+    prevCnt.current = cnt
+  },[cnt])
+
+  return (
+    <div>
+      <button onClick={() => setCnt(prevCnt => prevCnt + 1)}>
+      <p>Currnet Count: {cnt}</p>
+      <p>Previous Count: {prevCnt.current}</p>
+    </div>
+  )
+}
+```
