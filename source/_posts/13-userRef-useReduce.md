@@ -444,3 +444,59 @@ export const App = () => {
   )
 }
 ```
+
+## useCallback()
+
+`useCallback`有两个参数，第一个参数即所执行的函数，第二个参数为执行的依赖，类似于`useEffect`。
+
+**App.js**
+
+```jsx
+import React, { useState, useCallback } from 'react'
+import Count from './Count'
+import Button from './Button'
+
+export const React.memo(App) = () => {
+  const [age, setAge] = useState(25)
+  const [salary, setSalary] = useState(5000)
+
+  const incrementAge = useCallback(() => {
+    setAge(age + 1)
+  }, [age])
+
+  const incrementSalary = useCallback(() => {
+    setSalary(salary + 1)
+  }, [salary])
+
+  return (
+    <div>
+      <Count text="Age" count={age} />
+      <Button handleClick={incrementCnt}>Increment Age</Button>
+      <Count text="Salary" count={salary} />
+      <Button handleClick={incrementAge}>Increment Salary</Button>
+    </div>
+  )
+}
+```
+
+**Count.js**
+
+```jsx
+export const React.memo(Count) = ({ text, count }) => {
+  return (
+    <div>
+      {text} - {count}
+    </div>
+  )
+}
+```
+
+**Button.js**
+
+```jsx
+import React from 'react'
+
+export const React.memo(Button) = ({ handleClick, children }) => {
+  return <button onClick={handleClick}>{children}</button>
+}
+```
