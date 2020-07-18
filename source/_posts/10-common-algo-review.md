@@ -6,9 +6,17 @@ categories: 笔记
 cover: 'https://3.bp.blogspot.com/-bsAe5iHfUvw/XMm2l8YCMtI/AAAAAAAAA28/9-Uj-v3GHhIE06c1_HdSEOeXML1byHInACLcBGAs/s1600/what-is-an-algorithm.png'
 ---
 
-> 总结下暑假算法课中学习到的知识点，代码主要以 python 和 typescript 来展示。
+> 总结暑假算法课 COMP3761 中学习到的知识点，代码实现语言以 python 来展示。课程内容参考 Introduction to The Design and Analysis of Algorithm
 
-# Sorting Algorithim 排序算法
+1. Brute Force 暴力求解
+2. Decrease and Conquer 减治法
+3. Divide and Conquer 分治法
+4. Transform and Conquer 变治法
+5. Summary of Sorting Algorithim 排序算法比较
+6. Data Structure and Graphs 数据结构和图形
+7. Time Space Tradeoff 时空权衡
+8. Graph Algorithim 图算法
+9. Greedy Algoritm 贪心算法
 
 ## Brute Force 暴力求解
 
@@ -16,13 +24,9 @@ cover: 'https://3.bp.blogspot.com/-bsAe5iHfUvw/XMm2l8YCMtI/AAAAAAAAA28/9-Uj-v3GH
 
 然而，暴力求解的算法并不是最有效的，在之后的算法`Divide and conquer`中，我们可以猜 0，然后递增到 5。根据给出的结果再进行猜测会大大提高效率。
 
-<!-- more -->
-
-### Sorting
-
 暴力求解排序方法主要讲解冒泡排序和选择排序
 
-#### Bubble Sort 冒泡排序
+### Bubble Sort 冒泡排序
 
 > 假设我们有一个可排序的数组, 冒泡排序即从第一个元素开始，每个元素进行两两比较。如果左边的大于右边的,就进行位置替换。完成第一个 iteration 之后继续从第二个元素开始进行相同的步骤。
 
@@ -75,7 +79,7 @@ const bubbleSort = list => {
 
 我们可以看出，冒泡排序有两个 for 循环，我们可得出复杂度 Big Oh 为 n 的平方
 
-#### Selection Sort 选择排序
+### Selection Sort 选择排序
 
 选择排序的方法是我们首先设定第一个字符的元素为最小值，然后我们进行数组的循环。如果我们在 iteration 中发现有元素比当前设定的元素小，我们将该元素设置为新的最小值。重复步骤结束 iteration 并把此循环中最小值起始的值替换完成排序。伪代码如下:
 
@@ -218,9 +222,7 @@ const insertionSort = array => {
 
 由上可以看出我们有 2 个循环，所以插入排序的复杂度为 n 的平方
 
-### Binary Search and Binary Tree 二分查找与二叉树
-
-#### Binary Search
+### Binary Search 二分查找
 
 目前我们涉及到的算法都是从数组的第一个位置开始然后进行查找。二分查找则从一个数组的中间开始，从左往右一次查找，直到找到该元素或循环结束
 
@@ -262,19 +264,19 @@ const binarySearch = (array, key) => {
 }
 ```
 
-#### Binary Search Tree
+### Binary Search Tree 二叉树
 
 将数组(有序)分为两部分，数组的中间元素为树的根节点，左边和右边的元素再进行相同的划分，小于根节点的元素放在左边，大于的再右边。
 
-#### Binary Search Tree Traversal 二叉树遍历
+### Binary Search Tree Traversal 二叉树遍历
 
 根据二叉搜索树我们可以进行数组的插入，查询和删除节点。接下来我们引入二叉树遍历即怎样直到节点是否已经被访问过了。
 
-##### Pre-order Traversal 前序遍历
+#### Pre-order Traversal 前序遍历
 
-##### In-order Traversal 中序遍历
+#### In-order Traversal 中序遍历
 
-##### Post-order Traversal 后序遍历
+#### Post-order Traversal 后序遍历
 
 ## Divide and Conquer 分治法
 
