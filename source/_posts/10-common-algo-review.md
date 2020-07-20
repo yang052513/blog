@@ -1,7 +1,7 @@
 ---
 title: Algorithim 概览
 date: 2020-06-15 00:55:19
-tags: ['algorithim', 'bcit', 'notes']
+tags: ['algorithim', 'notes']
 categories: 笔记
 cover: 'https://3.bp.blogspot.com/-bsAe5iHfUvw/XMm2l8YCMtI/AAAAAAAAA28/9-Uj-v3GHhIE06c1_HdSEOeXML1byHInACLcBGAs/s1600/what-is-an-algorithm.png'
 ---
@@ -12,11 +12,10 @@ cover: 'https://3.bp.blogspot.com/-bsAe5iHfUvw/XMm2l8YCMtI/AAAAAAAAA28/9-Uj-v3GH
 2. Decrease and Conquer 减治法
 3. Divide and Conquer 分治法
 4. Transform and Conquer 变治法
-5. Summary of Sorting Algorithim 排序算法总结
-6. Data Structure 数据结构
-7. Time Space Tradeoff 时空权衡
-8. Graph Algorithim 图算法
-9. Greedy Approach 贪心算法
+5. Data Structure 数据结构
+6. Time Space Tradeoff 时空权衡
+7. Graph Algorithim 图
+8. Greedy Approach 贪心算法
 
 # Brute Force 暴力求解
 
@@ -292,7 +291,17 @@ b: `[1, 4, 5, 7]`
 
 ## Quick Sort 快速排序
 
-> Lumuto 划分：首选选一个中间值来作为中轴(pivot), 所有比中轴值小的元素位于中轴的左侧，而大于中轴值的元素位于中轴的右侧。
+快速排序首先我们要选择一个`中轴(pivot)`, 一般选择数组内的第一个或者最后一只值。快速排序的原理即所有比中轴值小的元素位于中轴的左侧，而大于中轴值的元素位于中轴的右侧。最终实现有序的排序。
+
+### 举例
+
+给定一个数组 `a = [12, 25, 33, 5, 8]`。
+
+选择第一个值`a[0]=44`为我们的中轴，并用`p`来记录。同时我们用变量`i`记录替换索引，`j`来记录遍历的索引。
+
+25 > 12 我们不需要进行调换。33 > 12 同样不需要调换。来到 5 < 12(中轴)。将 i **递增 1** 然后与当前的 j 替换。也就是 5 和 25 的替换。
+
+8 同理，与 33 进行位置替换。第一个 iteration 完成后，将 i 与当前的中轴调换，即 8 和 12 的替换。现在所有比 12 小的值都在左边，大于的都在右边。同理我们对左边和右边分别进行相同的步骤即可。
 
 ### 代码实现
 
@@ -310,15 +319,23 @@ def partition(array):
     return s
 ```
 
+### 复杂度分析
+
+快速排序的复杂度为`nlong(n)`
+
+### 参考
+
+{% youtube cnzIChso3cc %}
+
 <!------------------------------------ 分割线 ---------------------------------------->
 <!------------------------------------ 分割线 ---------------------------------------->
 <!------------------------------------ 分割线 ---------------------------------------->
 
-## Transform and Conquer 变治法
+# Transform and Conquer 变治法
 
-### Instance Simplification Pre-sorting 预排序
+## Instance Simplification Pre-sorting 预排序
 
-#### Check Elements Uniqueness 判断元素是否独特性
+### Check Elements Uniqueness 判断元素是否独特性
 
 给出一个数组，判断是否该数组存在重复元素。
 
@@ -339,9 +356,9 @@ def is_unique_bf(array):
 
 由上可以可以得出复杂度为 n 的平方。
 
-假设我们先将数组进行排序得到一个有序数组，然后在进行判断是否存在重复元素。因为一个有序数组，我们只要查看一个元素是否跟它的下一个元素是否相等即可。比如`[2, 3, 3, 5]`。
+假设我们先将数组进行排序得到一个**有序数组**，然后在进行判断是否存在重复元素。因为如果是一个有序数组，我们只要查看一个元素是否跟它的下一个元素是否相等即可。比如`[2, 3, 3, 5]`。
 
-用代码来实现
+#### 代码实现
 
 ```python
 def is_unique_presort(array):
@@ -354,16 +371,18 @@ def is_unique_presort(array):
     return True
 ```
 
-由于算法由两部分构成（排序和主循环），所以该其复杂度也应该为两部分：排序的复杂度加检查的复杂度。即为 nlogn + n。得到复杂度 nlogn
+#### 复杂度分析
 
-#### Find the Mode 寻找众数
+由于算法由两部分构成（排序和主循环），所以该其复杂度也应该为两部分：排序的复杂度加检查的复杂度。即为 `nlogn + n`。得到复杂度 `nlogn`
 
-众数是出现在一组数据中最频繁的数。这个算法在项目中应该算很常见，比如我最近在做的项目要涉及到计算出最常用的三个标签，或者使用频率最高的技能。
+### Find the Mode 寻找众数
 
-我们先来看下用暴力求解如何实现这个算法
+众数是出现在一组数据中最频繁的数。
+
+先来看下用暴力求解如何实现这个算法
 
 ```python
-def find_mode(array):
+def find_mode_bf(array):
   n = len(array)
   # 统计每个数字的频率
   counter = {}
@@ -377,12 +396,13 @@ def find_mode(array):
       occurence = value
       mode = key
   return mode
-
 ```
 
-最坏的情况下我们的数组每个元素都只出现一次 `[1, 2, 3, 4, 5, 6]`。复杂度为 n2
+最坏的情况下我们的数组每个元素都只出现一次 `[1, 2, 3, 4, 5, 6]`。复杂度为 n 的平方
 
 如果我们先将数组进行排序，那么相同的元素在有序数组里一定是相邻的。
+
+#### 代码实现
 
 ```python
 def compute_mode_presort(array):
@@ -397,81 +417,88 @@ def compute_mode_presort(array):
         i += temp_freq
     return mode
 
-array = [2, 6, 3, 1, 2, 1, 4, 2, 5, 3, 7, 8, 6, 4, 3]
-print("The mode of the array is %d." % compute_mode_presort(array))
 ```
+
+#### 复杂度分析
 
 算法复杂度可以得出：O(nlog n) + O(log n) = O(nlog n)
 
-### Representation Change
+## Representation Change 改变数据的表现形式
 
-#### Heap 堆
+除了预先处理数组外，我们还可以改变数据结构来提高算法效率。我们知道堆的高度为`logn`，那么插入和删除一个元素只要每层进行查找即可，也就是说算法复杂度为堆的高度`logn`。
 
-##### Complete Binary Tree 完全二叉树
+所以我们可以先把一个数组转化为堆然后进行相关的操作会提升效率。
 
-堆一个完全二叉树，即除了最后一层的节点没有铺满外，其他层均已排满。
+### Heap 堆的定义
 
-##### Heap Construction 堆的构建
+- 堆的每个父节点都大于或者等于它的子节点
+- 堆按照从左往右的顺序依次每层铺满子元素。
+- 最大的元素为 Root 即根。
 
-我们把堆分为两种，一种是大顶堆(max heap)即数字越大的优先级越高，另一种为小顶堆(min heap)即数字越小的优先级越高。
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20161423.png?alt=media&token=b043f03e-bca9-4e6e-a758-f47cd244e4c3" width="60%" height="auto" />
 
-我们以 max heap 为例，由于数字越大的优先级更高， 于是数字越大即优先级越高的数字就越靠近根节点的位置。
+### Heap Implementation 堆的创建
 
-并且父节点的值总是大于或等于其子节点的值。
+根据下面的堆树，转换为数组即从 root`10`开始依次写入到一个数组中。
 
-如何构建一个堆排序呢？
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20162133.png?alt=media&token=59dd7b37-81c6-4c7b-a581-8d6829b88ca1" width="30%" height="auto" />
 
-- 首先我们将数组的元素以 binary tree 的形式表现出来。(无序不满足堆的性质)
-- 然后从堆尾由上至下进行节点元素的调换。直到所有节点都满足堆的性质（即父节点的值总是大于或等于其子节点的值)
+<br />
 
-> 注: 父节点没有子节点时，左右的排序不需要满足右节点大于左节点（不同于二叉树搜索）
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20162142.png?alt=media&token=b6a265f0-24b1-4c66-b3f2-6453516e7b33" width="50%" height="auto" />
 
-//需要图片来描述步骤
-
-#### Heap Insert 堆的插入
+### Heap Insert 堆的插入
 
 假设我们要把一个数值插入到一个堆中,如何来实现呢?
 
 给定一个堆的排序 `[16, 15, 10, 14, 7, 9, 3, 2, 8 ,1]`，我们想要插入`17`到这个堆中
 
-- 首先我们把 17 放到数组的最后一个位置中
-- 我们将 17 与它的父节点进行比较，也就是 7。7 小于 17 不满足堆的性质，于是我们进行调换 7 和 17 的位置
-- 继续进行与父节点对比，17 和 15， 依旧不满足父节点大于子节点的的性质，我们调换 17 和 15 的位置
-- 现在对比 17 和 16， 依然，我们进行调换。
-- 重复以上步骤直到满足堆的性质
+1. 首先把 17 插入到数组的最后一个位置中。
+   <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20162537.png?alt=media&token=d9fddb9a-d835-49de-9e45-258f7508d8b1" width="60%" height="auto" />
 
-> 我们可以发现给定一个有 N 个元素的数组，堆的高度为 log2 为底 n 的对数。比如之前的例子，我们有 10 个元素，那堆的高度为 log2 10 = 3(向下取整)。根据堆得性质，我们发现插入一个元素到堆中需要进行堆的高度次元素。由此可得堆得算法复杂度为 log2 为底 n 的对数
+2. 然后将 17 与它的父节点 7 进行比较。7 小于 17 不满足父节点大于子节点的特性，于是调换 7 和 17 的位置。
 
-#### Heap Delete 堆的删除
+   <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/311.png?alt=media&token=caec7593-c628-4168-9543-7f2bf56fc7fe" width="60%" height="auto" />
+
+3. 重复步骤 2 直到堆的性质得到满足。
+   <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20162907.png?alt=media&token=7433c13d-ad7d-4d06-8b94-54ae543cddf7" width="60%" height="auto" />
+
+<br />
+
+#### 复杂度分析
+
+由于堆的高度为`logn`，所有堆的插入算法效率为`long`。
+
+### Heap Delete 堆的删除
 
 从堆中删除一个元素的实现方法为：
 
-- 交换根节点的元素与堆尾的位置(数组中头尾交换)
-- 删除堆尾
-- 从上到下调整堆的结构（与堆的插入：由下至上相反）
-  - 如果不满足堆的性质就交换两个节点的值
+1. 交换根节点的元素与堆尾的位置(数组中头尾交换)
+2. 删除堆尾
+3. **由上至下**调整堆的结构 (与堆的插入：由下至上相反)
+   - 如果不满足堆的性质就交换两个节点的值
 
-比如我们之前的例子，`[17, 16, 10, 14, 15, 9, 3, 2, 8, 1, 7]`。
+比如我们之前的例子，`[17, 16, 10, 14, 15, 9, 3, 2, 8, 1, 7]`。我们想要删除根节点 17。按照上面的步骤来实现即
 
-我们想要删除节点 17。按照上面的步骤来实现即
+1. 替换 17 与 7 的位置
+   <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/1.png?alt=media&token=8c1194e1-fe88-43b5-92c4-5de991d65216" width="60%" height="auto" />
 
-- 替换 17 与 7 的位置
-- 删除 17
-- 7 与 16 对比，不满足堆的性质调换位置
-- 7 小于 15， 调换
+2. 删除 节点 17
+   <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/2.png?alt=media&token=3581853c-0385-49ee-a229-b5278362f5e4" width="60%" height="auto" />
+3. 调整堆的结构，7 与 16 对比，不满足堆的性质调换位置
+   <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/3.png?alt=media&token=e17fc5a2-d7a9-444b-9e46-30cc78964950" width="60%" height="auto" />
+4. 重复步骤 3 直到堆完全满足定义
 
-#### Heap Sort 堆排序
+### Heap Sort 堆排序
 
-##### 步骤
+#### 步骤
 
 - 构建堆
 - 堆顶和堆尾的值交换顺序，并删除交换后的堆尾元素
 - 调整堆的结构（利用堆的删除方法，由上至下）
 - 重复第二和第三步 直到堆为空
 
-http://btv.melezinek.cz
-
-##### 分析
+#### 分析
 
 ## Summary of sorting algorithms
 
@@ -580,35 +607,39 @@ my_dict = {
 print(my_dict["A0"]) # "David"
 ```
 
-## Graph 图
+<!------------------------------------ 分割线 ---------------------------------------->
+<!------------------------------------ 分割线 ---------------------------------------->
+<!------------------------------------ 分割线 ---------------------------------------->
 
-### Types 图的分类
+# Graph 图
+
+## Types 图的分类
 
 图又可分为有向图和无向图
 
 <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20122800.png?alt=media&token=a82cd4fb-63c0-4927-88c9-f3e7ffe13c64" width="70%" height="auto" />
 
-### Representing Graphs 图的表达方式
+## Representing Graphs 图的表达方式
 
 <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20123400.png?alt=media&token=45ef871a-d7a2-465d-aa06-558c07a4acb8"  width="50%" height="auto"/>
 
-#### 1. Adjacency Matrix 邻接矩阵
+### 1. Adjacency Matrix 邻接矩阵
 
 用一个 2D 数组来储存图中顶点间的关系数据。
 
 <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20123411.png?alt=media&token=4d49cadd-470a-4144-9eb9-75a662fa8de7"  width="50%" height="auto"/>
 
-#### 2. Adjacency Lists 邻接表
+### 2. Adjacency Lists 邻接表
 
 用来记录每一个节点所连接的所有其他节点。
 
 <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20123423.png?alt=media&token=e060e48e-5d26-4938-bacd-b6140111f128"  width="50%" height="auto"/>
 
-### Graph Traversal 图的遍历
+## Graph Traversal 图的遍历
 
-#### 1. Depth-First Search 深度优先搜索
+### 1. Depth-First Search 深度优先搜索
 
-#### 2. Breadth-First Search 广度优先搜素
+### 2. Breadth-First Search 广度优先搜素
 
 <!------------------------------------ 分割线 ---------------------------------------->
 <!------------------------------------ 分割线 ---------------------------------------->
@@ -651,14 +682,14 @@ print(my_dict["A0"]) # "David"
 
 # Greedy Approach 贪心算法
 
-## Prim's Algorithm
+## Prim's Algorithm 普林姆算法
 
 {% youtube cplfcGZmX7I %}
 
-## Kruskal's Algorithm
+## Kruskal's Algorithm 克鲁斯卡尔算法
 
 {% youtube 71UQH7Pr9kU %}
 
-## Dijkstra's Algorithm: Single-Source Shortest Path
+## Dijkstra's Algorithm: 迪克斯特拉算法
 
 {% youtube _lHSawdgXpI %}
