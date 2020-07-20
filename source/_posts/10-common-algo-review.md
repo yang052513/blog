@@ -310,8 +310,6 @@ def partition(array):
     return s
 ```
 
-### 最近点对 Cloest Pair Problem
-
 <!------------------------------------ 分割线 ---------------------------------------->
 <!------------------------------------ 分割线 ---------------------------------------->
 <!------------------------------------ 分割线 ---------------------------------------->
@@ -490,15 +488,17 @@ http://btv.melezinek.cz
 <!------------------------------------ 分割线 ---------------------------------------->
 <!------------------------------------ 分割线 ---------------------------------------->
 
-## Data Structure 数据结构
+# Data Structure 数据结构
 
-> 数据结构是用来管理和储存数据的一种方式，数据结构的组织通常与性能有相关性。
+> 数据结构是用来管理和储存数据的一种方式
 
-### Linear Data Structure 线性数据结构
+## Linear Data Structure 线性数据结构
 
-#### Array 数组
+### 1. Array 数组
 
 一个数组通常有一系列相同类型的元素组成，每个元素都有相对应的索引值。
+
+比如下面`arr_list`数组，`item one`对应的索引值就是 0。
 
 ```python
 arr_list = ['item one', 'item two', 'item three']
@@ -506,100 +506,159 @@ arr_list = ['item one', 'item two', 'item three']
 
 由于数组的长度需要预先决定来分配内存。所以对于长度明确，或者插入删除不频繁的数据，数组比较适合。但如果数据需要频发插入或者删除，那我们可以用其他的数据结构。
 
-#### Linked List 链表
+### 2. Linked List 链表
 
-链表跟数组相同也属于线性表，但是不会按线性的顺序存储数据，而是由一系列的`nodes`组成，并且每一个节点有一个指针指向下一个节点。链表又分为单向链表，双向链表。
+链表由 0 或者多个叫做节点的元素组成，每个节点都有一个指针指向下一个节点。
+
+在数组中，如果想要拿到索引为 2 的值，可以直接用 arr[2]。但是在链表中，我们要从`head`开始一直往右进行节点的查找。
 
 **单向链表**
 
+单向链表，即每个节点中有一个指针指向后继节点。
+
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/linkedlist.png?alt=media&token=069ba69f-0b49-48d0-a353-5002b821f1cf" width="70%" height="auto"/>
+<br>
+
 **双向链表**
 
-##### 复杂度分析
+双向链表，每个节点中有两个指针并分别指向前驱和后继。
+
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/linkedlist2.png?alt=media&token=cfaf0918-27ee-49ef-9249-c0d3f81c6c22" width="70%" height="auto" />
+<br>
+
+#### 复杂度分析
 
 - Search: `O(n)`
 - Insert: `O(1)`
 - Delete: `O(1)`
 
-#### Stack 栈
+### 3. Stack 栈
 
-遵循后进先出原则, 可以想象一叠盘子，你每清理完一个碟子你往上叠。结束后你从最上面的开始一个一个回收。最后一个清洁的碟子也是第一个拿走的。
+遵循`后进先出(LIFO)`原则, 可以想象一叠盘子，你每清理完一个碟子你往上叠。结束后你从最上面的开始一个一个回收。最后一个清洁的碟子也是第一个拿走的。
+
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/stack.png?alt=media&token=3d248a10-e203-4e05-9783-a2b619889ab8" width="70%" height="auto"/>
+<br />
 
 插入方法为`push`，删除方法为`pop`。
 
-##### 复杂度分析
+#### 复杂度分析
 
 - Search: `O(n)`
 - Insert: `O(1)`
 - Delete: `O(1)`
 
-#### Queue 队列
+### 4. Queue 队列
 
-跟栈相反，队列遵循先进先出原则。可以想象以下我们平常超市购物结账排队的时候。先结完账的人也是第一个离开的。
+跟栈相反，队列遵循先进先出原则。可以想象以下我们平常超市购物结账排队的时候。排在第一位置的人也是先结完账最先离开的。
 
-##### 复杂度分析
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/Introduction.png?alt=media&token=d5dc1f40-5d9a-44b2-94c9-01c0490fab75" width="50%" height="auto"/>
+<br />
+
+#### 复杂度分析
 
 - Search: `O(n)`
 - Insert: `O(1)`
 - Delete: `O(1)`
 
-### Set
+## Set 集合
 
-Set 代表一个集合，但集合内所有的元素都具有独特性。
+Set 代表一个集合，但集合内所有的元素都具有**独特性**。
 
-比如在 Python 中，我们想要获得一个 list 内所有独一无二的元素，我们可以用`Set(arry_list)`.
+比如在 Python 中，我们想要获得一个 list 内所有独一无二的元素，我们可以用`set(arry_list)`.
 
-### Dictionary (Map)
+## Dictionary 字典
 
-A `Map` is a lookup table that takes a `key` and returns a `value`
+字典采用`键值对(key value pairs)`的储存方法，即每个键都有相对应的值。
 
-### Tree
+```python
+my_dict = {
+    "A0": "David",
+    "A1": "Nathan",
+    "A2": "Ryan"
+}
 
-A connected, acyclic graph. Each tree has a root node.
+print(my_dict["A0"]) # "David"
+```
 
-### Graph
+## Graph 图
 
-#### Types
+### Types 图的分类
 
 图又可分为有向图和无向图
 
-**无向图**
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20122800.png?alt=media&token=a82cd4fb-63c0-4927-88c9-f3e7ffe13c64" width="70%" height="auto" />
 
-**有向图**
+### Representing Graphs 图的表达方式
 
-#### Representing Graphs
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20123400.png?alt=media&token=45ef871a-d7a2-465d-aa06-558c07a4acb8"  width="50%" height="auto"/>
 
-**Adjacency Matrix**
-Weight Matrix for weighted graphs
+#### 1. Adjacency Matrix 邻接矩阵
 
-**Adjacency Lists**
-A list of vertices connected to each vertex
+用一个 2D 数组来储存图中顶点间的关系数据。
 
-#### Properties
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20123411.png?alt=media&token=4d49cadd-470a-4144-9eb9-75a662fa8de7"  width="50%" height="auto"/>
 
-根据图的属性，我们又可以分为 Connected graph, Bi-partite graph, Cyclic graph, Acyclic graph.
+#### 2. Adjacency Lists 邻接表
 
-<!------------------------------------ 分割线 ---------------------------------------->
-<!------------------------------------ 分割线 ---------------------------------------->
-<!------------------------------------ 分割线 ---------------------------------------->
+用来记录每一个节点所连接的所有其他节点。
 
-## Space and Time Trade-Offs 时空权衡
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20123423.png?alt=media&token=e060e48e-5d26-4938-bacd-b6140111f128"  width="50%" height="auto"/>
 
-### Counting Sort 计数排序 1
+### Graph Traversal 图的遍历
 
-https://www.youtube.com/watch?v=8uyB78HNR4M
+#### 1. Depth-First Search 深度优先搜索
 
-### Horspool's Algorithm: String Matching 字符串匹配算法
-
-### Hash
+#### 2. Breadth-First Search 广度优先搜素
 
 <!------------------------------------ 分割线 ---------------------------------------->
 <!------------------------------------ 分割线 ---------------------------------------->
 <!------------------------------------ 分割线 ---------------------------------------->
 
-## Greedy Approach 贪心算法
+# Space and Time Trade-Offs 时空权衡
 
-### Prim's Algorithm
+## Counting Sort 计数排序
 
-### Kruskal's Algorithm
+### 举例
 
-### Dijkstra's Algorithm: Single-Source Shortest Path
+给定一个数组`Array = [4, 1, 3, 4, 3]`
+
+1. 找到数组内的最大值和最小值，即 4 和 1，创建一个新的数组`Count = []`用来计数，长度为`4-1+1=4`
+2. 遍历数组`Array`并将每个数值的频率记录到`Count`数组中。`Count`数组的索引对应`Array`数组的值。
+   最终结果为`Count = [1, 0, 2, 2]`。
+3. 将`Count`数组内容的元素递归两两相加。比如`1+0=2`然后`2+2=4`如此。
+   最后得到`Count=[1, 1, 3, 5]`
+4. 最后，从`Array`数组最后一个值开始，找到`Count`数组内对应的频率减一后得到相对应的新的索引。放到新的数组`New_Array = []`
+   比如我们从`Array[4] = 3`开始， 3 在 Count 中对应的频率是 3，我们减一后得到 2，于是我们把 3 放在`New_Array[2]`的位置。
+   重复步骤 4 最后得到有序数组`[1, 3, 3, 4, 4]`
+
+### 复杂度分析
+
+最好的情况下为 n。
+
+### 参考
+
+{% youtube 8uyB78HNR4M %}
+
+## Horspool's Algorithm: String Matching 字符串匹配算法
+
+{% youtube 3Ft3HMizsCk %}
+
+## Hash
+
+<!------------------------------------ 分割线 ---------------------------------------->
+<!------------------------------------ 分割线 ---------------------------------------->
+<!------------------------------------ 分割线 ---------------------------------------->
+
+# Greedy Approach 贪心算法
+
+## Prim's Algorithm
+
+{% youtube cplfcGZmX7I %}
+
+## Kruskal's Algorithm
+
+{% youtube 71UQH7Pr9kU %}
+
+## Dijkstra's Algorithm: Single-Source Shortest Path
+
+{% youtube _lHSawdgXpI %}
