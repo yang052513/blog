@@ -1,5 +1,5 @@
 ---
-title: Algorithim 概览
+title: 算法导论概览
 date: 2020-06-15 00:55:19
 tags: ['algorithim', 'notes']
 categories: 笔记
@@ -12,8 +12,8 @@ cover: 'https://3.bp.blogspot.com/-bsAe5iHfUvw/XMm2l8YCMtI/AAAAAAAAA28/9-Uj-v3GH
 2. Decrease and Conquer 减治法
 3. Divide and Conquer 分治法
 4. Transform and Conquer 变治法
-5. Data Structure 数据结构
-6. Time Space Tradeoff 时空权衡
+5. Time Space Tradeoff 时空权衡
+6. Data Structure 数据结构
 7. Graph Algorithim 图
 8. Greedy Approach 贪心算法
 
@@ -437,7 +437,7 @@ def compute_mode_presort(array):
 
 <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20161423.png?alt=media&token=b043f03e-bca9-4e6e-a758-f47cd244e4c3" width="60%" height="auto" />
 
-### Heap Implementation 堆的创建
+### Heap Implementation 堆的应用
 
 根据下面的堆树，转换为数组即从 root`10`开始依次写入到一个数组中。
 
@@ -446,6 +446,8 @@ def compute_mode_presort(array):
 <br />
 
 <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20162142.png?alt=media&token=b6a265f0-24b1-4c66-b3f2-6453516e7b33" width="50%" height="auto" />
+
+同理可以根据数组转化为堆树。从数组第一个元素开始，从左往右依次把每层铺满子元素。最后由上至下改变节点的位置以满足堆的性质。
 
 ### Heap Insert 堆的插入
 
@@ -467,7 +469,7 @@ def compute_mode_presort(array):
 
 #### 复杂度分析
 
-由于堆的高度为`logn`，所有堆的插入算法效率为`long`。
+由于堆的高度为`logn`，所有堆的插入算法效率为`logn`。
 
 ### Heap Delete 堆的删除
 
@@ -489,16 +491,93 @@ def compute_mode_presort(array):
    <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/3.png?alt=media&token=e17fc5a2-d7a9-444b-9e46-30cc78964950" width="60%" height="auto" />
 4. 重复步骤 3 直到堆完全满足定义
 
+#### 复杂度分析
+
+由于堆的高度为`logn`，所有堆的插入算法效率为`logn`。
+
 ### Heap Sort 堆排序
 
 #### 步骤
 
-- 构建堆
-- 堆顶和堆尾的值交换顺序，并删除交换后的堆尾元素
-- 调整堆的结构（利用堆的删除方法，由上至下）
-- 重复第二和第三步 直到堆为空
+1. 构建堆树(heap implementation)
+2. 构建顶堆，即根元素为最大值。
+3. 堆顶和堆尾的值交换顺序，并删除交换后的堆尾元素。
+4. 调整堆的节点位置以满足堆的性质
+5. 重复 1，2，3 步骤。
 
 #### 分析
+
+堆排序效率为`n logn`
+
+#### 参考
+
+{% youtube 2DmK_H7IdTo %}
+
+<!------------------------------------ 分割线 ---------------------------------------->
+<!------------------------------------ 分割线 ---------------------------------------->
+<!------------------------------------ 分割线 ---------------------------------------->
+
+# Space and Time Trade-Offs 时空权衡
+
+## Counting Sort 计数排序
+
+### 举例
+
+给定一个数组`A = [4, 1, 3, 4, 3]`
+
+1. 找到数组内的最大值和最小值，即 4 和 1，创建一个新的数组`C = []`用来记录每个数值的频率，长度为`4-1+1=4`
+   <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/1.png?alt=media&token=141e933e-8bf6-4a92-82c9-90083ec50f37" width="50%" height="auto" />
+2. 遍历数组`A`并将每个数值的频率记录到`C`数组中。`C`数组的索引对应`A`数组的值。
+   最终结果为`C = [1, 0, 2, 2]`。
+   <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/2.png?alt=media&token=bbfbf382-5953-4d24-b83b-16af4c5cdd1d" width="50%" height="auto" />
+3. 将`C`数组内容的元素递归两两相加。比如`1+0=2`然后`2+2=4`如此。
+   <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/3.png?alt=media&token=390d9075-b58b-4eca-b59f-5b099c9d841a" width="50%" height="auto" />
+4. 最后，从`A`数组最后一个值开始，找到`C`数组内对应的**频率减一**后得到相对应的新的索引。然后放到新的数组`S = []`
+   比如我们从`A[4] = 3`开始， 3 在 Count 中对应的频率是 3，我们减一后得到 2，于是我们把 3 放在`S[2]`的位置。
+   <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/4.png?alt=media&token=1c7f75dd-7f15-4d5f-a432-376f7c1fd1fa" width="50%" height="auto" />
+   重复步骤 4 最后得到有序数组`[1, 3, 3, 4, 4]`
+
+### 复杂度分析
+
+整个算法过程中我们要遍历两个数组，一个是给定的数组，另一个为计算频率的数组。
+
+所以最好的情况下算法复杂度为 n。这比我们之前的分治法快速排序和归并排序更有效。
+
+### 参考
+
+{% youtube 8uyB78HNR4M %}
+
+## Horspool's Algorithm: String Matching 字符串匹配算法
+
+在最开始的暴力求解部分中，我们介绍了如何使用暴力求解来进行字符串匹配的算法。
+
+如果字符串不匹配，我们移动字符一个单位进行对比，重复该步骤直到遍历整个字符。我们也总结出时间复杂度为`(n-m+1)m`, n 为字符的长度，m 为我们要匹配的字符串长度。
+
+`Horspool`算法不同的是，当我们遇到 mismatch 也就是不匹配的情况，我们可以位移 1 个或者多个单位再进行比较。位移的多少取决于我们可以用一个`shift table`来表示。
+
+### 举例
+
+假设我们想要匹配的字符串为`IDIGDAB`。字符串的长度为`7`。进行匹配的字符为`IBAGHJDABADAB`。
+
+每个字符的值为字符串中出现在最右侧的索引。即`m - index in pattern -1`。
+
+比如 I 出现了两次，但最右侧的索引为 2, 那么 I 的位移为 `7 - 2 - 1 = 4`。同理可以得出 shift table 如下
+
+| Letters |  I  |  D  |  G  |  A  |  B  | \*  |
+| :-----: | :-: | :-: | :-: | :-: | :-: | :-: |
+|  Value  |  4  |  2  |  3  |  1  |  7  |  7  |
+
+有了 Shift Table 之后我们可以进行匹配，一旦有字符不匹配，我们即可参照 shift table 进行相对应的字符移动。
+
+### 参考
+
+{% youtube 3Ft3HMizsCk %}
+
+## Hash
+
+<!------------------------------------ 分割线 ---------------------------------------->
+<!------------------------------------ 分割线 ---------------------------------------->
+<!------------------------------------ 分割线 ---------------------------------------->
 
 ## Summary of sorting algorithms
 
@@ -510,6 +589,7 @@ def compute_mode_presort(array):
 | 归并排序 | n logn     | n logn     | 稳定   |
 | 快速排序 | n logn     | n2         | 不稳定 |
 | 堆排序   | n logn     | n logn     | 不稳定 |
+| 计数排序 | n          | n + u      | 不稳定 |
 
 <!------------------------------------ 分割线 ---------------------------------------->
 <!------------------------------------ 分割线 ---------------------------------------->
@@ -640,41 +720,6 @@ print(my_dict["A0"]) # "David"
 ### 1. Depth-First Search 深度优先搜索
 
 ### 2. Breadth-First Search 广度优先搜素
-
-<!------------------------------------ 分割线 ---------------------------------------->
-<!------------------------------------ 分割线 ---------------------------------------->
-<!------------------------------------ 分割线 ---------------------------------------->
-
-# Space and Time Trade-Offs 时空权衡
-
-## Counting Sort 计数排序
-
-### 举例
-
-给定一个数组`Array = [4, 1, 3, 4, 3]`
-
-1. 找到数组内的最大值和最小值，即 4 和 1，创建一个新的数组`Count = []`用来计数，长度为`4-1+1=4`
-2. 遍历数组`Array`并将每个数值的频率记录到`Count`数组中。`Count`数组的索引对应`Array`数组的值。
-   最终结果为`Count = [1, 0, 2, 2]`。
-3. 将`Count`数组内容的元素递归两两相加。比如`1+0=2`然后`2+2=4`如此。
-   最后得到`Count=[1, 1, 3, 5]`
-4. 最后，从`Array`数组最后一个值开始，找到`Count`数组内对应的频率减一后得到相对应的新的索引。放到新的数组`New_Array = []`
-   比如我们从`Array[4] = 3`开始， 3 在 Count 中对应的频率是 3，我们减一后得到 2，于是我们把 3 放在`New_Array[2]`的位置。
-   重复步骤 4 最后得到有序数组`[1, 3, 3, 4, 4]`
-
-### 复杂度分析
-
-最好的情况下为 n。
-
-### 参考
-
-{% youtube 8uyB78HNR4M %}
-
-## Horspool's Algorithm: String Matching 字符串匹配算法
-
-{% youtube 3Ft3HMizsCk %}
-
-## Hash
 
 <!------------------------------------ 分割线 ---------------------------------------->
 <!------------------------------------ 分割线 ---------------------------------------->
