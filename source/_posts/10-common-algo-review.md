@@ -648,8 +648,6 @@ h(28) = 0
 |   5   | name2  |
 |   6   | name5  |
 
-### Effciency 效率分析
-
 <!------------------------------------ 分割线 ---------------------------------------->
 <!------------------------------------ 分割线 ---------------------------------------->
 <!------------------------------------ 分割线 ---------------------------------------->
@@ -794,7 +792,29 @@ print(my_dict["A0"]) # "David"
 
 ### 1. Depth-First Search 深度优先搜索
 
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/DFS.png?alt=media&token=b19c9461-5ea7-4a02-83d5-97f59227dec3" width="50%" height="auto" />
+
+DFS 我们随意选择一个起点然后进行其他节点的探索，直到所有的节点全部被探索过。
+
+比如我们从 a 开始，我们现在可以走`b`, `f`, 或者`e`。我们用字母升序选择`b`，然后`f`最后`e`。
+
+这个时候已经没有路可以走了。那我们就要往回走到`b`。然后继续`g -> c -> d -> h`
+
+最后 DFS 的遍历为`abfegcdh` 如下图所示。当然如果一开始我们走完 a 选择其他路线，那 DFS 的遍历结果也是不一样的。
+
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/d'f's%E6%89%B9%E6%B3%A8%202020-07-20%20210327.png?alt=media&token=b7bdde72-f3e2-4d8b-89ae-c3d669bc2543" width="50%" height="auto" />
+
 ### 2. Breadth-First Search 广度优先搜素
+
+广度优先搜索则是先把每个节点所有可行路线都走一遍，然后再回到每个子节点进行搜索。
+
+现在我们用 BFS 遍历之前的例子。
+
+我们从 a 开始，这时候有 b, e, f。然后 a 已经遍历完。我们开始遍历 b，发现只有 g。g 遍历完 c 和 h 后只剩下 d。
+
+得到 BFS `abefgchd`
+
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/BFS.png?alt=media&token=b7229ee9-55ad-479e-8acd-d1fae3464353" width="50%" height="auto" />
 
 <!------------------------------------ 分割线 ---------------------------------------->
 <!------------------------------------ 分割线 ---------------------------------------->
@@ -804,9 +824,37 @@ print(my_dict["A0"]) # "David"
 
 ## Prim's Algorithm 普林姆算法
 
+在普林姆算法中，我们随意选择一个起点，之后每次都选择访问个节点的最短的路线，直到所有的节点都被访问过。
+
+### 举例
+
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/prim.png?alt=media&token=dde1bf4c-bfce-47b0-b6f7-c72f4373ce74" width="60%" height="auto" />
+
+我们从 a 开始，可以发现最短路径为`af`，所以我们连接`af`。现在找到所有与 a 和 f 相连的节点的最短路径，我们找到`fe`最短, 连接`fe`。
+
+这个时候`ae`是最短的，但是`a`和`e`都已经访问过了，所以我们不能选择这条路径。
+
+于是我们连接`eb`, 然后`bc`最后`cd`结束得到最小生成树。
+
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20212525.png?alt=media&token=e173c8f3-b841-4052-922e-007faa4de91a" width="50%" height="auto" />
+
+### 参考
+
 {% youtube cplfcGZmX7I %}
 
 ## Kruskal's Algorithm 克鲁斯卡尔算法
+
+与 Prim 算法不同的时，Kruskal 算法我们不是随意选择一个起点，而是先选择图中最短的一条路径，然后在不制造出 cycle 的情况下，找到所有最短的路线直到所有节点被访问。
+
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/prim.png?alt=media&token=dde1bf4c-bfce-47b0-b6f7-c72f4373ce74" width="60%" height="auto" />
+
+同样用这个图，我们这次从`fe`开始，然后同样最短的路径有`af`和`cd`都为 4，可以都连接。
+
+这个时候`ae`不能连接因为会出现`cycle`。
+
+所以我们连接下一个最短路径`bc`。之后时`be`。于是得到最小生成树如下所示，可以发现跟 Prim 算法的结果相同。
+
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20212525.png?alt=media&token=e173c8f3-b841-4052-922e-007faa4de91a" width="50%" height="auto" />
 
 {% youtube 71UQH7Pr9kU %}
 
