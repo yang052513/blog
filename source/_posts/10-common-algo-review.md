@@ -569,17 +569,92 @@ def compute_mode_presort(array):
 
 有了 Shift Table 之后我们可以进行匹配，一旦有字符不匹配，我们即可参照 shift table 进行相对应的字符移动。
 
-### 参考
+首先`B`与`D`不匹配，根据 Shift Table, 我们需要将字符向右移动两个单位。
 
-{% youtube 3Ft3HMizsCk %}
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20174305.png?alt=media&token=083aa2a2-d97a-4bed-8efb-11004c845e94" width="50%" height="auto" />
 
-## Hash
+现在`G`与`J`不匹配，由于`B`是我们字符串中比较的最后一个字符，所以我们参照`B`移动字符 7 个单位。然后重复步骤即可。
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/12.png?alt=media&token=92bac8ce-f00d-4404-a172-c73b817fcb9b" width="50%" height="auto" />
+
+## Hash 哈希
+
+### Hasing Function 哈希函数
+
+假设哈希表长度为 5, 可以利用哈希函数将元素的键利用余数来转换为整数键。
+
+比如要把(Emily, 6046321)写入到哈希表中。
+
+我们先把`Emily`每个字母利用`ord()`函数转换成相应的整数。
+
+`ord(e) + ord(m) + ord(i) + ord(l) + ord(y) = 5 + 13 + 9 + 12 + 25 = 64`
+
+因为哈希表的长度为 5，64 除以 5 的余数为 4, 也就是转换后`6046321`的键。
+
+### Collision Handling 冲突解决
+
+如果在利用`哈希函数`转换键的时候出现相同的键怎么办呢? 比如两个元素 `Key mod 5`之后都是 4。如何解决这两个元素在哈希表中位置得问题呢？
+
+#### 1. Separate Chaining 分离链接
+
+第一种方法是分离链接，也就是用链表的方式来将相同的键组合在一起。
+
+比如给定哈希函数`h(i) = i mod 7`, 将下面的键值写入到哈希表中
+
+| Key | Values |
+| :-: | :----: |
+| 44  | name1  |
+| 12  | name2  |
+| 23  | name3  |
+| 16  | name4  |
+|  5  | name5  |
+| 28  | name6  |
+
+我们可以发现`44`, `23`, 以及`16`的 key 都是相同的，那么我们就可以用链表的方式把这它们连接起来。最后得到的哈希表如下。
+
+h(44) = 44 mod 7 = 2
+h(23) = 23 mod 7 = 2
+h(16) = 23 mod 7 = 2
+
+<img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20202615.png?alt=media&token=c720646f-7ef4-463b-a407-dbce665c6256" width="70%" height="auto" />
+
+<br />
+
+#### 2. Closed Hashing 封闭散列
+
+封闭散列解决冲突的方式为如果有冲突，向后找是否有空缺的位置并把键值写入到该位置。
+
+我们用之前相同的例子，但是这次用封闭散列来解决冲突问题。
+
+首先转换所有键
+
+```markdown
+h(44) = 2
+h(12) = 5
+h(23) = 2
+h(16) = 2
+h(5) = 5
+h(28) = 0
+```
+
+然后依次写入到哈希表中，name3 和 name1 都是相同键，但是 index 2 已经没有位置，所以我们把 name3 放到 index3 的位置。同理其他键值最后得到哈希表如下:
+
+| Index | Values |
+| :---: | :----: |
+|   0   | name6  |
+|   1   |        |
+|   2   | name1  |
+|   3   | name3  |
+|   4   | name4  |
+|   5   | name2  |
+|   6   | name5  |
+
+### Effciency 效率分析
 
 <!------------------------------------ 分割线 ---------------------------------------->
 <!------------------------------------ 分割线 ---------------------------------------->
 <!------------------------------------ 分割线 ---------------------------------------->
 
-## Summary of sorting algorithms
+## Summary of sorting algorithms 排序算法总结
 
 | 算法     | 最好的情况 | 最坏的情况 | 稳定性 |
 | -------- | ---------- | ---------- | ------ |
