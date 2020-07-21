@@ -14,8 +14,7 @@ cover: 'https://3.bp.blogspot.com/-bsAe5iHfUvw/XMm2l8YCMtI/AAAAAAAAA28/9-Uj-v3GH
 4. Transform and Conquer 变治法
 5. Time Space Tradeoff 时空权衡
 6. Data Structure 数据结构
-7. Graph Algorithim 图
-8. Greedy Approach 贪心算法
+7. Greedy Approach 贪心算法
 
 # Brute Force 暴力求解
 
@@ -364,7 +363,7 @@ def partition(array):
 
 ## 1. Instance Simplification Pre-sorting 预排序
 
-### Check Elements Uniqueness 判断元素是否独特性
+### Check Elements Uniqueness 判断数组内元素是否重复
 
 给出一个数组，判断是否该数组存在重复元素。
 
@@ -383,16 +382,18 @@ def is_unique_bf(array):
     return True
 ```
 
-由上可以可以得出复杂度为 n 的平方。
+我们发现用暴力求解的算法得到复杂度为 n<sup>2</sup>。
 
-假设我们先将数组进行排序得到一个**有序数组**，然后在进行判断是否存在重复元素。因为如果是一个有序数组，我们只要查看一个元素是否跟它的下一个元素是否相等即可。比如`[2, 3, 3, 5]`。
+假设我们先将数组进行排序得到一个**有序数组**，然后在进行判断是否存在重复元素。算法效率是否会有提升呢?
+
+如果是一个有序数组，我们只需要查看**一个元素**是否跟它的**下一个元素**是否相等即可。比如`[2, 3, 3, 5]`。a[1] = a[2] 很明显得出数组存在重复元素。
 
 #### 代码实现
 
 ```python
 def is_unique_presort(array):
     n = len(array)
-    # 假设我们先进行排序
+    # 假设我们先进行排序 比如利用之前比较高效的归并或者快速排序
     array.sort()
     for i in range(n-1):
         if array[i] == array[i+1]:
@@ -402,18 +403,24 @@ def is_unique_presort(array):
 
 #### 复杂度分析
 
-由于算法由两部分构成（排序和主循环），所以该其复杂度也应该为两部分：排序的复杂度加检查的复杂度。即为 `nlogn + n`。得到复杂度 `nlogn`
+由于算法由两部分构成（预排序数组和遍历数组查看元素相等），所以其复杂度也应该为两部分：排序的复杂度加检查元素相等的复杂度。
+
+我们在之前的分治法中发现归并排序和快速排序是目前相对有效的算法。假设我们的预排序使用归并算法，那么排序部分的复杂度即`nlogn`
+
+由于我们只有一个循环遍历判断元素相等，所以整体算法复杂度为 `nlogn + n`
+
+也就是 `nlogn`
 
 ### Find the Mode 寻找众数
 
-众数是出现在一组数据中最频繁的数。
+> 众数是出现在一组数据中最频繁的数。
 
 先来看下用暴力求解如何实现这个算法
 
 ```python
 def find_mode_bf(array):
   n = len(array)
-  # 统计每个数字的频率
+  # 计数器字典 统计每个数字的频率
   counter = {}
 
   for i in range(n):
@@ -427,9 +434,9 @@ def find_mode_bf(array):
   return mode
 ```
 
-最坏的情况下我们的数组每个元素都只出现一次 `[1, 2, 3, 4, 5, 6]`。复杂度为 n 的平方
+最坏的情况下我们的数组每个元素都只出现一次 `[1, 2, 3, 4, 5, 6]`。复杂度为 n<sup>2</sup>
 
-如果我们先将数组进行排序，那么相同的元素在有序数组里一定是相邻的。
+如果数组已经是一个有序数组，那么相同的元素在有序数组里都是相邻的。
 
 #### 代码实现
 
@@ -450,25 +457,23 @@ def compute_mode_presort(array):
 
 #### 复杂度分析
 
-算法复杂度可以得出：O(nlog n) + O(log n) = O(nlog n)
+算法复杂度可以得出：`nlog n + log n = nlog n`
 
 ## 2. Representation Change 改变数据的表现形式
 
-除了预先处理数组外，我们还可以改变数据结构来提高算法效率。我们知道堆的高度为`logn`，那么插入和删除一个元素只要每层进行查找即可，也就是说算法复杂度为堆的高度`logn`。
-
-所以我们可以先把一个数组转化为堆然后进行相关的操作会提升效率。
+除了对数组进行预处理外，我们还可以改变数据结构来提高算法效率。
 
 ### Heap 堆的定义
 
-- 堆的每个父节点都大于或者等于它的子节点
-- 堆按照从左往右的顺序依次每层铺满子元素。
-- 最大的元素为 Root 即根。
+- 堆的每个**父节点**(parent node)都**大于或者等于**它的子节点(child node)
+- 堆按照**从左往右**的顺序依次每层铺满子元素。
+- 在顶堆中，最大的元素为 Root 即根节点。
 
 <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20161423.png?alt=media&token=b043f03e-bca9-4e6e-a758-f47cd244e4c3" width="60%" height="auto" />
 
 ### Heap Implementation 堆的应用
 
-根据下面的堆树，转换为数组即从 root`10`开始依次写入到一个数组中。
+将下面的堆树转换为数组表达形式
 
 <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20162133.png?alt=media&token=59dd7b37-81c6-4c7b-a581-8d6829b88ca1" width="30%" height="auto" />
 
@@ -491,14 +496,14 @@ def compute_mode_presort(array):
 
    <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/311.png?alt=media&token=caec7593-c628-4168-9543-7f2bf56fc7fe" width="60%" height="auto" />
 
-3. 重复步骤 2 直到堆的性质得到满足。
+3. 重复**步骤 2** 直到堆的性质得到满足。
    <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20162907.png?alt=media&token=7433c13d-ad7d-4d06-8b94-54ae543cddf7" width="60%" height="auto" />
 
 <br />
 
 #### 复杂度分析
 
-由于堆的高度为`logn`，所有堆的插入算法效率为`logn`。
+由于堆的高度为`log n`，所有堆的插入算法复杂度为`log n`。因为我们要检查每层是否都满足堆的性质。
 
 ### Heap Delete 堆的删除
 
@@ -512,17 +517,17 @@ def compute_mode_presort(array):
 比如我们之前的例子，`[17, 16, 10, 14, 15, 9, 3, 2, 8, 1, 7]`。我们想要删除根节点 17。按照上面的步骤来实现即
 
 1. 替换 17 与 7 的位置
-   <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/1.png?alt=media&token=8c1194e1-fe88-43b5-92c4-5de991d65216" width="60%" height="auto" />
+   <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/heapdelete1.png?alt=media&token=ee262f31-245a-4427-9b74-57169b2f16f8" width="60%" height="auto" />
 
 2. 删除 节点 17
-   <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/2.png?alt=media&token=3581853c-0385-49ee-a229-b5278362f5e4" width="60%" height="auto" />
+   <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/heapdelete2.png?alt=media&token=8a4fe4c4-36de-4aa2-b616-b558faca9e81" width="60%" height="auto" />
 3. 调整堆的结构，7 与 16 对比，不满足堆的性质调换位置
-   <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/3.png?alt=media&token=e17fc5a2-d7a9-444b-9e46-30cc78964950" width="60%" height="auto" />
+   <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/heapdelete3.png?alt=media&token=23f09c2b-55aa-42cd-9892-fddd268b18de" width="60%" height="auto" />
 4. 重复步骤 3 直到堆完全满足定义
 
 #### 复杂度分析
 
-由于堆的高度为`logn`，所有堆的插入算法效率为`logn`。
+由于堆的高度为`log n`，所有堆的插入算法效率为`log n`。
 
 ### Heap Sort 堆排序
 
@@ -548,7 +553,7 @@ def compute_mode_presort(array):
 
 # Space and Time Trade-Offs 时空权衡
 
-## Counting Sort 计数排序
+## 1. Counting Sort 计数排序
 
 ### 举例
 
@@ -576,7 +581,7 @@ def compute_mode_presort(array):
 
 {% youtube 8uyB78HNR4M %}
 
-## Horspool's Algorithm: String Matching 字符串匹配算法
+## 2. Horspool's Algorithm: String Matching 字符串匹配算法
 
 在最开始的暴力求解部分中，我们介绍了如何使用暴力求解来进行字符串匹配的算法。
 
@@ -590,7 +595,11 @@ def compute_mode_presort(array):
 
 每个字符的值为字符串中出现在最右侧的索引。即`m - index in pattern -1`。
 
-比如 I 出现了两次，但最右侧的索引为 2, 那么 I 的位移为 `7 - 2 - 1 = 4`。同理可以得出 shift table 如下
+比如 I 出现了两次，但最右侧的索引为 2, 那么 I 的位移为 `7 - 2 - 1 = 4`。
+
+最后一个字母`B`因为没有出现过，所以唯一单位为字母的长度也就是 7
+
+同理可以得出 shift table 如下
 
 | Letters |  I  |  D  |  G  |  A  |  B  | \*  |
 | :-----: | :-: | :-: | :-: | :-: | :-: | :-: |
@@ -605,7 +614,7 @@ def compute_mode_presort(array):
 现在`G`与`J`不匹配，由于`B`是我们字符串中比较的最后一个字符，所以我们参照`B`移动字符 7 个单位。然后重复步骤即可。
 <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/12.png?alt=media&token=92bac8ce-f00d-4404-a172-c73b817fcb9b" width="50%" height="auto" />
 
-## Hash 哈希
+## 3. Hash 哈希
 
 ### Hasing Function 哈希函数
 
@@ -681,7 +690,7 @@ h(28) = 0
 <!------------------------------------ 分割线 ---------------------------------------->
 <!------------------------------------ 分割线 ---------------------------------------->
 
-## Summary of sorting algorithms 排序算法总结
+## 4. Summary of sorting algorithms 排序算法总结
 
 | 算法     | 最好的情况 | 最坏的情况 | 稳定性 |
 | -------- | ---------- | ---------- | ------ |
@@ -701,9 +710,9 @@ h(28) = 0
 
 > 数据结构是用来管理和储存数据的一种方式
 
-## Linear Data Structure 线性数据结构
+## 1. Linear Data Structure 线性数据结构
 
-### 1. Array 数组
+### Array 数组
 
 一个数组通常有一系列相同类型的元素组成，每个元素都有相对应的索引值。
 
@@ -715,7 +724,7 @@ arr_list = ['item one', 'item two', 'item three']
 
 由于数组的长度需要预先决定来分配内存。所以对于长度明确，或者插入删除不频繁的数据，数组比较适合。但如果数据需要频发插入或者删除，那我们可以用其他的数据结构。
 
-### 2. Linked List 链表
+### Linked List 链表
 
 链表由 0 或者多个叫做节点的元素组成，每个节点都有一个指针指向下一个节点。
 
@@ -741,7 +750,7 @@ arr_list = ['item one', 'item two', 'item three']
 - Insert: `O(1)`
 - Delete: `O(1)`
 
-### 3. Stack 栈
+### Stack 栈
 
 遵循`后进先出(LIFO)`原则, 可以想象一叠盘子，你每清理完一个碟子你往上叠。结束后你从最上面的开始一个一个回收。最后一个清洁的碟子也是第一个拿走的。
 
@@ -756,7 +765,7 @@ arr_list = ['item one', 'item two', 'item three']
 - Insert: `O(1)`
 - Delete: `O(1)`
 
-### 4. Queue 队列
+### Queue 队列
 
 跟栈相反，队列遵循先进先出原则。可以想象以下我们平常超市购物结账排队的时候。排在第一位置的人也是先结完账最先离开的。
 
@@ -769,57 +778,37 @@ arr_list = ['item one', 'item two', 'item three']
 - Insert: `O(1)`
 - Delete: `O(1)`
 
-## Set 集合
-
-Set 代表一个集合，但集合内所有的元素都具有**独特性**。
-
-比如在 Python 中，我们想要获得一个 list 内所有独一无二的元素，我们可以用`set(arry_list)`.
-
-## Dictionary 字典
-
-字典采用`键值对(key value pairs)`的储存方法，即每个键都有相对应的值。
-
-```python
-my_dict = {
-    "A0": "David",
-    "A1": "Nathan",
-    "A2": "Ryan"
-}
-
-print(my_dict["A0"]) # "David"
-```
-
 <!------------------------------------ 分割线 ---------------------------------------->
 <!------------------------------------ 分割线 ---------------------------------------->
 <!------------------------------------ 分割线 ---------------------------------------->
 
-# Graph 图
+## 2. Non-Linear Data Structures: Graph 图
 
-## Types 图的分类
+### Types 图的分类
 
 图又可分为有向图和无向图
 
 <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20122800.png?alt=media&token=a82cd4fb-63c0-4927-88c9-f3e7ffe13c64" width="70%" height="auto" />
 
-## Representing Graphs 图的表达方式
+### Representing Graphs 图的表达方式
 
 <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20123400.png?alt=media&token=45ef871a-d7a2-465d-aa06-558c07a4acb8"  width="50%" height="auto"/>
 
-### 1. Adjacency Matrix 邻接矩阵
+#### 1. Adjacency Matrix 邻接矩阵
 
 用一个 2D 数组来储存图中顶点间的关系数据。
 
 <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20123411.png?alt=media&token=4d49cadd-470a-4144-9eb9-75a662fa8de7"  width="50%" height="auto"/>
 
-### 2. Adjacency Lists 邻接表
+#### 2. Adjacency Lists 邻接表
 
 用来记录每一个节点所连接的所有其他节点。
 
 <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/%E6%89%B9%E6%B3%A8%202020-07-20%20123423.png?alt=media&token=e060e48e-5d26-4938-bacd-b6140111f128"  width="50%" height="auto"/>
 
-## Graph Traversal 图的遍历
+### Graph Traversal 图的遍历
 
-### 1. Depth-First Search 深度优先搜索
+#### 1. Depth-First Search (DFS) 深度优先搜索
 
 <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/DFS.png?alt=media&token=b19c9461-5ea7-4a02-83d5-97f59227dec3" width="50%" height="auto" />
 
@@ -833,7 +822,7 @@ DFS 我们随意选择一个起点然后进行其他节点的探索，直到所�
 
 <img src="https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/d'f's%E6%89%B9%E6%B3%A8%202020-07-20%20210327.png?alt=media&token=b7bdde72-f3e2-4d8b-89ae-c3d669bc2543" width="50%" height="auto" />
 
-### 2. Breadth-First Search 广度优先搜素
+#### 2. Breadth-First Search (BFS) 广度优先搜素
 
 广度优先搜索则是先把每个节点所有可行路线都走一遍，然后再回到每个子节点进行搜索。
 
@@ -851,7 +840,7 @@ DFS 我们随意选择一个起点然后进行其他节点的探索，直到所�
 
 # Greedy Approach 贪心算法
 
-## Prim's Algorithm 普林姆算法
+## 1. Prim's Algorithm 普林姆算法
 
 在普林姆算法中，我们随意选择一个起点，之后每次都选择访问个节点的最短的路线，直到所有的节点都被访问过。
 
@@ -871,7 +860,7 @@ DFS 我们随意选择一个起点然后进行其他节点的探索，直到所�
 
 {% youtube cplfcGZmX7I %}
 
-## Kruskal's Algorithm 克鲁斯卡尔算法
+## 2. Kruskal's Algorithm 克鲁斯卡尔算法
 
 与 Prim 算法不同的时，Kruskal 算法我们不是随意选择一个起点，而是先选择图中最短的一条路径，然后在不制造出 cycle 的情况下，找到所有最短的路线直到所有节点被访问。
 
@@ -887,6 +876,6 @@ DFS 我们随意选择一个起点然后进行其他节点的探索，直到所�
 
 {% youtube 71UQH7Pr9kU %}
 
-## Dijkstra's Algorithm: 迪克斯特拉算法
+## 3. Dijkstra's Algorithm: 迪克斯特拉算法
 
 {% youtube _lHSawdgXpI %}
