@@ -214,3 +214,159 @@ export const App: React.FC = () => {
   )
 }
 ```
+
+## Group, Margins, Axis
+
+继续之前的例子，我们这次加入 x 和 y 的坐标轴并对元素进行分类组合。
+
+首先声明 svg 容器的样式类, 我们把 svg 分为三个部分，x 坐标轴，y 坐标轴，以及数据呈现的 rect 元素。
+
+```jsx
+const dimensions = {
+  width: 800,
+  height: 500,
+  chartWidth: 700,
+  chartHeight: 400,
+  marginLeft: 100,
+}
+```
+
+创建坐标需要引用`d3-axis` modules, `axisBottom`即在容器内的下方创建, 数值我们传入之前创建的`x`和`y`变量。`ticks`可以用来根据给定数量的参数渲染坐标轴的分割。`tickFormat`即用来样式化坐标轴内容。
+
+```jsx
+const xAxis = axisBottom(x)
+const yAxis = axisLeft(y)
+  .ticks(5)
+  .tickFormat(d => `${d} units`)
+```
+
+之后我们便可以在 svgRef 里面加入坐标轴如下。
+
+```jsx
+const xAxisGroup = selection
+  .append('g')
+  .attr(
+    'transform',
+    `translate(${dimensions.marginLeft}, ${dimensions.chartHeight})`
+  )
+  .call(xAxis)
+
+const yAxisGroup = selection
+  .append('g')
+  .attr('transform', `translate(${dimensions.marginLeft}, 0)`)
+  .call(yAxis)
+```
+
+### Demo Code 代码
+
+```jsx
+import React, { useRef, useEffect, useState } from 'react'
+import { select, selectAll, Selection } from 'd3-selection'
+import { scaleLinear, scaleBand } from 'd3-scale'
+import { max } from 'd3-array'
+import { axisLeft, axisBottom } from 'd3-axis'
+
+const data = [
+  {
+    name: 'Ford',
+    number: 9000,
+    color: '#03af94',
+  },
+  {
+    name: 'Apple',
+    number: 19000,
+    color: 'red',
+  },
+  {
+    name: 'Google',
+    number: 5000,
+    color: 'purple',
+  },
+  {
+    name: 'Amazon',
+    number: 23000,
+    color: 'orange',
+  },
+  {
+    name: 'BMW',
+    number: 3200,
+    color: 'blue',
+  },
+]
+
+const dimensions = {
+  width: 800,
+  height: 500,
+  chartWidth: 700,
+  chartHeight: 400,
+  marginLeft: 100,
+}
+
+export const App: React.FC = () => {
+  const svgRef = useRef<SVGSVGElement | null | any>(null)
+  const [selection, setSelection] = useState<null | Selection<
+    any,
+    unknown,
+    null,
+    undefined
+  >>(null)
+
+  const maxValue = max(data, d => d.number)
+  const y = scaleLinear()
+    .domain([0, maxValue!])
+    .range([0, dimensions.chartHeight])
+  const x = scaleBand()
+    .domain(data.map(d => d.name))
+    .range([0, dimensions.chartWidth])
+    .paddingInner(0.05)
+
+  const xAxis = axisBottom(x)
+  const yAxis = axisLeft(y)
+    .ticks(5)
+    .tickFormat(d => `${d} units`)
+
+  useEffect(() => {
+    if (!selection) {
+      setSelection(select(svgRef.current))
+    } else {
+      const xAxisGroup = selection
+        .append('g')
+        .attr(
+          'transform',
+          `translate(${dimensions.marginLeft}, ${dimensions.chartHeight})`
+        )
+
+        .call(xAxis)
+
+      const yAxisGroup = selection
+        .append('g')
+        .attr('transform', `translate(${dimensions.marginLeft}, 0)`)
+        .call(yAxis)
+
+      selection
+        .append('g')
+        .attr('transform', `translate(${dimensions.marginLeft},0)`)
+        .selectAll('rect')
+        .data(data)
+        .enter()
+        .append('rect')
+        .attr('width', x.bandwidth)
+        .attr('x', d => x(d.name)!)
+        .attr('fill', d => d.color)
+        .attr('height', d => y(d.number))
+    }
+  }, [selection])
+
+  return (
+    <div className="app-container">
+      <svg
+        ref={svgRef}
+        width={dimensions.width}
+        height={dimensions.height}
+      ></svg>
+    </div>
+  )
+}
+```
+
+## Update
