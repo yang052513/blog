@@ -24,6 +24,8 @@ npm i @types/d3 --save
 
 `selectAll`可以选择多个元素，其选择方式同为`string selector`。比如`selectAll('.rectEle')`会选择所有`className`为 rectEled 额元素
 
+### 代码 Demo Code
+
 ```jsx
 import React, { useRef, useEffect } from 'react'
 import { select, selectAll } from 'd3-selection'
@@ -55,6 +57,8 @@ export const Demo: React.FC = () => {
 ## 导入数据 Data Joins
 
 我们可以通过利用`data()`方法来加载数据并创建图形，并利用`enter()`来让 D3 自动添加 DOM 元素根据数据的数量。
+
+### 代码 Demo Code
 
 ```jsx
 const data = [
@@ -110,6 +114,102 @@ export const App: React.FC = () => {
       <svg ref={svgRef}>
         <rect />
       </svg>
+    </div>
+  )
+}
+```
+
+## Scales
+
+之前的例子中我们用数据给定的数值来定义 svg 元素的高度。假设进行操作的数据值比较大比如 30,000。那么用这个数值来定义元素的高度`30000px`是不太可行的。我们可以用 D3 中的`d3-scale`库来对数据的取值范围进行映射并在一个新的范围返回新的对应数值。
+
+具体的步骤为首先利用`max`找到数据中的最大值，这个值决定了`domain`。`max()`第一个参数为所操作的数组，第二个为一个函数即 accessor, 也就是数组的哪个属性我们要找最大值
+
+```jsx
+import { max } from 'd3-array'
+
+const data = [{ name: 'Ford', number: 90000 }]
+const maxValue = max(data, d => d.number)
+```
+
+然后利用`scale-linear`来创建一个变量函数。`domain()`和`range()`的范围默认为从 0 到 1。这里我们设置 domain 为 0 到数组内的最大值。range 即为映射的高度，这里最高设置为 svg 容器的高度。
+
+```jsx
+const y = scaleLinear().domain([0, maxValue!]).range([0, 500])
+```
+
+最后在创建`rect`元素时，在`attr`高度里利用上面创建的函数即可。
+
+### 代码 Demo Code
+
+```jsx
+import React, { useRef, useEffect, useState } from 'react'
+import { select, selectAll, Selection } from 'd3-selection'
+import { scaleLinear, scaleBand } from 'd3-scale'
+import { max } from 'd3-array'
+
+const data = [
+  {
+    name: 'Ford',
+    number: 9000,
+    color: '#03af94',
+  },
+  {
+    name: 'Apple',
+    number: 19000,
+    color: 'red',
+  },
+  {
+    name: 'Google',
+    number: 5000,
+    color: 'purple',
+  },
+  {
+    name: 'Amazon',
+    number: 23000,
+    color: 'orange',
+  },
+  {
+    name: 'BMW',
+    number: 3200,
+    color: 'blue',
+  },
+]
+export const App: React.FC = () => {
+  const svgRef = useRef<SVGSVGElement | null | any>(null)
+  const [selection, setSelection] = useState<null | Selection<
+    any,
+    unknown,
+    null,
+    undefined
+  >>(null)
+
+  const maxValue = max(data, d => d.number)
+  const y = scaleLinear().domain([0, maxValue!]).range([0, 500])
+  const x = scaleBand()
+    .domain(data.map(d => d.name))
+    .range([0, 300])
+    .paddingInner(0.5)
+
+  useEffect(() => {
+    if (!selection) {
+      setSelection(select(svgRef.current))
+    } else {
+      selection
+        .selectAll('rect')
+        .data(data)
+        .enter()
+        .append('rect')
+        .attr('width', x.bandwidth)
+        .attr('x', d => x(d.name)!)
+        .attr('fill', d => d.color)
+        .attr('height', d => y(d.number))
+    }
+  }, [selection])
+
+  return (
+    <div className="app-container">
+      <svg ref={svgRef} width={300} height={500}></svg>
     </div>
   )
 }
