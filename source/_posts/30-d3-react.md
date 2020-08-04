@@ -1,5 +1,5 @@
 ---
-title: 数据可视化 D3在React中的应用
+title: 数据可视化 利用D3创建Bar Chart
 date: 2020-08-03 10:53:37
 tags: ['data visiualization', 'react', 'note']
 categories: Notes
@@ -257,7 +257,9 @@ const yAxisGroup = selection
   .call(yAxis)
 ```
 
-### Demo Code 代码
+目前 Chart 是反向显示的，我们只需要把 y 的 domain 反向并高度调为图的高度减去映射后的高度，得到的就是正向的 Bar Chart 了
+
+## Bar Chart 完整代码
 
 ```jsx
 import React, { useRef, useEffect, useState } from 'react'
@@ -265,6 +267,8 @@ import { select, selectAll, Selection } from 'd3-selection'
 import { scaleLinear, scaleBand } from 'd3-scale'
 import { max } from 'd3-array'
 import { axisLeft, axisBottom } from 'd3-axis'
+import 'd3-transition'
+import { easeElastic } from 'd3-ease'
 
 const data = [
   {
@@ -301,7 +305,6 @@ const dimensions = {
   chartHeight: 400,
   marginLeft: 100,
 }
-
 export const App: React.FC = () => {
   const svgRef = useRef<SVGSVGElement | null | any>(null)
   const [selection, setSelection] = useState<null | Selection<
@@ -312,13 +315,13 @@ export const App: React.FC = () => {
   >>(null)
 
   const maxValue = max(data, d => d.number)
-  const y = scaleLinear()
-    .domain([0, maxValue!])
-    .range([0, dimensions.chartHeight])
-  const x = scaleBand()
+    const x = scaleBand()
     .domain(data.map(d => d.name))
     .range([0, dimensions.chartWidth])
     .paddingInner(0.05)
+  const y = scaleLinear()
+    .domain([0, maxValue!])
+    .range([dimensions.chartHeight, 0])
 
   const xAxis = axisBottom(x)
   const yAxis = axisLeft(y)
@@ -335,7 +338,6 @@ export const App: React.FC = () => {
           'transform',
           `translate(${dimensions.marginLeft}, ${dimensions.chartHeight})`
         )
-
         .call(xAxis)
 
       const yAxisGroup = selection
@@ -351,9 +353,16 @@ export const App: React.FC = () => {
         .enter()
         .append('rect')
         .attr('width', x.bandwidth)
+        .attr('height', 0)
         .attr('x', d => x(d.name)!)
+        .attr('y', dimensions.chartHeight)
+        .transition()
+        .duration(2500)
+        .delay((_, index) => index * 100)
+        .ease(easeElastic)
+        .attr('height', d => dimensions.chartHeight - y(d.number))
+        .attr('y', d => y(d.number))
         .attr('fill', d => d.color)
-        .attr('height', d => y(d.number))
     }
   }, [selection])
 
@@ -363,10 +372,10 @@ export const App: React.FC = () => {
         ref={svgRef}
         width={dimensions.width}
         height={dimensions.height}
+        style={{ marginTop: '50px' }}
       ></svg>
     </div>
   )
 }
-```
 
-## Update
+```
