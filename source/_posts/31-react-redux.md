@@ -15,9 +15,11 @@ npx create-react-app redux-demo
 npm install redux react-redux
 ```
 
+## Redux Basic Flow: Actions -> Reducer -> Store
+
 在`src`文件夹中创建`redux`文件夹，用来管理和存放所有 redux 相关的文件。
 
-## Actions
+### 1. Actions
 
 创建一个`product`文件夹，所有的 reducer 都跟 product 相关。用来管理 product 的 state 和 action
 
@@ -48,7 +50,7 @@ export const addStock = () => {
 }
 ```
 
-## Reducer
+### 2. Reducer
 
 在`productReducer`中，我们可以根据 action 的 type 来对 state 进行更新。
 
@@ -81,7 +83,7 @@ const productReducer = (state=initialState, action) => {
 export productReducer
 ```
 
-## Store
+### 3. Store
 
 最后在`redux`根目录下创建一个`store.js`和`index.js`用来管理 state 和 action
 
@@ -102,7 +104,7 @@ export default store
 export { buyProduct, addStock } from './product/productActions'
 ```
 
-## Using Redux in Component
+### Using Redux in Component
 
 **App.js**
 
@@ -154,4 +156,135 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product)
+```
+
+## Redux Hooks: useSelector 和 useDispatch
+
+Redux 提供了 Hooks API, 我们可以通过使用`useSelector`来获取 store 中的 state，并利用`useDispatch`来进行 state 的更新操作。
+
+**Product.js**
+
+```jsx
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { buyProduct } from '../redux'
+
+function Product() {
+  const numOfProducts = useSelector(state => state.numOfProducts)
+  const dispatch = useDispatch()
+  return (
+    <div>
+      <h2>Num of products {numOfProducts}</h2>
+      <button onClick={() => dispatch(buyProduct())}>Buy Product</button>
+    </div>
+  )
+}
+
+export default Product
+```
+
+## Multiple Reducers
+
+在 redux 根目录下创建`rootReducer.js`文件，将所有的 reducer 以 object 的形式保存在一个变量
+
+**rootReducer.js**
+
+```jsx
+import { combineReducers } from 'redux'
+import { productReducer } from './product/productReducer'
+import { userReducer } from './user/userReducer'
+
+const rootReducer = combineReducers({
+  user: userReducer,
+  product: productReducer,
+})
+```
+
+**store.js**
+
+```jsx
+import { createStore } from 'redux'
+import rootReducer from './rootReducer'
+
+const store = createStore(rootReducer)
+
+export default store
+```
+
+**User.js**
+
+```jsx
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+
+function User() {
+  const userName = useSelector(state => state.user.name)
+
+  return (
+    <div>
+      <h2>Welcome back {userName}</h2>
+    </div>
+  )
+}
+
+export default User
+```
+
+## Action payload
+
+**Product.js**
+
+```jsx
+import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { buyProduct } from '../redux'
+
+function Product() {
+  const numOfProducts = useSelector(state => state.numOfProducts)
+  const dispatch = useDispatch()
+  const [qty, setQty] = useState(1)
+  return (
+    <div>
+      <h2>Num of products {numOfProducts}</h2>
+      <input type="text" value={qty} onChange={e => setQty(e.target.value)} />
+      <button onClick={() => dispatch(buyProduct(qty))}>
+        Buy {qty} Product
+      </button>
+    </div>
+  )
+}
+
+export default Product
+```
+
+**productActions.js**
+
+```jsx
+import { BUY_CAKE } from '.productTypes'
+
+export const buyProduct = (qty = 1) => {
+  return {
+    type: BUY_PRODUCT,
+    payload: qty,
+  }
+}
+```
+
+**productReducer.js**
+
+```jsx
+// ... ...
+const productReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case BUY_PRODUCT:
+      return {
+        ...state,
+        numOfProducts: state.numOfProducts - actions.payload,
+      }
+
+    default:
+      return state
+  }
+}
+// ... ...
 ```
