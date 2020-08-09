@@ -6,9 +6,9 @@ categories: Notes
 cover: 'https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/1_QDQvlCg420lzRElCK4AYhw.png?alt=media&token=619670bd-3da8-4090-bbfd-8f79ae0a8267'
 ---
 
-# 配置
+# Setup 配置
 
-## 安装 Expo CLI
+## Install Expo CLI 安装
 
 确保开发环境已经安装了`Node.js`.
 
@@ -16,7 +16,7 @@ cover: 'https://firebasestorage.googleapis.com/v0/b/yangliweb.appspot.com/o/1_QD
 npm install expo-cli --global
 ```
 
-## 创建项目
+## Initialize Project 创建项目
 
 ```shell
 expo init project-name
@@ -28,7 +28,7 @@ expo start
 
 在 Android Studio 中创建虚拟环境后，直接在 Expo Tool 面板点击`Running on Android device`或者输入`a`在 terminal。第一次运行时需要在虚拟器上安装 Javascript 包以及依赖，所以安装时间会久一点。安装完成后会自动在模拟器运行 App
 
-# React Native
+# Fundamentals 基本概念
 
 ## Views, Text & Styles 视图，文本，样式化
 
@@ -102,7 +102,7 @@ export default function App() {
 }
 ```
 
-## ScrollView
+## ScrollView 滑动视图
 
 在 React Native 中渲染一个列表，我们用 ES6 map 遍历数组然后渲染每个 item 为 Text 即可。默认情况下如果列表高度超过模拟机的高度会出现溢出，这时候我们可以用`<ScrollView>` API 把列表 wrap 起来就可以滚动显示。
 
@@ -122,7 +122,7 @@ export default function App() {
 </ScrollView>
 ```
 
-## Flat List
+## Flat List 列表
 
 使用`<FlatList />` API 实现列表的渲染
 
@@ -141,7 +141,7 @@ const [userList, setUserList] = useState([
 />
 ```
 
-## Touchable Components
+## Touchable Components 可触组件
 
 我们可以使用`<TouchableOpacity>` API 来对组件进行点击操作。下面的例子实现了点击组件时会从 View 中删除该组件。
 
@@ -172,7 +172,7 @@ return (
 )
 ```
 
-## Alerts
+## Alerts 警示面板
 
 使用`Alert` API 对用户进行提示。
 
@@ -188,7 +188,7 @@ const handleSubmit = (inputValue) => {
 }
 ```
 
-## Keyboard Dismiss
+## Keyboard Dismiss 键盘忽略
 
 点击任何区域不再显示 Keyboard
 
@@ -291,4 +291,172 @@ export default function Home() {
 }
 ```
 
-## Navigation and Router 路由
+# Navigation and Router 路由库
+
+## Stack Navigation 栈导航
+
+### Install Dependencies
+
+```shell
+npm install react-navigation
+expo install react-native-gesture-handler react-native-reanimated
+npm install react-navigation-stack
+```
+
+### Setup Routers
+
+创建一个`router`文件夹，并创建一个`route.js`文件。
+
+如果没有在`navigationOptions`内声明样式化，会使用`defaultNavigationOptions`
+
+**route.js**
+
+```jsx
+import { createStackNavigator } from 'react-navigation-stack'
+import { createAppContainer } from 'react-navigation'
+import Home from '../screens/Home'
+import CardDetail from '../screens/CardDetails'
+
+// 默认情况下首先显示Home Screen
+const screens = {
+  Home: {
+    screen: Home,
+    navigationOptions: {
+      title: 'AnimeKnow',
+    },
+  },
+  CardDetail: {
+    screen: CardDetail,
+    navigationOptions: {
+      title: 'Anime Details',
+    },
+  },
+}
+
+const RouteStack = createStackNavigator(screens, {
+  defaultNavigationOptions: {
+    headerTintColor: '#4a4a4a',
+    headerStyle: { backgroundColor: '#03a9f4', height: 60 },
+  },
+})
+
+export default createAppContainer(RouteStack)
+```
+
+**App.js**
+
+```jsx
+import Router from './router/route'
+
+export default function App() {
+  const [fontLoaded, setFontLoaded] = useState(false)
+
+  if (fontLoaded) {
+    return <Router />
+  } else {
+    return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => setFontLoaded(true)}
+      />
+    )
+  }
+}
+```
+
+### Navigation with Button 按钮事件导航
+
+在之前的 Setup 中，我们默认显示的为`Home`组件，现在添加按钮来进行组件的导航。
+
+默认情况下，`react-navigation`会自动添加一个返回箭头按钮来实现 pop 组件。
+
+**Home.js**
+
+```jsx
+export default function Home({navigation}) {
+  const handleDetailNav = () => {
+    navigation.navigate('CardDetail')
+  }
+
+  return (
+    <View>
+      <Text>Home Page</Text>
+      <Button title='View More Details' onPress={handleDetailNav}>
+    </View>
+  )
+}
+```
+
+同理添加一个`<Button />`手动实现回到上一个组件
+
+**CardDetail**
+
+```jsx
+export default function CardDetail({navigation}) {
+  const handleReturn = () => {
+    navigation.goBack()
+  }
+
+  return (
+    <View>
+      <Text>Card Details page</Text>
+      <Button title='Go Back' onPress={handleReturn}>
+    </View>
+  )
+}
+```
+
+### Passing Data Between Components 传递数据
+
+点击每个卡片显示该卡片的信息。具体思路如下
+
+1. 使用 FlatList API 渲染所有卡片
+2. 对卡片添加`onPress`触发，并转入到`<CardDetail />`
+3. props 接受并显示数据
+
+**Home.js**
+
+```jsx
+export default function Home({ navigation }) {
+  const [animeList, setAnimeList] = useState([
+    { key: '1', title: 'Attack on Titan', episode: 24, rating: 9.5 },
+    { key: '2', title: 'Fate Stay Night', episode: 22, rating: 7.5 },
+    { key: '3', title: 'Clannad', episode: 13, rating: 10.0 },
+  ])
+
+  return (
+    <View>
+      <FlatList
+        data={animeList}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('CardDetail', item)}
+          >
+            <Text>{item.title}</Text>
+          </TouchableOpacity>
+        )}
+      />
+    </View>
+  )
+}
+```
+
+在`<CardDetail />`组件中利用`getParam`获取传递的数据
+
+**CardDetail**
+
+```jsx
+export default function CardDetail({ navigation }) {
+  return (
+    <View>
+      <Text>{navigation.getParam('title')}</Text>
+      <Text>{navigation.getParam('episode')}</Text>
+      <Text>{navigation.getParam('rating')}</Text>
+    </View>
+  )
+}
+```
+
+## Drawer Navigation 侧滑导航菜单栏
+
+
