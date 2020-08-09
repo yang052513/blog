@@ -187,3 +187,20 @@ const handleSubmit = (inputValue) => {
     }
 }
 ```
+
+## Keyboard Dismiss
+
+点击任何区域不再显示 Keyboard
+
+```jsx
+<TouchableWithoutFeedback
+  onPress={() => {
+    keyboard.dismiss()
+    console.log('dismissed keyboard')
+  }}
+>
+  <View>
+    <Text>Code Here</Text>
+  </View>
+</TouchableWithoutFeedback>
+```
