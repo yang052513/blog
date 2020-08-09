@@ -100,25 +100,90 @@ export default function App() {
     </View>
   )
 }
+```
 
-const styles = StyleSheet.create({
-  appContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  input: {
-    width: 200,
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#4a4a4a',
-    padding: 5,
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  userInfo: {
-    color: '#03a9f4',
-    fontWeight: 'bold',
-  },
-})
+## ScrollView
+
+在 React Native 中渲染一个列表，我们用 ES6 map 遍历数组然后渲染每个 item 为 Text 即可。默认情况下如果列表高度超过模拟机的高度会出现溢出，这时候我们可以用`<ScrollView>` API 把列表 wrap 起来就可以滚动显示。
+
+```jsx
+  const [userList, setUserList] = useState([
+    { name: 'Yang Li', id: '1' },
+    { name: 'Jason Wang', id: '2' },
+    { name: 'Alex Zhao', id: '3' },
+  ])
+
+<ScrollView>
+  {userList.map(user => (
+    <View key={user.id}>
+      <Text>{user.name}</Text>
+    </View>
+  ))}
+</ScrollView>
+```
+
+## Flat List
+
+使用`<FlatList />` API 实现列表的渲染
+
+```jsx
+const [userList, setUserList] = useState([
+  { name: 'Yang Li', id: '1' },
+  { name: 'Jason Wang', id: '2' },
+  { name: 'Alex Zhao', id: '3' },
+])
+
+<FlatList
+    numColumns={2}
+    keyExtractor={item => item.id}
+    data={userList}
+    renderItem={({ item }) => <Text>{item.name}</Text>}
+/>
+```
+
+## Touchable Components
+
+我们可以使用`<TouchableOpacity>` API 来对组件进行点击操作。下面的例子实现了点击组件时会从 View 中删除该组件。
+
+```jsx
+const [userList, setUserList] = useState([
+  { name: 'Yang Li', id: '1' },
+  { name: 'Jason Wang', id: '2' },
+  { name: 'Alex Zhao', id: '3' },
+])
+
+const deleteCard = selectedUser => {
+  setUserList(prevUser => {
+    return prevUser.filter(user => user.id !== selectedUser)
+  })
+}
+
+return (
+  <FlatList
+    numColumns={2}
+    keyExtractor={item => item.id}
+    data={userList}
+    renderItem={({ item }) => (
+      <TouchableOpacity onPress={() => deleteCard(item.id)}>
+        <Text style={styles.userCard}>{item.name}</Text>
+      </TouchableOpacity>
+    )}
+  />
+)
+```
+
+## Alerts
+
+使用`Alert` API 对用户进行提示。
+
+```jsx
+import { Alert } from 'react-native'
+
+const handleSubmit = (inputValue) => {
+    if(inputValue === '') {
+        Alert.alert('Error', 'Please enter your name', [
+            {text: 'OK', onPress: () => console.log('alert closed')
+        ])
+    }
+}
 ```
