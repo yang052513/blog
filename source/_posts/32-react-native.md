@@ -204,3 +204,91 @@ const handleSubmit = (inputValue) => {
   </View>
 </TouchableWithoutFeedback>
 ```
+
+## Custom Fonts 自定义字体
+
+如果想导入自定义的字体，需要使用`expo`中的`Font`库。我们首先利用`loadAsync`来加载字体，这个函数接受一个对象的参数，对象即字体引用名以及字体文件所在位置。
+
+我们同时要确保字体加载完成后再渲染组件，这里用`<AppLoading />`来做异步处理，当字体加载完成后更新 fontLoaded state。
+
+```jsx
+import React, { useState } from 'react'
+import * as Font from 'expo-font'
+import Home from './screens/Home'
+import { AppLoading } from 'expo'
+
+const fetchFonts = () =>
+  Font.loadAsync({
+    'raleway-regular': require('./assets/fonts/Raleway-Regular.ttf'),
+    quicksand: require('./assets/fonts/Quicksand.ttf'),
+  })
+
+export default function App() {
+  const [fontLoaded, setFontLoaded] = useState(false)
+
+  if (fontLoaded) {
+    return <Home />
+  } else {
+    return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => setFontLoaded(true)}
+      />
+    )
+  }
+}
+```
+
+之后便可以在其他组件的`StyleSheet`中引用我们导入的字体
+
+```jsx
+export default function Home() {
+  ;<View>
+    <Text style={styles.textPrimary}>Hello</Text>
+  </View>
+}
+
+const styles = StyleSheet.create({
+  textPrimary: {
+    fontFamily: 'quicksand',
+    fontSize: 20,
+  },
+})
+```
+
+## Global Styles 全局样式化
+
+在 CSS 中我们可以通过`className`来做到样式化的重复利用。在 React Native 中我们同理可以创建一个单独的全局样式化文件，来管理通用的样式化。其他组件使用时只需要导入文件即可。
+
+在`styles`文件夹中创建`global.js`管理样式化
+
+```jsx
+import {StyleSheet} from 'react-native'
+
+export const globalStyles = StyleSheet.create({
+  boxContainer: {
+    padding: 20,
+    borderRadius: 5
+  },
+  titleText: {
+    fontFamily: 'quicksand'
+    fontWeight: 'bold'
+  }
+})
+```
+
+在其他组件中导入`globalStyles`
+
+```jsx
+import { globalStyles } from '../styles/global'
+
+export default function Home() {
+  return (
+    <View style={globalStyles.boxContainer}>
+      <Text style={globalStyles.titleText}>Hello</Text>
+    </View>
+  )
+}
+```
+
+## Navigation and Router 路由
