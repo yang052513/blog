@@ -305,11 +305,11 @@ npm install react-navigation-stack
 
 ### Setup Routers
 
-创建一个`router`文件夹，并创建一个`route.js`文件。
+创建一个`router`文件夹，并创建一个`homeStack.js`文件。
 
 如果没有在`navigationOptions`内声明样式化，会使用`defaultNavigationOptions`
 
-**route.js**
+**homeStack.js**
 
 ```jsx
 import { createStackNavigator } from 'react-navigation-stack'
@@ -346,7 +346,7 @@ export default createAppContainer(RouteStack)
 **App.js**
 
 ```jsx
-import Router from './router/route'
+import Router from './router/homeStack'
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false)
@@ -459,4 +459,78 @@ export default function CardDetail({ navigation }) {
 
 ## Drawer Navigation 侧滑导航菜单栏
 
+### Install
 
+```shell
+npm install react-navigation-drawer
+```
+
+在`router`文件夹内创一个`aboutStack.js`
+
+**aboutStack**
+
+```jsx
+import {createStackNavigator} from 'react-navigation-stack'
+import About from '../screens/about'
+
+const screens = {
+  About: {
+    screen: About,
+    navigationOptions: {
+      title: 'About AnimeKnow
+    }
+  }
+}
+
+const AboutStack = createStackNavigator(screens, {
+  defaultNavigationOptions: {
+    headerTintColor: '#444',
+    headerStyle: {backgroundColor: '#eee', height: 60}
+  }
+})
+
+export default AboutStack
+```
+
+**drawer.js**
+
+```jsx
+import { createDrawerNavigator } from 'react-navigation-drawer'
+import { createAppContainer } from 'react-navigation'
+import HomeStack from './homeStack'
+import AboutStack from './aboutStack'
+
+const RootDrawerNavigator = createDrawerNavigator({
+  Home: {
+    screen: HomeStack,
+  },
+  About: {
+    screen: AboutStack,
+  },
+})
+
+export default createAppContainer(RootDrawerNavigator)
+```
+
+**App.js**
+
+导入侧滑菜单组件
+
+```jsx
+import Router from './router/drawer'
+
+export default function App() {
+  const [fontLoaded, setFontLoaded] = useState(false)
+
+  if (fontLoaded) {
+    return <Router />
+  } else {
+    return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => setFontLoaded(true)}
+      />
+    )
+  }
+}
+```
