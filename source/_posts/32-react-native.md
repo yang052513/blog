@@ -30,7 +30,7 @@ expo start
 
 # Fundamentals 基本概念
 
-## Views, Text & Styles 视图，文本，样式化
+## `<View />`, `<Text />` 视图，文本
 
 React 中 View 可以看作是 HTML 中的 div，我们可以在 View 添加 Text, Image. Text 跟`<p>`相似，用来渲染文本内容。StyleSheet 用来样式化元素，这里用驼峰命名跟 CSS 不同。
 
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
 })
 ```
 
-## Text Inputs 文本输入框
+## `<TextInput />` 文本输入框
 
 使用<TextInput /> API 来填写表单更改 state。
 
@@ -102,7 +102,40 @@ export default function App() {
 }
 ```
 
-## ScrollView 滑动视图
+## `<Image />` 图片
+
+```jsx
+export default function Card() {
+  return (
+    <View>
+      <Image style={styles.banner} source={require('../assets/demo.png')}>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  banner: {
+    width: '100%',
+    height: 50
+  }
+})
+```
+
+## `<ImageBackground />` 背景图片
+
+```jsx
+export default function Card() {
+  return (
+    <ImageBackground source={require('../assets/fate_stay_night_bg.png')}>
+      <View>
+        <Text>Fate Stay Nigfht</Text>
+      </View>
+    </ImageBackground>
+  )
+}
+```
+
+## `<ScrollView/>` 滑动视图
 
 在 React Native 中渲染一个列表，我们用 ES6 map 遍历数组然后渲染每个 item 为 Text 即可。默认情况下如果列表高度超过模拟机的高度会出现溢出，这时候我们可以用`<ScrollView>` API 把列表 wrap 起来就可以滚动显示。
 
@@ -122,7 +155,7 @@ export default function App() {
 </ScrollView>
 ```
 
-## Flat List 列表
+## `<FlatList />` 列表
 
 使用`<FlatList />` API 实现列表的渲染
 
@@ -141,7 +174,7 @@ const [userList, setUserList] = useState([
 />
 ```
 
-## Touchable Components 可触组件
+## `<TouchableOpacity>` 可触组件
 
 我们可以使用`<TouchableOpacity>` API 来对组件进行点击操作。下面的例子实现了点击组件时会从 View 中删除该组件。
 
@@ -172,7 +205,7 @@ return (
 )
 ```
 
-## Alerts 警示面板
+## `<Alert />` 警示面板
 
 使用`Alert` API 对用户进行提示。
 
