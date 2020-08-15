@@ -136,3 +136,86 @@ print(!isToggle) //true
 print(isToggle && isClose) //false
 print(isToggle || isClose) //true
 ```
+
+# Strings and Characters 字符串
+
+## Initializing Empty String 初始化空字符串
+
+使用单引号`''`或者`String()`来初始化空的字符串。两种方法同等。
+
+```swift
+var welcomeMsg = ''
+var byeMsg = String()
+```
+
+我们可以用`isEmpty`来判断字符串是否是空的
+
+```swift
+var isStringEmpty = byeMsg.isEmpty
+print(isStringEmpty)
+```
+
+## String Interpolation 字符串插值
+
+在变量或表达式之前用`\`(backslash)表示
+
+```swift
+var attempt = 5
+let MAX_ATTEMPT = 10
+var warningMsg = "You tried to log in \(attempt) times and maximum attempt is \(MAX_ATTEMPT) times"
+
+print(warningMsg)
+// You tried to log in 5 times and maximum attempt is 10 times
+```
+
+## Accessing and Modifying a String
+
+### String Indices 字符串截取
+
+```swift
+let animeTitle = 'Clannad'
+
+let firstLetter = animeTitle[animeTitle.startIndex] // C
+let lastLetter = animeTitle[(before:animeTitle.endIndex)] // d
+let thirdLetter = animeTitle[animeTitle.index(animeTitle.startIndex, offsetBy: 2)] // a
+```
+
+### Inserting and Removing 插入和删除
+
+#### Insert
+
+插入单个字符到特定的位置使用`insert(_, at: index)`
+
+```swift
+var welcomeMsg = 'Hello'
+welcomeMsg.insert('!', at: welcomeMsg.endIndex) // Hello!
+```
+
+插入多个字符或者一个字符串时
+
+```swift
+var userName = 'Nathan'
+var welcomeMsg = 'Hello!'
+
+welcomeMsg.insert(contentsOf: " \(userName)", at: welcomeMsg.index(before: welcomeMsg.endIndex))
+// Hello Nathan!
+```
+
+#### Remove
+
+字符串的删除与插入相似，即找到要更改的索引值位置
+
+```swift
+welcomeMsg.remove(at: welcomeMsg.index(before: welcomeMsg.endIndex))
+// Hello Nathan
+```
+
+同样我们可以删除一定范围内的字符，比如下面的代码我们想删除用户名，我们先得到用户名的长度再 offset 同等长度即可
+
+```swift
+var userNameOffset = -userName.count // -6
+var removeRange = welcomeMsg.index(welcomeMsg.endIndex, offsetBy: userNameOffset) // Nathan
+welcomeMsg.removeSubrange(removeRange)
+
+//Hello
+```
