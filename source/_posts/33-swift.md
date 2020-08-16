@@ -322,3 +322,16 @@ for anime in anime2020 {
     print(anime)
 }
 ```
+
+# Control Flow
+
+## For-In Loops
+
+遍历 dictionaries
+
+```swift
+var animeList = ["Attack on Titan": 9.2, "Clannad": 10]
+for (title, rating) in animeList {
+    print("\(title) \(rating)")
+}
+```
