@@ -1,5 +1,5 @@
 ---
-title: 3 Longest Substring Without Repeating Characters
+title: 3. Longest Substring Without Repeating Characters
 date: 2021-01-10 19:42:24
 tags: ["Leetcode", "Algorithm", "Medium", "Array"]
 comments: false

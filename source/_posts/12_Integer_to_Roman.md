@@ -1,5 +1,5 @@
 ---
-title: 12 Integer to Roman
+title: 12. Integer to Roman
 date: 2021-01-14 23:20:24
 tags: ["Leetcode", "Algorithm", "Medium", "Math"]
 comments: false
