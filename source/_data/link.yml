@@ -1,27 +1,12 @@
-- class_name: 网站
-  class_desc: 值得推荐的网站
+- class_name: Recommendations
+  class_desc: Some books
   link_list:
-    - name: Personal Website
-      link: https://www.youtube.com/
-      avatar: https://i.loli.net/2020/05/14/9ZkGg8v3azHJfM1.png
-      descr: 视频网站
-    - name: Portfolio
-      link: https://www.weibo.com/
-      avatar: https://i.loli.net/2020/05/14/TLJBum386vcnI1P.png
-      descr: 中国最大社交分享平台
-    - name: Twitter
-      link: https://twitter.com/
-      avatar: https://i.loli.net/2020/05/14/5VyHPQqR6LWF39a.png
-      descr: 社交分享平台
+    - name: C++ Primer 5th Edition
+      link: https://www.amazon.ca/Primer-5th-Stanley-B-Lippman/dp/0321714113/ref=sr_1_1?dchild=1&keywords=C%2B%2B+primer&qid=1610755387&sr=8-1
+      avatar: https://images-na.ssl-images-amazon.com/images/I/41Gd9xIXrUL._SX381_BO1,204,203,200_.jpg
+      descr: C++ Fundamentals
 
-- class_name: 友情链接
-  class_desc: 我的小伙伴们
-  link_list:
-    - name: JerryC
-      link: https://jerryc.me/
-      avatar: https://jerryc.me/image/avatar.png
-      descr: 今日事,今日毕
-    - name: Hexo
-      link: https://hexo.io/zh-tw/
-      avatar: https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg
-      descr: 快速、简单且强大的网誌框架
+    - name: Introduction to Algorithms
+      link: https://www.amazon.ca/Introduction-Algorithms-Thomas-H-Cormen/dp/0262033844/ref=sr_1_1?crid=FDYJXK3BLE8B&dchild=1&keywords=introduction+to+algorithms&qid=1610755346&sprefix=introduction+to+algor%2Caps%2C204&sr=8-1
+      avatar: https://m.media-amazon.com/images/I/61uRpcdPhNL._AC_UL640_FMwebp_QL65_.jpg
+      descr: Algorithm theory
