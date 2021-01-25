@@ -13,9 +13,9 @@ Given n non-negative integers `a1, a2, ..., an`, where each represents a point a
 
 **Notice** that you may not slant the container.
 
-## Examples
+## 示例
 
-### Example 1:
+### 示例 1:
 
 <img src="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/07/17/question_11.jpg" />
 
@@ -26,48 +26,51 @@ Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,
 In this case, the max area of water (blue section) the container can contain is 49.
 ```
 
-### Example 2:
+### 示例 2:
 
 ```code
 Input: height = [1,1]
 Output: 1
 ```
 
-### Example 3:
+### 示例 3:
 
 ```code
 Input: height = [4,3,2,1,4]
 Output: 16
 ```
 
-### Example 4:
+### 示例 4:
 
 ```code
 Input: height = [1,2,1]
 Output:
 ```
 
-## Constraints:
+## 提示:
 
-- n == height.length
-- 2 <= n <= 3 \* 10^4
-- 0 <= height[i] <= 3 \* 10^4
+- **n == height.length**
+- **2 <= n <= 3 \* 10<sup>4</sup>**
+- **0 <= height[i] <= 3 \* 10<sup>4</sup>**
 
-## Solutions
+## 解题思路
 
-### 1. Binary Search
+### 双指针
 
-The are of water the container can contain depends on 2 factors: the **height** of the container and the **length or how long the x-axis** of the container.
+题目给出一组**非负整数**数组, 数组内的每个元素代表**水的高度**. 让我们找到数组内的两个点为构成容器的两端且该容器可容纳最多水。
 
-In addition to height, we need to take the relative shorter height when calculate the area, otherwise the water will **overflow**
+首先水的含量取决于 2 个因素:
 
-Thus, we could use **two pointer** approach where we start from the most left element and most right element.
+1. 容器的高度, 与含水量成正比。
+2. 容器的宽度, 与含水量成正比。
 
-- We compare the left pointer element and right pointer element, and we **move inwards** for the shorter element.
-- e.g. `nums[l] = 2`, `nums[r] = 8` then we increment `l` by 1.
+如果要找到构成含水量最大的容器，我们希望容器的**高度**尽可能的高，**宽度**也尽可能的宽。
 
-This is because whenever we move inwards, the width will decrease, so we have to try to make the height as higher as possible.
-We also use a variable to hold the maximum area if current area is greater than maximum area.
+需要注意一点的时，容器的高度取决于两端中**较短**一端的高度, 不然水则会溢出。
+
+因此这个题目我们可以用双指针分别从数组的前后两端开始遍历。如果当前**左端**的高度小于**右边**的高度, 递增左指针。反之右指针。这是因为我们每次遍历都在**向内移动**, 也就是说**容器的宽度越来越小**。所以我们要尽可能的增加高度来找到最大的容器。
+
+每次计算当前构成容器所能含水量(curr_area)并与**最大面积**(max)对比。
 
 ```c++
 class Solution {
