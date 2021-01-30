@@ -66,6 +66,8 @@ Explanation: The movement from index 1 -> 2 -> 1 -> ... is not a cycle, because 
 
 依次类推所有索引.
 
+理所当然的非常慢的算法....看了 discussion 后是用快慢指针做的. 有时间需要更新.
+
 ```c++
 class Solution {
 public:
